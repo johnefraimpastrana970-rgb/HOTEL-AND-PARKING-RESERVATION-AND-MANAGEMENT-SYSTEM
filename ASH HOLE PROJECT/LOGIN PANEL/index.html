@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Sign Up</title>
+
+    <link rel="stylesheet" href="Style.css">
+</head>
+
+<body>
+
+    <div class="bg-scene" aria-hidden="true">
+        <div class="hotel-backdrop"></div>
+        <div class="hotel-building">
+            <div class="hotel-roof"></div>
+            <div class="hotel-tower"></div>
+        </div>
+        <div class="hotel-arc"></div>
+    </div>
+
+    <div class="container">
+
+        <!-- Decorative top bar -->
+        <div class="top-bar">
+            <div class="window-buttons">
+                <span class="red"></span>
+                <span class="yellow"></span>
+                <span class="green"></span>
+            </div>
+
+            <div class="title">
+                Account Login
+            </div>
+        </div>
+
+        <div class="content">
+
+            <!-- LOGIN -->
+            <div class="form-box login-box">
+
+                <h1>Welcome Back</h1>
+                <p class="subtitle">Login to your account</p>
+
+                <form id="loginForm">
+
+                    <div class="input-group">
+                        <label>Username</label>
+                        <input
+                            type="text"
+                            id="loginUsername"
+                            placeholder="Enter username"
+                            required
+                        >
+                    </div>
+
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input
+                            type="password"
+                            id="loginPassword"
+                            placeholder="Enter password"
+                            required
+                        >
+                    </div>
+
+                    <button type="submit" class="submit-button">
+                        Login
+                    </button>
+
+                    <p class="switch">
+                        Don't have an account?
+                        <span id="showSignup">Sign Up</span>
+                    </p>
+
+                </form>
+            </div>
+
+
+            <!-- SIGN UP -->
+            <div class="form-box signup-box">
+
+                <h1>Create Account</h1>
+                <p class="subtitle">Create your new account</p>
+
+                <form id="signupForm">
+
+                    <div class="input-group">
+                        <label>Username</label>
+                        <input
+                            type="text"
+                            id="signupUsername"
+                            placeholder="Choose username"
+                            required
+                        >
+                    </div>
+
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input
+                            type="email"
+                            id="signupEmail"
+                            placeholder="Enter email"
+                            required
+                        >
+                    </div>
+
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input
+                            type="password"
+                            id="signupPassword"
+                            placeholder="Create password"
+                            required
+                        >
+                    </div>
+
+                    <div class="input-group">
+                        <label>Confirm Password</label>
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            placeholder="Confirm password"
+                            required
+                        >
+                    </div>
+
+                    <button type="submit" class="submit-button">
+                        Sign Up
+                    </button>
+
+                    <p class="switch">
+                        Already have an account?
+                        <button type="button" id="showLogin" class="switch-button">
+                            Login
+                        </button>
+                    </p>
+
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="message"></div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
