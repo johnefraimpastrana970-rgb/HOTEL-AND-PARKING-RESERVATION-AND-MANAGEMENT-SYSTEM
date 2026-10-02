@@ -242,37 +242,6 @@ body::before {
 }
 
 
-/* MAC STYLE BUTTONS */
-
-.window-buttons {
-    display: flex;
-    gap: 7px;
-
-    margin-left: 13px;
-}
-
-.window-buttons span {
-    width: 10px;
-    height: 10px;
-
-    border-radius: 50%;
-
-    display: block;
-}
-
-.red {
-    background: #ff5f57;
-}
-
-.yellow {
-    background: #febc2e;
-}
-
-.green {
-    background: #28c840;
-}
-
-
 /* TITLE */
 
 .title {

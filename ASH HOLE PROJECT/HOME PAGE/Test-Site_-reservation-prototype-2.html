@@ -9,7 +9,7 @@
     <title>Test Site</title>
     <script>
       const isAuthenticated =
-        new URLSearchParams(window.location.search).get("authenticated") === "1";
+        Boolean(localStorage.getItem("central-channel-session"));
 
       if (!isAuthenticated) {
         window.location.replace(
@@ -263,6 +263,19 @@
       .btn.w {
         width: 100%;
       }
+      .theme-toggle {
+        display: flex;
+        gap: 8px;
+      }
+      .theme-toggle .btn {
+        flex: 1;
+        padding: 10px 12px;
+      }
+      .theme-toggle .btn[aria-pressed="true"] {
+        background: var(--pri);
+        border-color: var(--pri);
+        color: #fff;
+      }
       .btn[disabled] {
         opacity: 0.5;
         cursor: not-allowed;
@@ -459,6 +472,30 @@
           transform: rotate(1turn);
         }
       }
+      @keyframes reservation-enter {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes mode-toggle {
+        0% {
+          transform: scale(0.96);
+        }
+        65% {
+          transform: scale(1.04);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      .reservation-enter {
+        animation: reservation-enter 0.3s ease-out;
+      }
       @keyframes app-enter {
         from {
           opacity: 0;
@@ -521,15 +558,10 @@
         color: #fff;
         box-shadow: inset 3px 0 0 var(--cta);
       }
-      .sbh {
-        margin-top: auto;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 14px;
-        padding: 14px;
-        font-size: 0.9rem;
-      }
-      .sbh .btn {
-        margin-top: 10px;
+      .sb a[aria-current],
+      .tabbar a[aria-current],
+      .tabs [role="tab"][aria-selected="true"] {
+        animation: mode-toggle 0.24s ease-out;
       }
       .tb {
         display: flex;
@@ -629,12 +661,20 @@
         padding: 8px 18px;
         font: 600 0.95rem var(--fb);
         cursor: pointer;
-        transition: background 0.15s;
+        transition:
+          background 0.15s,
+          border-color 0.15s,
+          color 0.15s;
       }
       [role="tab"][aria-selected="true"] {
         background: var(--pri);
         border-color: var(--pri);
         color: #fff;
+      }
+      @media (min-width: 901px) {
+        .tabs [role="tab"][aria-selected="false"] {
+          display: none;
+        }
       }
       .fg {
         display: grid;
@@ -1034,61 +1074,80 @@
         z-index: 70;
         animation: pop 0.2s;
       }
-      .chatbtn {
+      .hotel-review {
         position: fixed;
-        right: 20px;
-        bottom: calc(20px + env(safe-area-inset-bottom, 0px));
-        z-index: 30;
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+        right: 24px;
+        bottom: 24px;
+        z-index: 35;
+        width: min(350px, calc(100vw - 32px));
       }
-      .chat {
-        position: fixed;
-        right: 20px;
-        bottom: calc(76px + env(safe-area-inset-bottom, 0px));
-        width: min(350px, calc(100vw - 40px));
-        z-index: 30;
-        overflow: hidden;
-        animation: pop 0.2s;
+      .hotel-review-card {
+        padding: 16px;
+        border-radius: 14px;
       }
-      .chat header {
+      .hotel-review-head,
+      .hotel-review-actions {
         display: flex;
-        gap: 8px;
         align-items: center;
-        padding: 12px 14px;
-        background: var(--pri);
-        color: #fff;
+        justify-content: space-between;
+        gap: 12px;
       }
-      .chat header button {
-        margin-left: auto;
-        background: none;
+      .hotel-review-head {
+        margin-bottom: 8px;
+      }
+      .hotel-review-close {
         border: 0;
-        color: #fff;
-        font-size: 1.4rem;
+        padding: 2px 6px;
+        background: transparent;
+        color: var(--mut);
+        font: inherit;
+        font-size: 1.2rem;
         cursor: pointer;
       }
-      .msgs {
-        padding: 14px;
-        min-height: 170px;
+      .hotel-review-stars {
+        color: #b7791f;
+        font-size: 1rem;
       }
-      .msgs p {
-        padding: 8px 12px;
-        border-radius: 14px;
-        max-width: 85%;
+      .hotel-review-text {
+        margin: 8px 0;
         font-size: 0.92rem;
+        line-height: 1.4;
       }
-      .bot {
+      .hotel-review-actions button {
+        border: 1px solid var(--ln);
+        border-radius: 8px;
+        padding: 6px 10px;
         background: var(--sf2);
+        color: var(--ink);
+        font: 500 0.82rem var(--fb);
+        cursor: pointer;
       }
-      .mine {
+      .hotel-review-actions button[aria-pressed="true"] {
+        border-color: var(--pri);
         background: var(--pri);
         color: #fff;
-        margin-left: auto;
       }
-      .chat form {
-        display: flex;
-        gap: 8px;
-        padding: 10px;
-        border-top: 1px solid var(--ln);
+      @keyframes review-enter {
+        from {
+          opacity: 0;
+          transform: translateY(12px) scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      @keyframes review-exit {
+        to {
+          opacity: 0;
+          transform: translateY(10px) scale(0.98);
+        }
+      }
+      .hotel-review.review-enter {
+        animation: review-enter 0.35s ease-out both;
+      }
+      .hotel-review.review-exit {
+        animation: review-exit 0.25s ease-in both;
       }
       @media (max-width: 1100px) {
         .rg,
@@ -1128,13 +1187,11 @@
         .ct {
           padding-bottom: 96px;
         }
-        .chatbtn {
-          bottom: calc(76px + env(safe-area-inset-bottom, 0px));
-        }
-        .chat {
-          bottom: calc(132px + env(safe-area-inset-bottom, 0px));
-        }
         .toast {
+          bottom: calc(86px + env(safe-area-inset-bottom, 0px));
+        }
+        .hotel-review {
+          right: 16px;
           bottom: calc(86px + env(safe-area-inset-bottom, 0px));
         }
       }
@@ -1186,7 +1243,6 @@
       .opt,
       .fchip,
       .btn.out,
-      .sbh,
       .sk,
       .map,
       .hero2,
@@ -1201,9 +1257,6 @@
       }
       .tabbar {
         box-shadow: var(--sh-up);
-      }
-      .sbh {
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
       }
       .tile .art {
         box-shadow: none;
@@ -1243,9 +1296,6 @@
         <symbol id="i-tag" viewBox="0 0 24 24">
           <path d="M3 12V4h8l10 10-8 8z" />
           <circle cx="7.500" cy="8.500" r="1.200" />
-        </symbol>
-        <symbol id="i-chat" viewBox="0 0 24 24">
-          <path d="M4 5h16v11H9l-5 4z" />
         </symbol>
         <symbol id="i-home" viewBox="0 0 24 24">
           <path d="M3 11l9-7 9 7M5 10v10h14V10" />
@@ -1294,16 +1344,8 @@
           ><svg class="i"><use href="#i-heart" /></svg>Saved</a
         >
         <a href="#account" data-r="account"
-          ><svg class="i"><use href="#i-user" /></svg>Account</a
+          ><svg class="i"><use href="#i-user" /></svg>Settings</a
         >
-        <div class="sbh">
-          <b>Need a hand?</b>
-          <p>Ask the assistant to compare options, or read the FAQ.</p>
-          <button class="btn pri s w" data-chat>Ask assistant</button>
-          <p style="margin-top: 10px">
-            <a href="#help" style="color: #fff">Help and support</a>
-          </p>
-        </div>
       </aside>
       <div class="mn">
         <header class="tb">
@@ -1392,28 +1434,25 @@
                       <option>Electric vehicle</option>
                     </select>
                   </div>
+                  <div data-for="parking" hidden>
+                    <label for="plate">Vehicle plate</label
+                    ><input id="plate" autocomplete="off" placeholder="e.g. ABC 1234" />
+                  </div>
                   <button class="btn pri" type="submit">Search</button>
                 </div>
               </form>
             </div>
-            <div class="sec2">
-              <div>
-                <h2>Popular right now</h2>
-                <div class="grid3" id="pop"></div>
-              </div>
-              <div>
-                <h2>Upcoming</h2>
-                <div class="card pad">
-                  <span class="st ok">Confirmed</span>
-                  <h3 style="margin-top: 8px">Harbor View Hotel</h3>
-                  <p class="mut sm">Sample dates, 2 nights, 2 guests</p>
-                  <p class="mut sm">Reference TS-4F9K2A</p>
-                  <a class="btn out s" style="margin-top: 12px" href="#bookings"
-                    >View bookings</a
-                  >
-                </div>
-              </div>
+            <div>
+              <h2>Popular right now</h2>
+              <div class="grid3" id="pop"></div>
             </div>
+            <div
+              id="hotelReview"
+              class="hotel-review"
+              role="status"
+              aria-live="polite"
+              hidden
+            ></div>
           </section>
 
           <section id="results" class="view" hidden>
@@ -1536,7 +1575,7 @@
                   >
                 </div>
                 <h2 style="margin-top: 8px">Payment</h2>
-                <div class="note">
+                  <div class="note">
                   Demo only. Nothing is charged and no card data is collected.
                 </div>
                 <div>
@@ -1626,10 +1665,10 @@
             <div class="grid3" id="svList"></div>
           </section>
           <section id="account" class="view" hidden>
-            <h1 style="font-size: 2rem; margin-bottom: 16px">Account</h1>
+            <h1 style="font-size: 2rem; margin-bottom: 16px">Settings</h1>
             <div class="grid3">
               <div class="card pad stack">
-                <h3>Profile</h3>
+                <h3>Account settings</h3>
                 <div>
                   <label for="an">Name</label
                   ><input id="an" value="Guest" readonly />
@@ -1638,26 +1677,27 @@
                   <label for="ae">Email</label
                   ><input id="ae" value="guest@example.com" readonly />
                 </div>
-                <p class="sm mut">Editing arrives with the backend.</p>
               </div>
               <div class="card pad stack">
-                <h3>Preferences</h3>
-                <div>
-                  <label for="th">Appearance</label
-                  ><select id="th">
-                    <option value="auto">Match my device</option>
-                    <option value="light">Light</option>
-                    <option value="dark">Dark</option>
-                  </select>
+                <h3>Appearance</h3>
+                <div class="theme-toggle" role="group" aria-label="Color theme">
+                  <button class="btn out" type="button" data-theme-choice="light">
+                    Light mode
+                  </button>
+                  <button class="btn out" type="button" data-theme-choice="dark">
+                    Dark mode
+                  </button>
                 </div>
                 <div>
                   <label for="cu">Currency</label
                   ><select id="cu">
-                    <option>USD</option>
-                    <option>EUR</option>
-                    <option>GBP</option>
+                    <option value="USD">USD ($)</option>
+                    <option value="EUR">EUR (€)</option>
+                    <option value="GBP">GBP (£)</option>
                   </select>
                 </div>
+                <button class="btn out" id="about" type="button">About Us</button>
+                <button class="btn out" id="logout" type="button">Log out</button>
               </div>
             </div>
           </section>
@@ -1687,9 +1727,6 @@
                   recognition.
                 </p>
               </details>
-              <button class="btn pri" style="margin-top: 16px" data-chat>
-                Ask the assistant
-              </button>
             </div>
           </section>
         </main>
@@ -1702,53 +1739,19 @@
         ><a href="#saved" data-r="saved"
           ><svg class="i"><use href="#i-heart" /></svg>Saved</a
         ><a href="#account" data-r="account"
-          ><svg class="i"><use href="#i-user" /></svg>Account</a
+          ><svg class="i"><use href="#i-user" /></svg>Settings</a
         ><a href="#help" data-r="help"
           ><svg class="i"><use href="#i-help" /></svg>Help</a
         >
       </nav>
     </div>
 
-    <button
-      class="btn pri chatbtn"
-      data-chat
-      aria-controls="chat"
-      aria-expanded="false"
-    >
-      <svg class="i"><use href="#i-chat" /></svg>Ask assistant
-    </button>
-    <aside
-      id="chat"
-      class="card chat"
-      hidden
-      aria-label="AI assistant placeholder"
-    >
-      <header>
-        <b>Assistant</b
-        ><span class="chip" style="color: var(--ink); margin: 0"
-          >Coming soon</span
-        ><button type="button" data-chat aria-label="Close assistant">
-          &times;
-        </button>
-      </header>
-      <div class="msgs">
-        <p class="bot">Hi, I can help you find and compare options.</p>
-        <p class="mine">Which parking is closest to the venue?</p>
-        <p class="bot">Sample exchange. The AI chatbot connects here later.</p>
-      </div>
-      <form onsubmit="return false;">
-        <input
-          disabled
-          aria-label="Message"
-          placeholder="Chat not connected yet"
-        /><button class="btn pri s" disabled>Send</button>
-      </form>
-    </aside>
     <div id="mo" class="mo" hidden>
       <div class="md" role="dialog" aria-modal="true" id="md"></div>
     </div>
     <div id="toast" class="toast" role="status" hidden></div>
 
+    <script src="../CENTRAL%20CHANNEL/api-client.js"></script>
     <script>
       /* ===== 1. Mock data and API layer: replace api.* bodies with fetch() calls later ===== */
       const D = {
@@ -1875,21 +1878,154 @@
         hotel: ["Free cancellation", "Parking", "Breakfast", "Pool"],
         parking: ["Free cancellation", "Covered", "EV", "Touchless"],
       };
+      const HOTEL_REVIEW_SAMPLES = {
+        h1: [
+          {
+            author: "Maya R.",
+            rating: 5,
+            text: "The room was spotless, and check-in was quick. Great location for walking downtown.",
+            helpful: 12,
+          },
+          {
+            author: "Jordan P.",
+            rating: 4.8,
+            text: "Comfortable stay with friendly staff. Breakfast was a nice bonus.",
+            helpful: 8,
+          },
+        ],
+        h2: [
+          {
+            author: "Sam T.",
+            rating: 4.7,
+            text: "Easy access to the city center and plenty of room to unwind.",
+            helpful: 9,
+          },
+          {
+            author: "Alex W.",
+            rating: 4.5,
+            text: "Helpful staff and a comfortable suite close to local restaurants.",
+            helpful: 6,
+          },
+        ],
+        h3: [
+          {
+            author: "Casey L.",
+            rating: 4.6,
+            text: "A quiet place to relax, with a lovely garden area and easy parking.",
+            helpful: 7,
+          },
+          {
+            author: "Taylor M.",
+            rating: 4.4,
+            text: "Good value in a peaceful neighborhood. The room was clean and welcoming.",
+            helpful: 5,
+          },
+        ],
+      };
+      let activeReviewHotelId = null;
+      let hotelReviewIndex = 0;
+      let hotelReviewHideTimer = null;
+      let hotelReviewResumeTimer = null;
+      let hotelReviewLoopTimer = null;
       const wait = (ms, v) => new Promise((r) => setTimeout(() => r(v), ms));
       const api = {
         search: (mode, q) => wait(550, D[mode]),
-        book: async () =>
-          wait(1100, {
+        book: async () => {
+          const booking = await wait(1100, {
             ref: "TS-" + Math.random().toString(36).slice(2, 8).toUpperCase(),
-          }),
-        bookings: async () => BK,
+          });
+          const isHotel = S.mode === "hotel";
+          const property = cur();
+          const startTime = isHotel ? "" : $("#pa").value;
+          const endTime = isHotel ? "" : $("#pe").value;
+          const durationHours = isHotel ? 0 : Math.max(1, Math.round((new Date(`1970-01-01T${endTime}`) - new Date(`1970-01-01T${startTime}`)) / 3600000));
+          const request = await window.ReservationAPI.createBooking(S.mode, {
+            name: S.name,
+            email: S.email,
+            phone: "",
+            property: property.n,
+            roomType: isHotel ? O.hotel[S.opt][0] : undefined,
+            checkIn: isHotel ? $("#ci").value : undefined,
+            checkOut: isHotel ? $("#co").value : undefined,
+            guests: isHotel ? Number.parseInt($("#gu").value, 10) : undefined,
+            vehicle: isHotel ? undefined : $("#pv").value,
+            plate: isHotel ? undefined : $("#plate").value.trim(),
+            parkingDate: isHotel ? undefined : $("#pd").value,
+            parkingTime: startTime,
+            durationHours: isHotel ? undefined : durationHours,
+            notes: O[S.mode][S.opt][0],
+          });
+          BK.unshift({ ref: booking.ref, id: property.id, bookingId: request.id, s: "Pending", c: "wn", d: meta() });
+          return booking;
+        },
+        bookings: () => window.ReservationAPI.bookings(),
       };
 
       /* ===== 2. State and helpers ===== */
       const $ = (s, r = document) => r.querySelector(s),
         $$ = (s, r = document) => [...r.querySelectorAll(s)];
+      const profileStorageKey = "test-site-profile";
+      function loadProfile() {
+        const params = new URLSearchParams(location.search);
+        let profile = { name: "Guest", email: "" };
+
+        try {
+          const saved = JSON.parse(localStorage.getItem(profileStorageKey));
+          if (saved && typeof saved.name === "string") {
+            profile = {
+              name: saved.name,
+              email: typeof saved.email === "string" ? saved.email : "",
+            };
+          }
+        } catch {}
+
+        const incomingName = params.get("username")?.trim();
+        const incomingEmail = params.get("email")?.trim();
+        if (incomingName) {
+          const isSameProfile =
+            profile.name.toLowerCase() === incomingName.toLowerCase();
+          profile = {
+            name: incomingName,
+            email: incomingEmail || (isSameProfile ? profile.email : ""),
+          };
+
+          try {
+            localStorage.setItem(profileStorageKey, JSON.stringify(profile));
+            const cleanUrl = new URL(location.href);
+            cleanUrl.searchParams.delete("username");
+            cleanUrl.searchParams.delete("email");
+            history.replaceState(null, "", cleanUrl.href);
+          } catch {}
+        }
+
+        return profile;
+      }
+      const profile = loadProfile();
+      const settingsStorageKey = "test-site-settings";
+      const currencyRates = { USD: 1, EUR: 0.92, GBP: 0.79 };
+      function loadSettings() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(settingsStorageKey));
+          return {
+            theme: saved?.theme === "dark" ? "dark" : "light",
+            currency: Object.prototype.hasOwnProperty.call(
+              currencyRates,
+              saved?.currency,
+            )
+              ? saved.currency
+              : "USD",
+          };
+        } catch {
+          return { theme: "light", currency: "USD" };
+        }
+      }
+      const preferences = loadSettings();
+      document.documentElement.dataset.theme = preferences.theme;
       const S = {
-          name: "Guest",
+          name: profile.name,
+          email: profile.email,
+          theme: preferences.theme,
+          currency: preferences.currency,
           mode: "hotel",
           id: null,
           opt: 0,
@@ -1902,7 +2038,19 @@
         ADD = 18;
       const ic = (n) =>
           `<svg class="i" aria-hidden="true"><use href="#i-${n}"/></svg>`,
-        usd = (n) => "$" + n.toLocaleString("en-US");
+        usd = (n) =>
+          new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: S.currency,
+          }).format(n * currencyRates[S.currency]);
+      function saveSettings() {
+        try {
+          localStorage.setItem(
+            settingsStorageKey,
+            JSON.stringify({ theme: S.theme, currency: S.currency }),
+          );
+        } catch {}
+      }
       const cur = () =>
         ALL.find(
           (x) => x.id === S.id && (x.id[0] === "h") === (S.mode === "hotel"),
@@ -1944,18 +2092,119 @@
             Math.round((new Date(v("co")) - new Date(v("ci"))) / 864e5) || 1;
           return `${v("ci")} to ${v("co")}, ${n} night${n > 1 ? "s" : ""}, ${v("gu")}`;
         }
-        return `${v("pd")}, ${v("pa")} to ${v("pe")}, ${v("pv")}`;
+        return `${v("pd")}, ${v("pa")} to ${v("pe")}, ${v("pv")}${v("plate") ? `, plate ${v("plate")}` : ""}`;
       }
       function setMode(m) {
+        const changed = S.mode !== m;
         S.mode = m;
+        $("#plate").required = m === "parking";
         $$("[role=tab]").forEach((b) =>
           b.setAttribute("aria-selected", b.dataset.m === m),
         );
-        $$("[data-for]").forEach((e) => (e.hidden = e.dataset.for !== m));
-        $("#hh").textContent =
+        $$("[data-for]").forEach((e) => {
+          e.hidden = e.dataset.for !== m;
+          if (changed && !e.hidden) {
+            e.classList.remove("reservation-enter");
+            void e.offsetWidth;
+            e.classList.add("reservation-enter");
+          }
+        });
+        const heading = $("#hh");
+        heading.textContent =
           m === "hotel"
             ? "Where to next, traveler?"
             : "Where do you need to park?";
+        if (changed) {
+          heading.classList.remove("reservation-enter");
+          void heading.offsetWidth;
+          heading.classList.add("reservation-enter");
+        }
+      }
+      function currentReviewHotel() {
+        if (S.mode !== "hotel") return null;
+        if (location.hash === "#detail") {
+          return D.hotel.find((hotel) => hotel.id === S.id) || null;
+        }
+        if (location.hash === "#home") {
+          return D.hotel.find((hotel) => hotel.id === S.id) || D.hotel[0];
+        }
+        return null;
+      }
+      function hideHotelReview() {
+        const panel = $("#hotelReview");
+        if (!panel) return;
+        clearTimeout(hotelReviewHideTimer);
+        hotelReviewHideTimer = null;
+        if (panel.hidden) return;
+        panel.classList.remove("review-enter");
+        panel.classList.add("review-exit");
+        setTimeout(() => {
+          if (panel.classList.contains("review-exit")) {
+            panel.hidden = true;
+            panel.classList.remove("review-exit");
+          }
+        }, 280);
+      }
+      function showHotelReview() {
+        const hotel = currentReviewHotel();
+        const panel = $("#hotelReview");
+        if (!hotel || !panel) {
+          hideHotelReview();
+          return;
+        }
+
+        const reviews = HOTEL_REVIEW_SAMPLES[hotel.id];
+        if (!reviews || reviews.length === 0) return;
+        const review = reviews[hotelReviewIndex % reviews.length];
+        hotelReviewIndex = (hotelReviewIndex + 1) % reviews.length;
+        panel.innerHTML = `
+          <article class="card hotel-review-card">
+            <div class="hotel-review-head">
+              <span class="mut sm">Sample guest review</span>
+              <button class="hotel-review-close" type="button" id="reviewDismiss" aria-label="Dismiss review">&times;</button>
+            </div>
+            <h3>${hotel.n}</h3>
+            <div class="review-rating">
+              <span class="hotel-review-stars" aria-hidden="true">${"★".repeat(Math.round(review.rating))}</span>
+              <span class="sm">${review.rating.toFixed(1)} / 5</span>
+            </div>
+            <p class="hotel-review-text">"${review.text}"</p>
+            <div class="hotel-review-actions">
+              <span class="mut sm">${review.author} · Sample stay</span>
+              <button type="button" id="reviewHelpful" data-count="${review.helpful}" aria-pressed="false">
+                <span class="helpful-label">Helpful</span>
+                <span class="helpful-count">${review.helpful}</span>
+              </button>
+            </div>
+          </article>`;
+        panel.hidden = false;
+        panel.classList.remove("review-exit", "review-enter");
+        void panel.offsetWidth;
+        panel.classList.add("review-enter");
+        clearTimeout(hotelReviewHideTimer);
+        hotelReviewHideTimer = setTimeout(hideHotelReview, 4800);
+      }
+      function syncHotelReview() {
+        const hotel = currentReviewHotel();
+        if (!hotel) {
+          activeReviewHotelId = null;
+          hotelReviewIndex = 0;
+          clearTimeout(hotelReviewResumeTimer);
+          hideHotelReview();
+          return;
+        }
+        if (activeReviewHotelId !== hotel.id) {
+          activeReviewHotelId = hotel.id;
+          hotelReviewIndex = 0;
+          clearTimeout(hotelReviewResumeTimer);
+          clearTimeout(hotelReviewHideTimer);
+          hotelReviewResumeTimer = setTimeout(showHotelReview, 650);
+        }
+        if (!hotelReviewLoopTimer) {
+          hotelReviewLoopTimer = setInterval(() => {
+            if (currentReviewHotel()) showHotelReview();
+          }, 8500);
+        }
       }
       const steps = (n) =>
         `<ol class="stepper">${["Select", "Details and payment", "Confirmation"].map((s, i) => `<li class="${i + 1 < n ? "done" : i + 1 === n ? "on" : ""}"><span>${i + 1}</span>${s}</li>`).join("")}</ol>`;
@@ -2065,8 +2314,13 @@
         const l = await api.bookings();
         $("#bkList").innerHTML = l
           .map((b) => {
-            const x = ALL.find((y) => y.id === b.id);
-            return `<article class="card bk">${art(x, 1)}<div><h3>${x.n}</h3><p class="mut sm">${b.d}</p><p class="mut sm">Reference ${b.ref}</p></div><div style="text-align:right"><span class="st ${b.c || ""}" ${b.c ? "" : 'style="background:var(--sf2);color:var(--mut)"'}>${b.s}</span><br><button class="btn out s" style="margin-top:8px" data-manage="${b.ref}">Manage</button></div></article>`;
+            const isHotel = b.type === "Hotel";
+            const image = ALL.find((item) => item.n === b.property) || (isHotel ? D.hotel[0] : D.parking[0]);
+            const details = isHotel
+              ? `${b.checkIn} to ${b.checkOut}, ${b.guests} guest${b.guests === 1 ? "" : "s"}, ${b.roomType}`
+              : `${b.parkingDate}, ${b.parkingTime}, ${b.vehicle}, plate ${b.plate}`;
+            const statusClass = ["Approved", "Checked In", "Completed"].includes(b.status) ? "ok" : ["Pending", "Processing"].includes(b.status) ? "wn" : "";
+            return `<article class="card bk">${art(image, 1)}<div><h3>${image.n}</h3><p class="mut sm">${details}</p><p class="mut sm">Reference ${b.id}</p></div><div style="text-align:right"><span class="st ${statusClass}" ${statusClass ? "" : 'style="background:var(--sf2);color:var(--mut)"'}>${b.status}</span><br><button class="btn out s" style="margin-top:8px" data-manage="${b.id}" data-status="${b.status}">Manage</button></div></article>`;
           })
           .join("");
       }
@@ -2076,6 +2330,17 @@
           ? l.map(tile).join("")
           : '<div class="card empty" style="grid-column:1/-1"><h3>Nothing saved yet</h3><p class="mut">Tap the heart on any listing to keep it here.</p></div>';
       }
+      function renderAccount() {
+        $("#an").value = S.name;
+        $("#ae").value = S.email;
+        $("#cu").value = S.currency;
+        $$('[data-theme-choice]').forEach((button) =>
+          button.setAttribute(
+            "aria-pressed",
+            String(button.dataset.themeChoice === S.theme),
+          ),
+        );
+      }
       const V = {
         home: renderHome,
         results: renderResults,
@@ -2084,6 +2349,7 @@
         confirm: renderConfirm,
         bookings: renderBookings,
         saved: renderSaved,
+        account: renderAccount,
       };
       const T = {
         home: "Home",
@@ -2093,7 +2359,7 @@
         confirm: "Confirmation",
         bookings: "My bookings",
         saved: "Saved",
-        account: "Account",
+        account: "Settings",
         help: "Help and support",
       };
 
@@ -2119,6 +2385,7 @@
         $("#who").textContent = S.name;
         $("#av").textContent = S.name[0];
         (V[id] || (() => {}))();
+        syncHotelReview();
         scrollTo(0, 0);
       }
       addEventListener("hashchange", route);
@@ -2127,6 +2394,36 @@
       document.addEventListener("click", (e) => {
         const q = (s) => e.target.closest(s);
         let b;
+        if ((b = q("[data-theme-choice]"))) {
+          S.theme = b.dataset.themeChoice;
+          document.documentElement.dataset.theme = S.theme;
+          $$('[data-theme-choice]').forEach((button) =>
+            button.setAttribute(
+              "aria-pressed",
+              String(button.dataset.themeChoice === S.theme),
+            ),
+          );
+          saveSettings();
+        }
+        if ((b = q("#about")))
+          modal(
+            '<h2>About Test Site</h2><p class="mut">Test Site is a reservation prototype for comparing hotel stays and parking options. Prices and bookings are sample data only.</p><button class="btn pri w" data-close>Close</button>',
+          );
+        if (q("#reviewDismiss")) {
+          hideHotelReview();
+          return;
+        }
+        if ((b = q("#reviewHelpful"))) {
+          const wasHelpful = b.getAttribute("aria-pressed") === "true";
+          const count = Number(b.dataset.count) + (wasHelpful ? -1 : 1);
+          b.dataset.count = String(count);
+          b.setAttribute("aria-pressed", String(!wasHelpful));
+          b.querySelector(".helpful-label").textContent = wasHelpful
+            ? "Helpful"
+            : "Marked helpful";
+          b.querySelector(".helpful-count").textContent = count;
+          return;
+        }
         if ((b = q("[data-fav]"))) {
           e.stopPropagation();
           const id = b.dataset.fav;
@@ -2143,25 +2440,26 @@
           S.addon = false;
           location.hash = "#detail";
         }
-        if ((b = q("[data-m]"))) setMode(b.dataset.m);
+        if ((b = q("[data-m]"))) {
+          setMode(b.dataset.m);
+          if (location.hash === "#home") route();
+        }
         if ((b = q("[data-f]"))) {
           S.f.has(b.dataset.f) ? S.f.delete(b.dataset.f) : S.f.add(b.dataset.f);
           renderResults(false);
         }
         if ((b = q("[data-manage]")))
           modal(
-            `<h3>Manage booking ${b.dataset.manage}</h3><p class="mut" style="margin:8px 0 14px">Changes and cancellations are simulated in this prototype.</p><button class="btn out w" data-cancel>Cancel this booking</button><button class="btn pri w" data-close>Keep booking</button>`,
+            `<h3>Manage booking ${b.dataset.manage}</h3><p class="mut" style="margin:8px 0 14px">Current status: ${b.dataset.status}</p>${["Pending", "Processing", "Approved"].includes(b.dataset.status) ? `<button class="btn out w" data-cancel="${b.dataset.manage}">Cancel this booking</button>` : ""}<button class="btn pri w" data-close>Close</button>`,
           );
-        if (q("[data-cancel]")) {
+        if ((b = q("[data-cancel]"))) {
+          const bookingId = b.dataset.cancel;
           unmodal();
-          toast("Cancellation simulated");
+          window.ReservationAPI.action(bookingId, "cancel")
+            .then(() => { toast("Reservation cancelled"); if (!$("#bookings").hidden) renderBookings(); })
+            .catch((error) => toast(error.message));
         }
         if (q("[data-close]") || e.target.id === "mo") unmodal();
-        if (q("[data-chat]")) {
-          const c = $("#chat");
-          c.hidden = !c.hidden;
-          $(".chatbtn").setAttribute("aria-expanded", !c.hidden);
-        }
       });
       addEventListener("keydown", (e) => {
         if (e.key === "Escape") unmodal();
@@ -2176,10 +2474,10 @@
           $("#cSide").innerHTML = sum(false);
         }
         if (e.target.id === "sort") renderResults(false);
-        if (e.target.id === "th") {
-          e.target.value === "auto"
-            ? document.documentElement.removeAttribute("data-theme")
-            : (document.documentElement.dataset.theme = e.target.value);
+        if (e.target.id === "cu") {
+          S.currency = e.target.value;
+          saveSettings();
+          route();
         }
       });
       $("#sf").onsubmit = (e) => {
@@ -2192,10 +2490,20 @@
       $("#cf").onsubmit = async (e) => {
         e.preventDefault();
         modal('<div class="spin"></div><p>Confirming your reservation...</p>');
-        S.ref = (await api.book()).ref;
-        unmodal();
-        location.hash = "#confirm";
+        try {
+          S.ref = (await api.book()).ref;
+          unmodal();
+          location.hash = "#confirm";
+        } catch (error) {
+          unmodal();
+          toast(error.message);
+        }
       };
+      $("#logout").addEventListener("click", async () => {
+        await window.ReservationAPI.logout().catch(() => {});
+        localStorage.removeItem("test-site-profile");
+        window.location.replace(new URL("../LOGIN PANEL/index.html", window.location.href).href);
+      });
       route();
     </script>
   </body>

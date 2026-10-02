@@ -8,6 +8,20 @@ const loginForm = document.getElementById("loginForm");
 const signupForm = document.getElementById("signupForm");
 
 const message = document.getElementById("message");
+const usernameFields = [
+    document.getElementById("loginUsername"),
+    document.getElementById("signupUsername")
+];
+const disallowedUsernameCharacters = /[^A-Za-z0-9_@*]/g;
+
+usernameFields.forEach((field) => {
+    field.addEventListener("input", () => {
+        const cursor = field.selectionStart;
+        const cleanPrefix = field.value.slice(0, cursor).replace(disallowedUsernameCharacters, "");
+        field.value = field.value.replace(disallowedUsernameCharacters, "");
+        field.setSelectionRange(cleanPrefix.length, cleanPrefix.length);
+    });
+});
 
 window.addEventListener("pointermove", (event) => {
     const x = (event.clientX / window.innerWidth) * 100;
@@ -67,7 +81,7 @@ function showMessage(text) {
     }, 2500);
 }
 
-function showButtonLoading(button, loadingText, onComplete) {
+async function showButtonLoading(button, loadingText, onComplete) {
     const originalText = button.textContent.trim();
 
     button.textContent = loadingText;
@@ -75,22 +89,41 @@ function showButtonLoading(button, loadingText, onComplete) {
     button.setAttribute("aria-busy", "true");
     button.classList.add("is-loading");
 
-    setTimeout(() => {
+    try {
+        await onComplete();
+    } catch (error) {
+        showMessage(error.message || "The request could not be completed.");
+    } finally {
         button.textContent = originalText;
         button.disabled = false;
         button.removeAttribute("aria-busy");
         button.classList.remove("is-loading");
-        onComplete();
-    }, 900);
+    }
 }
 
-function openReservationSite() {
+function continueWithAccount(user) {
+    const profile = {
+        name: user.display_name || user.username,
+        email: user.email
+    };
+    localStorage.setItem("test-site-profile", JSON.stringify(profile));
+    showMessage(`Signed in as ${profile.name} (${user.role}).`);
+    setTimeout(() => openReservationSite({ username: profile.name, email: profile.email }), 350);
+}
+
+function openReservationSite(profile = {}) {
     const destination = new URL(
         "../HOME PAGE/Test-Site_-reservation-prototype-2.html",
         window.location.href
     );
 
     destination.searchParams.set("authenticated", "1");
+    if (profile.username) {
+        destination.searchParams.set("username", profile.username.trim());
+    }
+    if (profile.email) {
+        destination.searchParams.set("email", profile.email.trim());
+    }
     window.location.replace(destination.href);
 }
 
@@ -100,13 +133,15 @@ function openReservationSite() {
 loginForm.addEventListener("submit", (event) => {
 
     event.preventDefault();
+    const username = document.getElementById("loginUsername").value;
+    const password = document.getElementById("loginPassword").value;
 
     showButtonLoading(
         loginForm.querySelector("button[type='submit']"),
         "Logging in...",
-        () => {
-            showMessage("Login request submitted.");
-            setTimeout(openReservationSite, 500);
+        async () => {
+            const user = await window.ReservationAPI.login({ username, password });
+            continueWithAccount(user);
         }
     );
 
@@ -119,6 +154,8 @@ signupForm.addEventListener("submit", (event) => {
 
     event.preventDefault();
 
+    const username = document.getElementById("signupUsername").value;
+    const email = document.getElementById("signupEmail").value;
     const password =
         document.getElementById("signupPassword").value;
 
@@ -139,9 +176,14 @@ signupForm.addEventListener("submit", (event) => {
     showButtonLoading(
         signupForm.querySelector("button[type='submit']"),
         "Creating account...",
-        () => {
-            showMessage("Account registration submitted.");
-            setTimeout(openReservationSite, 500);
+        async () => {
+            const user = await window.ReservationAPI.register({
+                username,
+                displayName: username,
+                email,
+                password
+            });
+            continueWithAccount(user);
         }
     );
 
