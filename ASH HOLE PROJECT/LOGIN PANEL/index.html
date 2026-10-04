@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login / Sign Up</title>
 
-    <link rel="stylesheet" href="Style.css">
+    <link rel="stylesheet" href="Style.css?v=door-motion-2">
 </head>
 
 <body>
@@ -23,12 +23,6 @@
 
         <!-- Decorative top bar -->
         <div class="top-bar">
-            <div class="window-buttons">
-                <span class="red"></span>
-                <span class="yellow"></span>
-                <span class="green"></span>
-            </div>
-
             <div class="title">
                 Account Login
             </div>
@@ -50,6 +44,9 @@
                             type="text"
                             id="loginUsername"
                             placeholder="Enter username"
+                            autocomplete="username"
+                            pattern="[A-Za-z0-9_@*]+"
+                            title="Use letters, numbers, _, *, and @ only."
                             required
                         >
                     </div>
@@ -91,6 +88,10 @@
                             type="text"
                             id="signupUsername"
                             placeholder="Choose username"
+                            autocomplete="username"
+                            pattern="[A-Za-z0-9_@*]+"
+                            maxlength="32"
+                            title="Use letters, numbers, _, *, and @ only."
                             required
                         >
                     </div>
@@ -111,6 +112,8 @@
                             type="password"
                             id="signupPassword"
                             placeholder="Create password"
+                            minlength="10"
+                            title="Use at least 10 characters."
                             required
                         >
                     </div>
@@ -121,6 +124,7 @@
                             type="password"
                             id="confirmPassword"
                             placeholder="Confirm password"
+                            minlength="10"
                             required
                         >
                     </div>
@@ -145,6 +149,7 @@
 
     <div id="message"></div>
 
+    <script src="../CENTRAL%20CHANNEL/api-client.js"></script>
     <script src="script.js"></script>
 
 </body>

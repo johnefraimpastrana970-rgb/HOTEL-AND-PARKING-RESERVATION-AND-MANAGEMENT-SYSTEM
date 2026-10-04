@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NEXORA | Reserve your stay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="brand">NEXORA</header>
+
+  <main>
+  {% if reservation %}
+    <section class="ticket" aria-label="Your reservation pass">
+      <div class="ticket-qr">
+        <img src="{{ qr }}" alt="QR code for reservation {{ reservation['code'] }}">
+        <p class="code">{{ reservation['code'] }}</p>
+      </div>
+      <div class="ticket-info">
+        <h1>You're booked, {{ reservation['guest_name'].split(' ')[0] }}.</h1>
+        <p class="lead">Show this QR at reception{% if reservation['parking'] %} and at the parking gate{% endif %}.</p>
+        <dl>
+          <div><dt>Room</dt><dd>{{ reservation['room_type'] }}</dd></div>
+          <div><dt>Check-in</dt><dd>{{ reservation['check_in'] }}</dd></div>
+          <div><dt>Check-out</dt><dd>{{ reservation['check_out'] }}</dd></div>
+          <div><dt>Parking</dt><dd>{% if reservation['parking'] %}Plate {{ reservation['plate'] }}{% else %}Not reserved{% endif %}</dd></div>
+        </dl>
+        <div class="actions">
+          <button type="button" onclick="window.print()">Print pass</button>
+          <a class="ghost" href="{{ url_for('index') }}">New reservation</a>
+        </div>
+      </div>
+    </section>
+  {% else %}
+    <section class="intro">
+      <h1>Room and parking, one pass.</h1>
+      <p>Reserve your stay and get a QR code instantly. It opens the door to your room and the parking gate.</p>
+    </section>
+
+    <form class="card" method="post" action="{{ url_for('reserve') }}">
+      {% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
+
+      <label>Full name
+        <input name="guest_name" required autocomplete="name">
+      </label>
+      <label>Email
+        <input type="email" name="email" required autocomplete="email">
+      </label>
+      <label>Room type
+        <select name="room_type" required>
+          {% for r in rooms %}<option>{{ r }}</option>{% endfor %}
+        </select>
+      </label>
+
+      <div class="row">
+        <label>Check-in
+          <input type="date" name="check_in" min="{{ today }}" required>
+        </label>
+        <label>Check-out
+          <input type="date" name="check_out" min="{{ today }}" required>
+        </label>
+      </div>
+
+      <label class="check">
+        <input type="checkbox" name="parking" id="parking">
+        Add a parking space
+      </label>
+      <label id="plate-field" hidden>Plate number
+        <input name="plate" id="plate" autocapitalize="characters">
+      </label>
+
+      <button type="submit">Reserve and get QR</button>
+    </form>
+
+    <script>
+      const box = document.getElementById('parking');
+      const field = document.getElementById('plate-field');
+      box.addEventListener('change', () => {
+        field.hidden = !box.checked;
+        document.getElementById('plate').required = box.checked;
+      });
+    </script>
+  {% endif %}
+  </main>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#26352d" />
+    <title>Welcome to NEXORA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #171b18;
+        --panel: #222a24;
+        --ink: #f8f5ef;
+        --muted: #d3d5cb;
+        --line: rgba(239, 229, 208, 0.28);
+        --gold: #dfc3a4;
+        --green: #536959;
+        font-family: "Inter", "Segoe UI", sans-serif;
+      }
+      * { box-sizing: border-box; }
+      body {
+        min-height: 100vh;
+        margin: 0;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        padding: 24px;
+        color: var(--ink);
+        background:
+          radial-gradient(ellipse at 50% 115%, rgba(190, 151, 112, .22), transparent 50%),
+          radial-gradient(ellipse at 50% -20%, rgba(91, 116, 93, .3), transparent 55%),
+          var(--bg);
+      }
+      .welcome-card {
+        position: relative;
+        isolation: isolate;
+        width: min(100%, 720px);
+        min-height: 430px;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        padding: clamp(32px, 8vw, 76px);
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background: linear-gradient(145deg, rgba(47, 60, 49, .96), rgba(28, 34, 30, .98));
+        box-shadow: 0 26px 80px rgba(0, 0, 0, .45), inset 0 1px rgba(255, 255, 255, .08);
+        text-align: center;
+        animation: card-arrive .8s cubic-bezier(.2,.8,.2,1) both;
+      }
+      .welcome-card::before,
+      .welcome-card::after {
+        position: absolute;
+        z-index: -1;
+        content: "";
+        width: 230px;
+        height: 300px;
+        bottom: -225px;
+        border: 1px solid rgba(239, 229, 208, .18);
+        border-radius: 140px 140px 0 0;
+        box-shadow: 0 0 0 16px rgba(239, 229, 208, .035), 0 0 0 32px rgba(239, 229, 208, .025);
+      }
+      .welcome-card::before { left: 8%; }
+      .welcome-card::after { right: 8%; }
+      .content { width: min(100%, 540px); }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 42px;
+        color: var(--ink);
+        font: 800 1.15rem/1 "Syne", sans-serif;
+        letter-spacing: .18em;
+        animation: fade-up .7s .15s both;
+      }
+      .mark {
+        position: relative;
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        background: var(--gold);
+        box-shadow: 0 5px 18px rgba(223, 195, 164, .25);
+        animation: mark-glow 2.4s ease-in-out infinite;
+      }
+      .mark::after {
+        position: absolute;
+        inset: 8px;
+        content: "";
+        border: 2px solid #283229;
+        border-radius: 4px;
+        animation: mark-turn 5s ease-in-out infinite;
+      }
+      .eyebrow {
+        margin: 0 0 12px;
+        color: var(--gold);
+        font-size: .75rem;
+        font-weight: 700;
+        letter-spacing: .2em;
+        text-transform: uppercase;
+        animation: fade-up .7s .28s both;
+      }
+      h1 {
+        margin: 0;
+        font: 600 clamp(2.35rem, 7vw, 4rem)/1.05 "Fraunces", Georgia, serif;
+        letter-spacing: -.035em;
+        text-wrap: balance;
+        animation: fade-up .7s .38s both;
+      }
+      .username {
+        display: inline-block;
+        color: var(--gold);
+        overflow-wrap: anywhere;
+      }
+      .subtitle {
+        margin: 18px auto 0;
+        color: var(--muted);
+        font-size: clamp(.95rem, 2.5vw, 1.08rem);
+        line-height: 1.65;
+        animation: fade-up .7s .5s both;
+      }
+      .continue {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        min-height: 48px;
+        margin-top: 30px;
+        padding: 0 24px;
+        border: 1px solid transparent;
+        border-radius: 12px;
+        color: #2f2a25;
+        background: var(--gold);
+        font: 700 .95rem "Inter", sans-serif;
+        text-decoration: none;
+        cursor: pointer;
+        transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+        animation: fade-up .7s .62s both;
+      }
+      .continue:hover { transform: translateY(-2px); background: #ecd4bb; box-shadow: 0 10px 28px rgba(0, 0, 0, .24); }
+      .continue:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+      .progress {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 4px;
+        background: rgba(255, 255, 255, .12);
+      }
+      .progress span {
+        display: block;
+        width: 0;
+        height: 100%;
+        background: var(--gold);
+        animation: progress-fill 3.2s linear forwards;
+      }
+      @keyframes card-arrive {
+        from { opacity: 0; transform: translateY(20px) scale(.98); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+      }
+      @keyframes fade-up {
+        from { opacity: 0; transform: translateY(12px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes mark-glow {
+        0%, 100% { box-shadow: 0 5px 18px rgba(223, 195, 164, .2); }
+        50% { box-shadow: 0 5px 26px rgba(223, 195, 164, .48); }
+      }
+      @keyframes mark-turn {
+        0%, 20%, 100% { transform: rotate(0); }
+        50%, 70% { transform: rotate(90deg); }
+      }
+      @keyframes progress-fill { to { width: 100%; } }
+      @media (max-width: 520px) {
+        .welcome-card { min-height: 390px; border-radius: 22px; }
+        .brand { margin-bottom: 34px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="welcome-card" aria-labelledby="welcomeHeading">
+      <div class="content">
+        <div class="brand" aria-label="NEXORA">
+          <span class="mark" aria-hidden="true"></span>
+          <span>NEXORA</span>
+        </div>
+        <p class="eyebrow">NEXORA guest services</p>
+        <h1 id="welcomeHeading">Welcome, <span class="username" id="welcomeUsername"></span></h1>
+        <p class="subtitle" id="welcomeSubtitle">Your next comfortable stay is just around the corner.</p>
+        <button class="continue" id="continueButton" type="button">Continue to NEXORA <span aria-hidden="true">→</span></button>
+      </div>
+      <div class="progress" aria-hidden="true"><span></span></div>
+    </main>
+    <script>
+      (() => {
+        const storageKey = "nexora-welcome";
+        const loginUrl = new URL("index.html", window.location.href);
+        let welcome;
+        try {
+          welcome = JSON.parse(sessionStorage.getItem(storageKey) || "null");
+          sessionStorage.removeItem(storageKey);
+        } catch (error) {
+          console.error("Could not read the welcome session.", error);
+        }
+        const isLogout = welcome?.mode === "logout";
+        const isValidDestination = isLogout
+          ? welcome.destination === "login"
+          : ["admin", "reservation"].includes(welcome?.destination);
+        if (!welcome || typeof welcome.username !== "string" || !isValidDestination) {
+          window.location.replace(loginUrl.href);
+          return;
+        }
+
+        document.getElementById("welcomeUsername").textContent = welcome.username;
+        if (isLogout) {
+          document.title = "Thank you | NEXORA";
+          document.getElementById("welcomeHeading").firstChild.textContent = "Goodbye, ";
+          document.getElementById("welcomeSubtitle").textContent =
+            "Thank you for visiting NEXORA. We look forward to welcoming you back.";
+          document.getElementById("continueButton").firstChild.textContent =
+            "Back to login ";
+        } else if (welcome.destination === "admin") {
+          document.getElementById("welcomeSubtitle").textContent =
+            "Your NEXORA operations dashboard is ready.";
+        }
+
+        const destination = isLogout
+          ? loginUrl
+          : welcome.destination === "admin"
+            ? new URL("../CENTRAL CHANNEL/admin.html", window.location.href)
+            : new URL("../HOME PAGE/main.html", window.location.href);
+        if (!isLogout && welcome.destination === "reservation") {
+          destination.searchParams.set("authenticated", "1");
+          if (typeof welcome.name === "string" && welcome.name.trim()) {
+            destination.searchParams.set("username", welcome.name.trim());
+          }
+          if (typeof welcome.email === "string" && welcome.email.trim()) {
+            destination.searchParams.set("email", welcome.email.trim());
+          }
+        }
+
+        const continueToSite = () => window.location.replace(destination.href);
+        document.getElementById("continueButton").addEventListener("click", continueToSite);
+        window.setTimeout(continueToSite, 3200);
+      })();
+    </script>
+  </body>
+</html>

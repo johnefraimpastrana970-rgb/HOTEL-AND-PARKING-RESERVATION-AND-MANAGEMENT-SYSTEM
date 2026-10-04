@@ -242,37 +242,6 @@ body::before {
 }
 
 
-/* MAC STYLE BUTTONS */
-
-.window-buttons {
-    display: flex;
-    gap: 7px;
-
-    margin-left: 13px;
-}
-
-.window-buttons span {
-    width: 10px;
-    height: 10px;
-
-    border-radius: 50%;
-
-    display: block;
-}
-
-.red {
-    background: #ff5f57;
-}
-
-.yellow {
-    background: #febc2e;
-}
-
-.green {
-    background: #28c840;
-}
-
-
 /* TITLE */
 
 .title {
@@ -449,6 +418,7 @@ button:active {
 
 .submit-button.is-loading {
     position: relative;
+    overflow: hidden;
     cursor: wait;
     animation: submit-loading-glow 1s ease-in-out infinite;
 }
@@ -472,6 +442,43 @@ button:active {
     animation: submit-spinner 0.7s linear infinite;
 }
 
+.submit-button.is-signing-up::before {
+    position: absolute;
+    inset: 0;
+    content: "";
+    pointer-events: none;
+    background: linear-gradient(
+        105deg,
+        transparent 25%,
+        rgba(255, 255, 255, 0.38) 48%,
+        transparent 70%
+    );
+    animation: signup-loading-sweep 1.15s ease-in-out infinite;
+}
+
+.container::after {
+    position: absolute;
+    z-index: 5;
+    inset: 0;
+    content: "";
+    pointer-events: none;
+    opacity: 0;
+    backface-visibility: hidden;
+    will-change: transform;
+    border: 1px solid rgba(225, 197, 151, 0.75);
+    background:
+        radial-gradient(circle at 88% 52%, #dfc3a4 0 4px, #755f46 5px 7px, transparent 8px),
+        linear-gradient(90deg, transparent 7%, rgba(255, 255, 255, 0.08) 8% 9%, transparent 10% 90%, rgba(0, 0, 0, 0.22) 91%),
+        linear-gradient(135deg, #5e715f, #25362d 48%, #17221d);
+    box-shadow: inset 0 0 0 12px rgba(236, 222, 196, 0.1), inset 0 0 0 14px rgba(10, 16, 14, 0.55);
+    transform: perspective(1000px) rotateY(0);
+    transform-origin: left center;
+}
+
+.login-door-opening .container::after {
+    animation: login-door-open 1.05s cubic-bezier(0.45, 0.05, 0.25, 1) both;
+}
+
 @keyframes submit-loading-glow {
     0%,
     100% {
@@ -486,6 +493,43 @@ button:active {
 @keyframes submit-spinner {
     to {
         transform: translateY(-50%) rotate(360deg);
+    }
+}
+
+@keyframes signup-loading-sweep {
+    from {
+        transform: translateX(-110%);
+    }
+    to {
+        transform: translateX(110%);
+    }
+}
+
+@keyframes login-door-open {
+    0% {
+        opacity: 1;
+        transform: perspective(1000px) rotateY(0);
+        box-shadow: inset 0 0 0 12px rgba(236, 222, 196, 0.1), inset 0 0 0 14px rgba(10, 16, 14, 0.55);
+    }
+    65% {
+        opacity: 1;
+        transform: perspective(1000px) rotateY(-78deg);
+        box-shadow: inset 0 0 0 12px rgba(236, 222, 196, 0.1), inset -18px 0 30px rgba(0, 0, 0, 0.38);
+    }
+    100% {
+        opacity: 1;
+        transform: perspective(1000px) rotateY(-105deg);
+        box-shadow: inset 0 0 0 12px rgba(236, 222, 196, 0.1), inset -28px 0 36px rgba(0, 0, 0, 0.45);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .submit-button.is-loading,
+    .submit-button.is-loading::after,
+    .submit-button.is-signing-up::before,
+    .login-door-opening .container::after {
+        animation-duration: 0.01ms;
+        animation-iteration-count: 1;
     }
 }
 
