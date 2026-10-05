@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hotel Lobby Background</title>
+<style>
+  :root{
+    --wall1:#12372f; --wall2:#1d4d41; --brass:#c9a35a; --brass2:#e6c887;
+    --floor1:#d8d4cb; --floor2:#bdb8ad; --ink:#14201c; --paper:#f7f4ee; --muted:#5d6b66;
+    --ok:#1f7a5a;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;background:var(--wall1);font-family:"Segoe UI",system-ui,sans-serif;color:var(--ink)}
+  .scene{position:fixed;inset:0;z-index:0}
+  .scene svg{width:100%;height:100%;display:block}
+  .content{position:relative;z-index:1;min-height:100%;pointer-events:none}
+  .content > *{pointer-events:auto}
+
+  .caption{position:fixed;right:max(16px,env(safe-area-inset-right));top:max(16px,env(safe-area-inset-top));z-index:2;padding:9px 14px;border-radius:10px;
+    background:rgba(10,24,20,.7);backdrop-filter:blur(6px);color:#f3efe6;font-size:14px;pointer-events:none}
+
+  /* hover effects */
+  .glow{opacity:0;transition:opacity .4s}
+  .lamp{cursor:pointer}
+  .lamp .shade{transition:fill .4s}
+  .lamp:hover .glow{opacity:1}
+  .lamp:hover .shade{fill:#ffe3a3}
+  .lamp:hover .swing{animation:sway 2.4s ease-in-out infinite}
+  .swing{transform-box:fill-box;transform-origin:50% 0}
+  @keyframes sway{50%{transform:rotate(3deg)}}
+  .dl,.dr{transition:transform .9s cubic-bezier(.6,0,.2,1)}
+  #lift:hover .dl{transform:translateX(-46px)}
+  #lift:hover .dr{transform:translateX(46px)}
+  #lift .lit{transition:opacity .4s;opacity:.3}
+  #lift:hover .lit{opacity:1}
+  #desk:hover .bell{animation:ding .5s 2}
+  .bell{transform-box:fill-box;transform-origin:50% 100%}
+  @keyframes ding{25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+  #desk .lampd{transition:opacity .4s;opacity:.25}
+  #desk:hover .lampd{opacity:1}
+  .leaf{transform-box:fill-box;transform-origin:50% 100%}
+  #plant:hover .leaf{animation:sway 2s ease-in-out infinite}
+  #win .sun{transition:transform 1.2s ease}
+  #win:hover .sun{transform:translateY(-26px)}
+  #win:hover .skyb{filter:brightness(1.12)}
+  [data-zone]{cursor:pointer}
+
+  @media (max-width:760px){ .caption{display:none} }
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important;animation:none !important} }
+</style>
+</head>
+<body>
+
+<div class="scene" aria-hidden="true">
+<svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d2c25"/><stop offset="1" stop-color="#1f5144"/></linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfcabd"/><stop offset="1" stop-color="#e6e2d8"/></linearGradient>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fc3e6"/><stop offset="1" stop-color="#f6e2b8"/></linearGradient>
+    <radialGradient id="halo"><stop offset="0" stop-color="#ffd98a" stop-opacity=".85"/><stop offset="1" stop-color="#ffd98a" stop-opacity="0"/></radialGradient>
+    <clipPath id="arch"><path d="M740 470V250a110 110 0 0 1 220 0v220z"/></clipPath>
+  </defs>
+
+  <!-- walls and floor -->
+  <rect width="1600" height="700" fill="url(#wall)"/>
+  <rect width="1600" height="54" fill="#091f1a"/>
+  <rect y="54" width="1600" height="6" fill="var(--brass)"/>
+  <g fill="none" stroke="#2b6757" stroke-width="2" opacity=".7">
+    <rect x="40" y="130" width="180" height="440"/><rect x="250" y="130" width="180" height="440"/><rect x="460" y="130" width="180" height="440"/>
+    <rect x="1010" y="130" width="180" height="440" opacity="0"/>
+  </g>
+  <rect y="690" width="1600" height="14" fill="var(--brass)"/>
+  <rect y="704" width="1600" height="196" fill="url(#floor)"/>
+  <g stroke="#a9a496" stroke-width="2" opacity=".6">
+    <path d="M0 780H1600M0 860H1600M300 704L120 900M700 704L620 900M1100 704L1180 900M1500 704L1680 900"/>
+  </g>
+
+  <!-- arched window -->
+  <g id="win" data-zone="Garden view" data-info="Morning light over the garden">
+    <g clip-path="url(#arch)">
+      <rect class="skyb" x="740" y="140" width="220" height="330" fill="url(#sky)"/>
+      <circle class="sun" cx="850" cy="400" r="34" fill="#fff3c9"/>
+      <path d="M740 470V410q50-30 110-6t110-8v74z" fill="#3f8a63"/>
+    </g>
+    <path d="M740 470V250a110 110 0 0 1 220 0v220z" fill="none" stroke="var(--brass)" stroke-width="8"/>
+    <path d="M850 140V470M740 330H960" stroke="var(--brass)" stroke-width="4"/>
+  </g>
+
+  <!-- elevator -->
+  <g id="lift" data-zone="Elevator" data-info="Guest floors 2 to 12">
+    <rect x="1250" y="250" width="220" height="440" rx="6" fill="var(--brass)"/>
+    <rect x="1264" y="276" width="192" height="414" fill="#0b1f1a"/>
+    <rect class="lit" x="1264" y="276" width="192" height="414" fill="#ffe3a3"/>
+    <rect class="dl" x="1264" y="276" width="96" height="414" fill="#cfd5d3"/>
+    <rect class="dr" x="1360" y="276" width="96" height="414" fill="#bcc3c1"/>
+    <path d="M1360 276V690" stroke="#8d9593" stroke-width="3"/>
+    <rect x="1306" y="256" width="108" height="14" rx="3" fill="#0b1f1a"/>
+    <path d="M1350 266l10-6 10 6" stroke="var(--brass2)" stroke-width="3" fill="none"/>
+    <circle cx="1490" cy="480" r="9" fill="var(--brass2)"/><circle cx="1490" cy="510" r="9" fill="var(--brass2)"/>
+  </g>
+
+  <!-- pendant lamps -->
+  <g id="lamps">
+    <g class="lamp" data-zone="Lobby lighting" data-info="Warm evening lighting">
+      <ellipse class="glow" cx="720" cy="420" rx="120" ry="150" fill="url(#halo)"/>
+      <g class="swing"><path d="M720 54V250" stroke="var(--brass)" stroke-width="3"/><path class="shade" d="M680 300q0-50 40-50t40 50z" fill="var(--brass)"/></g>
+    </g>
+    <g class="lamp" data-zone="Lobby lighting" data-info="Warm evening lighting">
+      <ellipse class="glow" cx="1100" cy="420" rx="120" ry="150" fill="url(#halo)"/>
+      <g class="swing"><path d="M1100 54V250" stroke="var(--brass)" stroke-width="3"/><path class="shade" d="M1060 300q0-50 40-50t40 50z" fill="var(--brass)"/></g>
+    </g>
+    <g class="lamp" data-zone="Lobby lighting" data-info="Warm evening lighting">
+      <ellipse class="glow" cx="535" cy="360" rx="100" ry="130" fill="url(#halo)"/>
+      <g class="swing"><path d="M535 54V200" stroke="var(--brass)" stroke-width="3"/><path class="shade" d="M500 250q0-50 35-50t35 50z" fill="var(--brass)"/></g>
+    </g>
+  </g>
+
+  <!-- reception desk -->
+  <g id="desk" data-zone="Front desk" data-info="Check-in from 2:00 PM, 24-hour service">
+    <rect x="640" y="570" width="500" height="120" fill="#2a1c12"/>
+    <rect x="640" y="570" width="500" height="120" fill="none" stroke="#3c2a1b" stroke-width="2"/>
+    <g fill="none" stroke="var(--brass)" stroke-width="2"><rect x="665" y="592" width="140" height="78"/><rect x="820" y="592" width="140" height="78"/><rect x="975" y="592" width="140" height="78"/></g>
+    <rect x="626" y="552" width="528" height="22" rx="4" fill="var(--brass)"/>
+    <g class="bell"><path d="M900 552q0-30 24-30t24 30z" fill="var(--brass2)"/><rect x="916" y="514" width="16" height="8" rx="3" fill="var(--brass2)"/></g>
+    <rect x="710" y="500" width="100" height="52" rx="4" fill="#0b1f1a"/><rect x="752" y="552" width="16" height="0" fill="#0b1f1a"/>
+    <path d="M1040 552V490" stroke="#444" stroke-width="4"/>
+    <path class="lampd" d="M1012 490q28-40 56 0z" fill="#ffd98a"/>
+  </g>
+
+  <!-- plant -->
+  <g id="plant" data-zone="Lobby garden" data-info="Fresh plants, replaced weekly">
+    <path d="M560 690l12-90h56l12 90z" fill="#2a1c12"/>
+    <g fill="#2f8a5f">
+      <path class="leaf" d="M600 600q-70-50-60-150 60 40 60 150z"/>
+      <path class="leaf" d="M600 600q10-110 70-160 10 90-70 160z" fill="#3b9f70"/>
+      <path class="leaf" d="M600 600q-20-90 0-180 30 90 0 180z"/>
+    </g>
+  </g>
+
+  <!-- floor reflection -->
+  <rect x="640" y="704" width="500" height="40" fill="#fff" opacity=".12"/>
+</svg>
+</div>
+
+<div class="caption" id="caption" role="status">Hover around the lobby</div>
+
+<!-- Put your own page content here. It sits on top of the background. -->
+<div class="content"></div>
+
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)};
+
+  /* ---- hover caption + events ---- */
+  var cap=$("caption");
+  document.querySelectorAll("[data-zone]").forEach(function(z){
+    z.addEventListener("mouseenter",function(){
+      cap.innerHTML="<b>"+z.getAttribute("data-zone")+"</b> &middot; "+z.getAttribute("data-info");
+      document.dispatchEvent(new CustomEvent("zonehover",{detail:{zone:z.getAttribute("data-zone")}}));
+    });
+  });
+})();
+</script>
+</body>
+</html>

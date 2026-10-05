@@ -1,0 +1,3589 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>NEXORA</title>
+    <link rel="icon" type="image/png" href="../LOGO/nexora-mark.png?v=1" />
+    <script>
+      const isAuthenticated =
+        Boolean(localStorage.getItem("central-channel-session"));
+
+      if (!isAuthenticated) {
+        window.location.replace(
+          new URL("../LOGIN PANEL/index.html", window.location.href).href,
+        );
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Fonts: swap this link and --fd/--fb below to change typefaces -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap"
+    />
+    <style>
+      /* ===== Design tokens ===== */
+      :root {
+        --bg: #edeee7;
+        --sf: #faf6f3;
+        --sf2: #f1ebe0;
+        --ink: #2b2e2a;
+        --mut: #5f6159;
+        --ln: #d3d3c6;
+        --pri: #46564a;
+        --pri2: #5f7260;
+        --link: #3d4d41;
+        --cta: #ddbea8;
+        --cta-h: #d2ad92;
+        --on-cta: #2f2a25;
+        --ok: #2f6b42;
+        --on-ok: #fff;
+        --okbg: #e3ecd9;
+        --warn: #7a4f14;
+        --warnbg: #f3e6cf;
+        --err: #a33a2f;
+        --errbg: #f6e0db;
+        --sbm: #b9c4b3;
+        --sbt: #dfe6d8;
+        --g1: rgba(188, 189, 177, 0.55);
+        --g2: rgba(221, 190, 168, 0.4);
+        --water: rgba(188, 189, 177, 0.6);
+        --lobby-wall-top: #49675b;
+        --lobby-wall-bottom: #71877a;
+        --lobby-ceiling: #324a42;
+        --lobby-panel: #a0b3a5;
+        --lobby-trim: #b99b61;
+        --lobby-floor-top: #d7d3c7;
+        --lobby-floor-bottom: #ede8dc;
+        --lobby-floor-line: #a9a397;
+        --lobby-sky-top: #91bdd5;
+        --lobby-sky-bottom: #f4dbad;
+        --lobby-garden: #598d69;
+        --lobby-shadow: #30423b;
+        --lobby-lit: #ffe2a1;
+        --lobby-door-left: #d4ddd7;
+        --lobby-door-right: #becac3;
+        --lobby-door-seam: #8d9593;
+        --lobby-desk: #46372d;
+        --lobby-desk-line: #695440;
+        --lobby-plant: #427b57;
+        --lobby-plant-bright: #538f63;
+        --lobby-sun: #fff3c9;
+        --lobby-glow: #ffd98a;
+        --lobby-wash: rgba(237, 238, 231, 0.22);
+        --lobby-scene-opacity: 0.82;
+        --as: 30%;
+        --al1: 80%;
+        --al2: 66%;
+        --sh-s:
+          0 1px 2px rgba(58, 60, 48, 0.14), 0 2px 6px rgba(58, 60, 48, 0.08);
+        --sh: 0 1px 2px rgba(58, 60, 48, 0.1), 0 6px 18px rgba(58, 60, 48, 0.1);
+        --sh-h:
+          0 2px 4px rgba(58, 60, 48, 0.12), 0 16px 34px rgba(58, 60, 48, 0.18);
+        --sh-up: 0 -4px 16px rgba(58, 60, 48, 0.1);
+        --fd: "Fraunces", Georgia, "Times New Roman", serif;
+        --fb:
+          "Inter", "Segoe UI", system-ui, -apple-system, Roboto, Arial,
+          sans-serif;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #141214;
+          --sf: #1e1d21;
+          --sf2: #302f33;
+          --ink: #e4e7ec;
+          --mut: #9ea7b3;
+          --ln: #3b3e45;
+          --pri: #464c55;
+          --pri2: #636d79;
+          --link: #c2c7cf;
+          --cta: #c2c7cf;
+          --cta-h: #aeb5c0;
+          --on-cta: #141214;
+          --ok: #7fd1a0;
+          --on-ok: #0f2a1b;
+          --okbg: #1f3a2c;
+          --warn: #e8c27a;
+          --warnbg: #3a3322;
+          --err: #ff9b8f;
+          --errbg: #3d2422;
+          --sbm: #9ea7b3;
+          --sbt: #d3d8df;
+          --g1: rgba(127, 137, 149, 0.18);
+          --g2: rgba(70, 76, 85, 0.35);
+          --water: rgba(127, 137, 149, 0.22);
+          --lobby-wall-top: #111b22;
+          --lobby-wall-bottom: #1b2a32;
+          --lobby-ceiling: #0a131a;
+          --lobby-panel: #26333a;
+          --lobby-trim: #cfaf70;
+          --lobby-floor-top: #232b30;
+          --lobby-floor-bottom: #343a3d;
+          --lobby-floor-line: #687177;
+          --lobby-sky-top: #111c3c;
+          --lobby-sky-bottom: #744f6d;
+          --lobby-garden: #263d3b;
+          --lobby-shadow: #10181c;
+          --lobby-lit: #f6d890;
+          --lobby-door-left: #59666a;
+          --lobby-door-right: #404e53;
+          --lobby-door-seam: #29383d;
+          --lobby-desk: #30251e;
+          --lobby-desk-line: #68503b;
+          --lobby-plant: #33745a;
+          --lobby-plant-bright: #40916b;
+          --lobby-sun: #dce7ff;
+          --lobby-glow: #ffd17b;
+          --lobby-wash: rgba(12, 17, 24, 0.36);
+          --lobby-scene-opacity: 0.76;
+          --as: 14%;
+          --al1: 42%;
+          --al2: 30%;
+          --sh-s: 0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.35);
+          --sh: 0 1px 2px rgba(0, 0, 0, 0.45), 0 8px 22px rgba(0, 0, 0, 0.4);
+          --sh-h: 0 2px 4px rgba(0, 0, 0, 0.5), 0 16px 34px rgba(0, 0, 0, 0.6);
+          --sh-up: 0 -4px 16px rgba(0, 0, 0, 0.4);
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #141214;
+        --sf: #1e1d21;
+        --sf2: #302f33;
+        --ink: #e4e7ec;
+        --mut: #9ea7b3;
+        --ln: #3b3e45;
+        --pri: #464c55;
+        --pri2: #636d79;
+        --link: #c2c7cf;
+        --cta: #c2c7cf;
+        --cta-h: #aeb5c0;
+        --on-cta: #141214;
+        --ok: #7fd1a0;
+        --on-ok: #0f2a1b;
+        --okbg: #1f3a2c;
+        --warn: #e8c27a;
+        --warnbg: #3a3322;
+        --err: #ff9b8f;
+        --errbg: #3d2422;
+        --sbm: #9ea7b3;
+        --sbt: #d3d8df;
+        --g1: rgba(127, 137, 149, 0.18);
+        --g2: rgba(70, 76, 85, 0.35);
+        --water: rgba(127, 137, 149, 0.22);
+        --lobby-wall-top: #111b22;
+        --lobby-wall-bottom: #1b2a32;
+        --lobby-ceiling: #0a131a;
+        --lobby-panel: #26333a;
+        --lobby-trim: #cfaf70;
+        --lobby-floor-top: #232b30;
+        --lobby-floor-bottom: #343a3d;
+        --lobby-floor-line: #687177;
+        --lobby-sky-top: #111c3c;
+        --lobby-sky-bottom: #744f6d;
+        --lobby-garden: #263d3b;
+        --lobby-shadow: #10181c;
+        --lobby-lit: #f6d890;
+        --lobby-door-left: #59666a;
+        --lobby-door-right: #404e53;
+        --lobby-door-seam: #29383d;
+        --lobby-desk: #30251e;
+        --lobby-desk-line: #68503b;
+        --lobby-plant: #33745a;
+        --lobby-plant-bright: #40916b;
+        --lobby-sun: #dce7ff;
+        --lobby-glow: #ffd17b;
+        --lobby-wash: rgba(12, 17, 24, 0.36);
+        --lobby-scene-opacity: 0.76;
+        --as: 14%;
+        --al1: 42%;
+        --al2: 30%;
+        --sh-s: 0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.35);
+        --sh: 0 1px 2px rgba(0, 0, 0, 0.45), 0 8px 22px rgba(0, 0, 0, 0.4);
+        --sh-h: 0 2px 4px rgba(0, 0, 0, 0.5), 0 16px 34px rgba(0, 0, 0, 0.6);
+        --sh-up: 0 -4px 16px rgba(0, 0, 0, 0.4);
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font: 400 16px/1.55 var(--fb);
+      }
+      .lobby-scene {
+        position: fixed;
+        z-index: 0;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+        background: var(--bg);
+        display: none;
+      }
+      .lobby-scene::after {
+        position: absolute;
+        inset: 0;
+        content: "";
+        background-color: var(--lobby-wash);
+        background:
+          linear-gradient(180deg, var(--lobby-wash), transparent 52%, var(--lobby-wash)),
+          radial-gradient(ellipse at 52% 42%, transparent 30%, color-mix(in srgb, var(--bg) 24%, transparent) 100%);
+        transition: background-color 0.45s ease;
+      }
+      .lobby-scene svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        opacity: var(--lobby-scene-opacity);
+      }
+      .parking-scene {
+        position: fixed;
+        z-index: 0;
+        inset: 0;
+        display: none;
+        overflow: hidden;
+        pointer-events: none;
+        background: #17242a;
+      }
+      .parking-scene::after {
+        position: absolute;
+        inset: 0;
+        content: "";
+        background: linear-gradient(180deg, rgba(12, 21, 26, 0.1), rgba(12, 21, 26, 0.26));
+      }
+      .parking-scene svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        opacity: 0.8;
+      }
+      .parking-scene .garage-beam {
+        fill: url(#garage-beam);
+      }
+      .parking-scene .garage-pillar {
+        fill: #33474d;
+      }
+      .parking-scene .garage-yellow {
+        fill: #f2c230;
+      }
+      .parking-scene .garage-floor-line {
+        stroke: #d6dbd9;
+      }
+      .parking-scene .garage-light-pool {
+        fill: #eaf6f2;
+        opacity: 0.08;
+        animation: garage-light-breathe 5s ease-in-out infinite alternate;
+      }
+      .parking-scene .garage-light-pool:nth-of-type(even) {
+        animation-delay: -2.5s;
+      }
+      .parking-scene .garage-fan {
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: garage-fan-spin 14s linear infinite;
+      }
+      .parking-scene .garage-beacon {
+        animation: garage-beacon-pulse 2.4s ease-in-out infinite;
+      }
+      @keyframes garage-light-breathe {
+        from { opacity: 0.04; }
+        to { opacity: 0.13; }
+      }
+      @keyframes garage-fan-spin {
+        to { transform: rotate(360deg); }
+      }
+      @keyframes garage-beacon-pulse {
+        50% { opacity: 0.38; }
+      }
+      :root[data-theme="light"] .parking-scene svg {
+        opacity: 0.68;
+      }
+      :root[data-theme="light"] .parking-scene::after {
+        background: linear-gradient(180deg, rgba(238, 239, 231, 0.04), rgba(238, 239, 231, 0.2));
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .parking-scene .garage-light-pool,
+        .parking-scene .garage-fan,
+        .parking-scene .garage-beacon {
+          animation: none !important;
+        }
+      }
+      :root[data-reservation-view="home"][data-reservation-mode="hotel"] .lobby-scene,
+      :root[data-reservation-view="results"][data-reservation-mode="hotel"] .lobby-scene,
+      :root[data-reservation-view="detail"][data-reservation-mode="hotel"] .lobby-scene,
+      :root[data-reservation-view="checkout"][data-reservation-mode="hotel"] .lobby-scene,
+      :root[data-reservation-view="confirm"][data-reservation-mode="hotel"] .lobby-scene {
+        display: block;
+      }
+      :root[data-reservation-view="home"][data-reservation-mode="parking"] .parking-scene,
+      :root[data-reservation-view="results"][data-reservation-mode="parking"] .parking-scene,
+      :root[data-reservation-view="detail"][data-reservation-mode="parking"] .parking-scene,
+      :root[data-reservation-view="checkout"][data-reservation-mode="parking"] .parking-scene,
+      :root[data-reservation-view="confirm"][data-reservation-mode="parking"] .parking-scene {
+        display: block;
+      }
+      .lobby-scene .wall {
+        fill: url(#lobby-wall);
+      }
+      .lobby-scene .ceiling {
+        fill: var(--lobby-ceiling);
+      }
+      .lobby-scene .wall-panel {
+        fill: none;
+        stroke: var(--lobby-panel);
+      }
+      .lobby-scene .trim {
+        fill: var(--lobby-trim);
+      }
+      .lobby-scene .floor {
+        fill: url(#lobby-floor);
+      }
+      .lobby-scene .floor-lines {
+        stroke: var(--lobby-floor-line);
+      }
+      .lobby-scene .sky {
+        fill: url(#lobby-sky);
+      }
+      .lobby-scene .garden {
+        fill: var(--lobby-garden);
+      }
+      .lobby-scene .shadow {
+        fill: var(--lobby-shadow);
+      }
+      .lobby-scene .lit {
+        fill: var(--lobby-lit);
+      }
+      .lobby-scene .door-left {
+        fill: var(--lobby-door-left);
+      }
+      .lobby-scene .door-right {
+        fill: var(--lobby-door-right);
+      }
+      .lobby-scene .door-seam {
+        stroke: var(--lobby-door-seam);
+      }
+      .lobby-scene .desk {
+        fill: var(--lobby-desk);
+      }
+      .lobby-scene .desk-line {
+        stroke: var(--lobby-desk-line);
+      }
+      .lobby-scene .plant {
+        fill: var(--lobby-plant);
+      }
+      .lobby-scene .plant-bright {
+        fill: var(--lobby-plant-bright);
+      }
+      .lobby-scene .sun {
+        fill: var(--lobby-sun);
+      }
+      .lobby-scene .moon-cut,
+      .lobby-scene .star {
+        opacity: 0;
+      }
+      .lobby-scene .moon-cut {
+        fill: var(--lobby-sky-top);
+      }
+      .lobby-scene .star {
+        fill: #fff5d8;
+        animation: none;
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+      .lobby-scene .star:nth-of-type(2n) {
+        animation-delay: -2s;
+      }
+      .lobby-scene .halo {
+        fill: url(#lobby-halo);
+        opacity: 0.42;
+        animation: lobby-lamp-glow 7s ease-in-out infinite alternate;
+      }
+      .lobby-scene .halo:nth-of-type(2) {
+        animation-delay: -3s;
+      }
+      .lobby-scene .sun {
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: lobby-sun-drift 18s ease-in-out infinite alternate;
+      }
+      .shell {
+        position: relative;
+        z-index: 1;
+      }
+      @keyframes lobby-twinkle {
+        from { opacity: 0.36; transform: scale(0.82); }
+        to { opacity: 0.9; transform: scale(1.16); }
+      }
+      @keyframes lobby-lamp-glow {
+        from { opacity: 0.28; }
+        to { opacity: 0.62; }
+      }
+      @keyframes lobby-lamp-glow-night {
+        from { opacity: 0.54; }
+        to { opacity: 0.92; }
+      }
+      @keyframes lobby-sun-drift {
+        from { transform: translate(-5px, 3px); }
+        to { transform: translate(5px, -4px); }
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) .lobby-scene .moon-cut,
+        :root:not([data-theme="light"]) .lobby-scene .star {
+          opacity: 0.82;
+          animation: lobby-twinkle 4s ease-in-out infinite alternate;
+        }
+        :root:not([data-theme="light"]) .lobby-scene .halo {
+          opacity: 0.68;
+          animation-name: lobby-lamp-glow-night;
+        }
+      }
+      :root[data-theme="dark"] .lobby-scene .moon-cut,
+      :root[data-theme="dark"] .lobby-scene .star {
+        opacity: 0.82;
+      }
+      :root[data-theme="dark"] .lobby-scene .star {
+        animation: lobby-twinkle 4s ease-in-out infinite alternate;
+      }
+      :root[data-theme="dark"] .lobby-scene .halo {
+        opacity: 0.68;
+        animation-name: lobby-lamp-glow-night;
+      }
+      .theme-transitioning,
+      .theme-transitioning *,
+      .theme-transitioning *::before,
+      .theme-transitioning *::after {
+        transition:
+          background-color 0.45s ease,
+          color 0.45s ease,
+          border-color 0.45s ease,
+          box-shadow 0.45s ease,
+          fill 0.45s ease,
+          stroke 0.45s ease !important;
+      }
+      h1,
+      h2,
+      h3,
+      p,
+      dl,
+      dd {
+        margin: 0;
+      }
+      h1,
+      h2 {
+        font-family: var(--fd);
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        line-height: 1.15;
+      }
+      h2 {
+        font-size: 1.5rem;
+        margin-bottom: 14px;
+      }
+      h3 {
+        font-size: 1.05rem;
+      }
+      p + p {
+        margin-top: 6px;
+      }
+      a {
+        color: var(--link);
+      }
+      .mut {
+        color: var(--mut);
+      }
+      .sm {
+        font-size: 0.85rem;
+      }
+      .wrap {
+        max-width: 1200px;
+        margin: auto;
+        padding: 0 24px;
+      }
+      .i {
+        width: 18px;
+        height: 18px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        vertical-align: -4px;
+        flex: none;
+      }
+      :focus-visible {
+        outline: 3px solid #4d9bff;
+        outline-offset: 2px;
+      }
+      .skip {
+        position: absolute;
+        left: -999px;
+      }
+      .skip:focus {
+        left: 8px;
+        top: 8px;
+        background: #fff;
+        color: #000;
+        padding: 8px;
+        z-index: 99;
+      }
+      /* ===== Components ===== */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        border: 1px solid transparent;
+        border-radius: 12px;
+        padding: 12px 22px;
+        font: 600 1rem var(--fb);
+        cursor: pointer;
+        text-decoration: none;
+        transition:
+          background 0.15s,
+          transform 0.1s,
+          box-shadow 0.15s;
+      }
+      .btn:active {
+        transform: scale(0.98);
+      }
+      .btn.pri {
+        background: var(--cta);
+        color: var(--on-cta);
+      }
+      .btn.pri:hover {
+        background: var(--cta-h);
+        box-shadow: var(--sh);
+      }
+      .btn.out {
+        background: var(--sf);
+        border-color: var(--ln);
+        color: var(--ink);
+      }
+      .btn.out:hover {
+        border-color: var(--pri);
+      }
+      .btn.s {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+      }
+      .btn.w {
+        width: 100%;
+      }
+      .theme-toggle {
+        display: flex;
+        gap: 8px;
+      }
+      .theme-toggle .btn {
+        flex: 1;
+        padding: 10px 12px;
+      }
+      .theme-toggle .btn[aria-pressed="true"] {
+        background: var(--pri);
+        border-color: var(--pri);
+        color: #fff;
+      }
+      .btn[disabled] {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      label {
+        display: block;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--mut);
+        margin-bottom: 5px;
+      }
+      input,
+      select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--ln);
+        border-radius: 10px;
+        background: var(--sf);
+        color: var(--ink);
+        font: inherit;
+        transition:
+          border-color 0.15s,
+          box-shadow 0.15s;
+      }
+      input:hover,
+      select:hover {
+        border-color: var(--mut);
+      }
+      input:focus,
+      select:focus {
+        border-color: var(--pri);
+        box-shadow: 0 0 0 3px rgba(118, 140, 120, 0.35);
+        outline: 0;
+      }
+      input[type="checkbox"],
+      input[type="radio"] {
+        width: auto;
+        accent-color: var(--pri);
+      }
+      .card {
+        background: var(--sf);
+        border: 1px solid var(--ln);
+        border-radius: 18px;
+        box-shadow: var(--sh);
+      }
+      .pad {
+        padding: 22px;
+      }
+      .lift {
+        transition:
+          transform 0.18s,
+          box-shadow 0.18s;
+      }
+      .lift:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--sh-h);
+      }
+      .chip {
+        display: inline-block;
+        background: var(--sf2);
+        border: 1px solid var(--ln);
+        border-radius: 999px;
+        padding: 1px 10px;
+        font-size: 0.78rem;
+        margin: 0 4px 4px 0;
+      }
+      .st {
+        display: inline-block;
+        border-radius: 999px;
+        padding: 2px 12px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+      .st.ok {
+        background: var(--okbg);
+        color: var(--ok);
+      }
+      .st.wn {
+        background: var(--warnbg);
+        color: var(--warn);
+      }
+      .st.er {
+        background: var(--errbg);
+        color: var(--err);
+      }
+      .score {
+        display: inline-block;
+        background: var(--pri);
+        color: #fff;
+        border-radius: 8px 8px 8px 0;
+        padding: 1px 8px;
+        font-weight: 700;
+        font-size: 0.85rem;
+      }
+      .ok {
+        color: var(--ok);
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+      .art {
+        position: relative;
+        overflow: hidden;
+        min-height: 130px;
+        border-radius: 14px;
+        background: linear-gradient(
+          165deg,
+          hsl(var(--h) var(--as) var(--al1)),
+          hsl(calc(var(--h) + 25) var(--as) var(--al2))
+        );
+      }
+      .art svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .art .w {
+        fill: hsl(var(--h) 22% 34%/0.5);
+      }
+      .fav {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: 0;
+        background: rgba(255, 255, 255, 0.92);
+        color: #2b2e2a;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        transition: transform 0.15s;
+      }
+      .fav:hover {
+        transform: scale(1.1);
+      }
+      .fav[aria-pressed="true"] {
+        color: #c0392b;
+      }
+      .fav[aria-pressed="true"] .i {
+        fill: currentColor;
+      }
+      .mark {
+        position: relative;
+        display: inline-grid;
+        width: 36px;
+        height: 36px;
+        place-items: center;
+        overflow: hidden;
+        border: 1px solid #c6ad61;
+        border-radius: 50%;
+        background: #11100a;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), inset 0 0 0 3px rgba(198, 173, 97, 0.16);
+        flex: none;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+      }
+      .mark img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      .sb .logo .mark {
+        animation: brand-mark-pulse 3.6s ease-in-out infinite;
+      }
+      .mark::after {
+        content: "";
+        position: absolute;
+        inset: 3px;
+        border: 1px solid rgba(238, 218, 155, 0.46);
+        border-radius: 50%;
+        pointer-events: none;
+      }
+      .sb .logo .mark::after {
+        animation: brand-mark-turn 8s ease-in-out infinite;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font: 600 1.3rem var(--fd);
+        text-decoration: none;
+        color: inherit;
+      }
+      .sb .logo .brand-name {
+        font: 800 1.18rem/1 "Syne", var(--fb);
+        letter-spacing: 0.13em;
+        background: linear-gradient(
+          105deg,
+          #fff 5%,
+          #dce9d7 38%,
+          #e8c5a9 52%,
+          #fff 72%
+        );
+        background-size: 220% 100%;
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        animation: brand-name-shine 6s ease-in-out infinite;
+        transition: letter-spacing 0.25s ease, filter 0.25s ease;
+      }
+      .sb .logo:hover .brand-name {
+        letter-spacing: 0.17em;
+        filter: drop-shadow(0 0 9px rgba(232, 197, 169, 0.34));
+      }
+      .sb .logo:hover .mark {
+        transform: translateY(-2px) scale(1.06);
+        box-shadow: 0 6px 18px rgba(221, 190, 168, 0.32), inset 0 0 0 3px rgba(198, 173, 97, 0.2);
+      }
+      @keyframes brand-name-shine {
+        0%, 15% { background-position: 100% 0; }
+        55%, 100% { background-position: 0 0; }
+      }
+      @keyframes brand-mark-pulse {
+        0%, 100% { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16); }
+        50% { box-shadow: 0 5px 18px rgba(221, 190, 168, 0.34); }
+      }
+      @keyframes brand-mark-turn {
+        0%, 15% { transform: rotate(0) scale(1); }
+        45%, 65% { transform: rotate(90deg) scale(0.88); }
+        100% { transform: rotate(90deg) scale(1); }
+      }
+      .view {
+        animation: in 0.25s ease-out;
+      }
+      @keyframes in {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+      }
+      @keyframes fade {
+        from {
+          opacity: 0;
+        }
+      }
+      @keyframes pop {
+        from {
+          opacity: 0;
+          transform: scale(0.96);
+        }
+      }
+      @keyframes sh {
+        to {
+          background-position: -200% 0;
+        }
+      }
+      @keyframes sp {
+        to {
+          transform: rotate(1turn);
+        }
+      }
+      @keyframes reservation-enter {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes mode-toggle {
+        0% {
+          transform: scale(0.96);
+        }
+        65% {
+          transform: scale(1.04);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      .reservation-enter {
+        animation: reservation-enter 0.3s ease-out;
+      }
+      @keyframes app-enter {
+        from {
+          opacity: 0;
+          transform: translateY(16px) scale(0.99);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      #app {
+        animation: app-enter 0.7s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+      }
+      /* ===== App shell ===== */
+      .shell {
+        display: grid;
+        grid-template-columns: 248px minmax(0, 1fr);
+        min-height: 100vh;
+      }
+      .sb {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        background: var(--pri);
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        padding: 20px 14px;
+        gap: 2px;
+        overflow-y: auto;
+      }
+      .sb .logo {
+        padding: 2px 10px 20px;
+        color: #fff;
+      }
+      .sb small {
+        color: var(--sbm);
+        font-size: 0.78rem;
+        padding: 14px 12px 4px;
+      }
+      .sb a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        color: var(--sbt);
+        text-decoration: none;
+        font-weight: 500;
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
+      .sb a:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+      }
+      .sb a[aria-current] {
+        background: rgba(255, 255, 255, 0.16);
+        color: #fff;
+        box-shadow: inset 3px 0 0 var(--cta);
+      }
+      .sb a[aria-current],
+      .tabbar a[aria-current],
+      .tabs [role="tab"][aria-selected="true"] {
+        animation: mode-toggle 0.24s ease-out;
+      }
+      .tb {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        min-height: 68px;
+        padding: 14px clamp(16px, 3vw, 40px);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: color-mix(in srgb, var(--bg) 88%, transparent);
+        backdrop-filter: blur(10px);
+        border-bottom: 2px solid color-mix(in srgb, var(--cta) 46%, var(--ln));
+      }
+      .tb .logo {
+        display: none;
+      }
+      .tb .mark {
+        width: 34px;
+        height: 34px;
+      }
+      .tb .mark::after {
+        inset: 3px;
+      }
+      .tb .brand-name {
+        font: 800 1.02rem/1 "Syne", var(--fb);
+        letter-spacing: 0.13em;
+      }
+      #app[data-view="account"] .tb {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      }
+      #app[data-view="account"] .tb .logo {
+        display: flex;
+        grid-column: 2;
+        grid-row: 1;
+        justify-self: center;
+      }
+      #app[data-view="account"] .tb .pt {
+        display: none;
+      }
+      #app[data-view="account"] .tb .me {
+        grid-column: 3;
+        grid-row: 1;
+        justify-self: end;
+      }
+      .pt {
+        font-weight: 600;
+      }
+      .me {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.9rem;
+      }
+      .av {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: var(--pri);
+        color: #fff;
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+      }
+      .ct {
+        max-width: 1320px;
+        margin: auto;
+        padding: 24px clamp(16px, 3vw, 40px) 64px;
+      }
+      .settings-page {
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+      .settings-hero {
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+        min-height: 190px;
+        display: grid;
+        place-items: center;
+        margin-bottom: 22px;
+        padding: 30px 24px;
+        border: 1px solid color-mix(in srgb, var(--cta) 42%, var(--ln));
+        border-radius: 22px;
+        background:
+          radial-gradient(ellipse at 50% 125%, color-mix(in srgb, var(--cta) 26%, transparent), transparent 58%),
+          linear-gradient(130deg, color-mix(in srgb, var(--pri) 94%, #171714), var(--pri2));
+        color: #fff;
+        text-align: center;
+        box-shadow: var(--sh);
+      }
+      .settings-hero::before,
+      .settings-hero::after {
+        position: absolute;
+        z-index: -1;
+        content: "";
+        width: 190px;
+        height: 260px;
+        bottom: -170px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 100px 100px 0 0;
+        box-shadow: 0 0 0 12px rgba(255, 255, 255, 0.035), 0 0 0 24px rgba(255, 255, 255, 0.025);
+      }
+      .settings-hero::before { left: 8%; }
+      .settings-hero::after { right: 8%; }
+      .settings-hero-content { max-width: 560px; }
+      .settings-eyebrow {
+        margin-bottom: 7px;
+        color: #ead0b7;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+      .settings-hero h1 {
+        margin-bottom: 7px;
+        font-size: clamp(1.8rem, 4vw, 2.45rem);
+      }
+      .settings-hero p:last-child {
+        color: rgba(255, 255, 255, 0.78);
+        font-size: 0.94rem;
+      }
+      .settings-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+      .settings-card {
+        align-content: start;
+        min-width: 0;
+        border-color: color-mix(in srgb, var(--cta) 22%, var(--ln));
+        background: linear-gradient(145deg, var(--sf), color-mix(in srgb, var(--sf2) 50%, var(--sf)));
+      }
+      .settings-card h2 {
+        margin-bottom: 4px;
+        font-family: var(--fb);
+        font-size: 1.08rem;
+        letter-spacing: 0;
+      }
+      .settings-card .settings-description {
+        margin-bottom: 2px;
+        color: var(--mut);
+        font-size: 0.86rem;
+      }
+      .settings-card input[readonly] {
+        cursor: default;
+        background: color-mix(in srgb, var(--sf2) 48%, var(--sf));
+      }
+      .settings-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .settings-actions .btn { width: 100%; }
+      #logout {
+        border-color: color-mix(in srgb, var(--err) 45%, var(--ln));
+        color: var(--err);
+      }
+      #logout:hover {
+        border-color: var(--err);
+        background: var(--errbg);
+      }
+      #logout:disabled {
+        cursor: wait;
+        opacity: 0.75;
+      }
+      body.logout-door-leaving::after {
+        position: fixed;
+        z-index: 10000;
+        inset: 0;
+        content: "";
+        pointer-events: none;
+        backface-visibility: hidden;
+        will-change: transform;
+        transform: perspective(1400px) rotateY(88deg);
+        transform-origin: right center;
+        background:
+          radial-gradient(circle at 86% 50%, #dfc3a4 0 5px, #755f46 6px 9px, transparent 10px),
+          linear-gradient(90deg, #18231d, #34483a 52%, #25342b);
+        box-shadow: inset 0 0 0 18px rgba(239, 229, 208, 0.13), inset 0 0 0 21px rgba(10, 16, 14, 0.6);
+        animation: logout-door-close 1.05s cubic-bezier(0.45, 0.05, 0.25, 1) both;
+      }
+      @keyframes logout-door-close {
+        0% {
+          transform: perspective(1400px) rotateY(88deg);
+          box-shadow: inset 0 0 0 18px rgba(239, 229, 208, 0.13), inset 0 0 0 21px rgba(10, 16, 14, 0.6);
+        }
+        65% {
+          transform: perspective(1400px) rotateY(18deg);
+          box-shadow: inset 0 0 0 18px rgba(239, 229, 208, 0.13), inset 20px 0 34px rgba(0, 0, 0, 0.4);
+        }
+        to {
+          transform: perspective(1400px) rotateY(0);
+          box-shadow: inset 0 0 0 18px rgba(239, 229, 208, 0.13), inset 0 0 0 21px rgba(10, 16, 14, 0.6);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        body.logout-door-leaving::after {
+          animation-duration: 0.01ms;
+          animation-iteration-count: 1;
+        }
+      }
+      .tabbar {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 40;
+        background: var(--sf);
+        border-top: 1px solid var(--ln);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      .tabbar a {
+        flex: 1;
+        display: grid;
+        justify-items: center;
+        gap: 2px;
+        padding: 8px 0;
+        font-size: 0.72rem;
+        color: var(--mut);
+        text-decoration: none;
+      }
+      .tabbar a[aria-current] {
+        color: var(--link);
+        font-weight: 600;
+      }
+      /* ===== Home / search ===== */
+      .hero2 {
+        background: linear-gradient(135deg, var(--pri), var(--pri2));
+        color: #fff;
+        border-radius: 22px;
+        padding: 30px;
+        margin-bottom: 28px;
+      }
+      .hero2 h1 {
+        font-size: clamp(1.7rem, 3vw, 2.4rem);
+        margin-bottom: 6px;
+      }
+      .hero2 > p {
+        color: rgba(255, 255, 255, 0.88);
+        margin-bottom: 18px;
+      }
+      .search {
+        padding: 16px;
+        color: var(--ink);
+      }
+      .tabs {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 14px;
+      }
+      [role="tab"] {
+        border: 1px solid var(--ln);
+        background: var(--sf);
+        color: var(--ink);
+        border-radius: 999px;
+        padding: 8px 18px;
+        font: 600 0.95rem var(--fb);
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          border-color 0.15s,
+          color 0.15s;
+      }
+      [role="tab"][aria-selected="true"] {
+        background: var(--pri);
+        border-color: var(--pri);
+        color: #fff;
+      }
+      @media (min-width: 901px) {
+        .tabs [role="tab"][aria-selected="false"] {
+          display: none;
+        }
+      }
+      .fg {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+        align-items: end;
+      }
+      .fg .wide {
+        grid-column: span 2;
+      }
+      .sec2 {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 340px;
+        gap: 24px;
+        align-items: start;
+      }
+      .grid3 {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 18px;
+      }
+      .tile {
+        overflow: hidden;
+        cursor: pointer;
+        position: relative;
+      }
+      .tile .art {
+        border-radius: 0;
+        height: 150px;
+      }
+      .tile .b {
+        padding: 14px;
+      }
+      .bk {
+        display: grid;
+        grid-template-columns: 96px 1fr auto;
+        gap: 14px;
+        align-items: center;
+        padding: 12px;
+        margin-bottom: 12px;
+      }
+      .bk .art {
+        min-height: 80px;
+        height: 80px;
+      }
+      .booking-qr-pass {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 116px;
+        align-items: center;
+        gap: 14px;
+        margin-top: 14px;
+        padding: 12px;
+        border: 1px solid var(--ln);
+        border-radius: 12px;
+        background: var(--sf2);
+      }
+      .booking-qr-pass img {
+        display: block;
+        width: 112px;
+        height: 112px;
+        object-fit: contain;
+        padding: 6px;
+        border: 1px solid var(--ln);
+        border-radius: 8px;
+        background: #fff;
+      }
+      .booking-qr-pass h4 { margin: 0 0 4px; }
+      .booking-qr-pass .btn { margin-top: 8px; }
+      .qr-pending-note { margin-top: 10px; color: var(--mut); font-size: .82rem; }
+      @media (max-width: 520px) {
+        .booking-qr-pass { grid-template-columns: 1fr 88px; gap: 8px; }
+        .booking-qr-pass img { width: 84px; height: 84px; }
+      }
+      /* ===== Results ===== */
+      .rg {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 420px;
+        gap: 24px;
+        align-items: start;
+      }
+      .head {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+      }
+      .head select {
+        width: auto;
+      }
+      .chips {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+      }
+      .fchip {
+        border: 1px solid var(--ln);
+        background: var(--sf);
+        color: var(--ink);
+        border-radius: 999px;
+        padding: 6px 14px;
+        font: 500 0.9rem var(--fb);
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .fchip:hover {
+        border-color: var(--pri);
+      }
+      .fchip[aria-pressed="true"] {
+        background: var(--pri);
+        border-color: var(--pri);
+        color: #fff;
+      }
+      .li {
+        position: relative;
+        display: grid;
+        grid-template-columns: 210px 1fr auto;
+        gap: 18px;
+        padding: 12px;
+        margin-bottom: 16px;
+      }
+      .li .art {
+        min-height: 160px;
+      }
+      .li h3 {
+        margin-bottom: 2px;
+      }
+      .price {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-end;
+        text-align: right;
+        gap: 8px;
+      }
+      .price b {
+        font-size: 1.65rem;
+        display: block;
+        line-height: 1.1;
+        font-variant-numeric: tabular-nums;
+      }
+      .price small {
+        display: block;
+        max-width: 14ch;
+      }
+      .sk {
+        height: 184px;
+        border-radius: 18px;
+        margin-bottom: 16px;
+        background: linear-gradient(90deg, var(--sf), var(--ln), var(--sf));
+        background-size: 200% 100%;
+        animation: sh 1.1s linear infinite;
+      }
+      .map {
+        position: sticky;
+        top: 76px;
+        height: 560px;
+        border-radius: 18px;
+        border: 1px solid var(--ln);
+        overflow: hidden;
+        background: #e8e4d7;
+      }
+      .map-tile-layer {
+        position: absolute;
+        z-index: 1;
+        left: calc(50% - 272px);
+        top: calc(50% - 436px);
+        display: grid;
+        grid-template-columns: repeat(3, 256px);
+        grid-template-rows: repeat(3, 256px);
+        width: 768px;
+        height: 768px;
+      }
+      .map-tile-layer img {
+        display: block;
+        width: 256px;
+        height: 256px;
+      }
+      .map-local-fallback {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        background: #e8e4d7;
+      }
+      .map-local-fallback[hidden] { display: none; }
+      .map-center-marker {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        z-index: 2;
+        width: 18px;
+        height: 18px;
+        border: 4px solid #fff;
+        border-radius: 50%;
+        background: #ae5942;
+        box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+      }
+      .map-pin-layer {
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        pointer-events: none;
+      }
+      .map-caption {
+        position: absolute;
+        left: 12px;
+        right: 12px;
+        bottom: 10px;
+        z-index: 4;
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 8px;
+        pointer-events: none;
+      }
+      .map-caption span {
+        font-size: 0.78rem;
+        color: #242820;
+        background: rgba(255, 255, 255, 0.93);
+        padding: 5px 8px;
+        border: 1px solid rgba(43, 46, 42, 0.18);
+        border-radius: 7px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+      }
+      .map-caption .map-attribution {
+        font-size: 0.68rem;
+      }
+      .map-caption a {
+        color: inherit;
+        pointer-events: auto;
+      }
+      .pin {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        background: var(--sf);
+        color: var(--ink);
+        border: 2px solid var(--pri);
+        border-radius: 999px;
+        padding: 3px 10px;
+        font: 700 0.85rem var(--fb);
+        cursor: pointer;
+        transition: all 0.15s;
+        box-shadow: var(--sh);
+        pointer-events: auto;
+      }
+      .pin:hover {
+        background: var(--pri);
+        color: #fff;
+        transform: translate(-50%, -50%) scale(1.08);
+      }
+      .empty {
+        text-align: center;
+        padding: 40px 20px;
+      }
+      /* ===== Detail, checkout ===== */
+      .dgrid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 360px;
+        gap: 28px;
+        align-items: start;
+      }
+      .dgrid aside {
+        position: sticky;
+        top: 76px;
+      }
+      .gal {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        grid-template-rows: 150px 150px;
+        gap: 8px;
+        margin: 14px 0 26px;
+      }
+      .gal .art {
+        min-height: 0;
+      }
+      .gal .art:first-child {
+        grid-row: span 2;
+      }
+      .sec {
+        margin-bottom: 26px;
+      }
+      .opt {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--ink);
+        padding: 14px;
+        border: 1px solid var(--ln);
+        border-radius: 12px;
+        margin-bottom: 8px;
+        cursor: pointer;
+        background: var(--sf);
+        transition: border-color 0.15s;
+      }
+      .opt:hover {
+        border-color: var(--mut);
+      }
+      .opt:has(input:checked) {
+        border-color: var(--pri);
+        box-shadow: inset 0 0 0 1px var(--pri);
+        background: var(--sf2);
+      }
+      .am {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+        gap: 8px;
+      }
+      .am .i {
+        color: var(--ok);
+      }
+      details {
+        border-bottom: 1px solid var(--ln);
+        padding: 12px 0;
+      }
+      summary {
+        cursor: pointer;
+        font-weight: 600;
+      }
+      details p {
+        margin-top: 8px;
+      }
+      .rows {
+        margin: 12px 0;
+        padding: 12px 0;
+        border-top: 1px solid var(--ln);
+        border-bottom: 1px solid var(--ln);
+      }
+      .rows div {
+        display: flex;
+        justify-content: space-between;
+        margin: 4px 0;
+      }
+      .tot {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin: 10px 0;
+      }
+      .tot b {
+        font-size: 1.8rem;
+        font-variant-numeric: tabular-nums;
+      }
+      .side .btn {
+        margin-top: 12px;
+      }
+      .stepper {
+        display: flex;
+        gap: 8px;
+        list-style: none;
+        padding: 0;
+        margin: 0 0 20px;
+        flex-wrap: wrap;
+      }
+      .stepper li {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--mut);
+        font-weight: 600;
+      }
+      .stepper span {
+        display: grid;
+        place-items: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: 2px solid var(--ln);
+      }
+      .stepper .on {
+        color: var(--ink);
+      }
+      .stepper .on span {
+        background: var(--pri);
+        border-color: var(--pri);
+        color: #fff;
+      }
+      .stepper .done span {
+        background: var(--ok);
+        border-color: var(--ok);
+        color: var(--on-ok);
+      }
+      .stepper li + li::before {
+        content: "";
+        width: 28px;
+        height: 2px;
+        background: var(--ln);
+      }
+      .two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      form.stack > * + * {
+        margin-top: 14px;
+      }
+      .note {
+        background: var(--warnbg);
+        color: var(--warn);
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 0.9rem;
+      }
+      .qr {
+        width: 120px;
+        height: 120px;
+        border-radius: 8px;
+        background: repeating-conic-gradient(var(--ink) 0 25%, var(--sf) 0 50%)
+          0 0/24px 24px;
+        border: 6px solid var(--sf);
+        outline: 1px solid var(--ln);
+      }
+      .done-ic {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: var(--ok);
+        color: var(--on-ok);
+        display: grid;
+        place-items: center;
+        margin-bottom: 12px;
+      }
+      .done-ic .i {
+        width: 30px;
+        height: 30px;
+      }
+      /* ===== Overlays ===== */
+      .mo {
+        position: fixed;
+        inset: 0;
+        background: rgba(8, 28, 34, 0.55);
+        display: grid;
+        place-items: center;
+        z-index: 60;
+        animation: fade 0.18s;
+      }
+      .md {
+        background: var(--sf);
+        border-radius: 20px;
+        padding: 24px;
+        width: min(420px, calc(100vw - 32px));
+        animation: pop 0.2s;
+        text-align: center;
+      }
+      .md .btn {
+        margin-top: 10px;
+      }
+      .spin {
+        width: 36px;
+        height: 36px;
+        border: 4px solid var(--ln);
+        border-top-color: var(--pri);
+        border-radius: 50%;
+        margin: 0 auto 12px;
+        animation: sp 0.8s linear infinite;
+      }
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+        transform: translateX(-50%);
+        background: var(--ink);
+        color: var(--bg);
+        padding: 10px 18px;
+        border-radius: 999px;
+        z-index: 70;
+        animation: pop 0.2s;
+      }
+      .reservation-paused {
+        margin-bottom: 18px;
+        padding: 13px 16px;
+        border: 1px solid var(--err);
+        border-radius: 12px;
+        background: var(--errbg);
+        color: var(--err);
+        font-weight: 600;
+      }
+      .reservation-paused[data-state="checking"] {
+        border-color: var(--ln);
+        background: var(--sf);
+        color: var(--mut);
+      }
+      .hotel-review {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        z-index: 35;
+        width: min(350px, calc(100vw - 32px));
+      }
+      .hotel-review-card {
+        padding: 16px;
+        border-radius: 14px;
+      }
+      .hotel-review-head,
+      .hotel-review-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .hotel-review-head {
+        margin-bottom: 8px;
+      }
+      .hotel-review-close {
+        border: 0;
+        padding: 2px 6px;
+        background: transparent;
+        color: var(--mut);
+        font: inherit;
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
+      .hotel-review-stars {
+        color: #b7791f;
+        font-size: 1rem;
+      }
+      .hotel-review-text {
+        margin: 8px 0;
+        font-size: 0.92rem;
+        line-height: 1.4;
+      }
+      .hotel-review-actions button {
+        border: 1px solid var(--ln);
+        border-radius: 8px;
+        padding: 6px 10px;
+        background: var(--sf2);
+        color: var(--ink);
+        font: 500 0.82rem var(--fb);
+        cursor: pointer;
+      }
+      .hotel-review-actions button[aria-pressed="true"] {
+        border-color: var(--pri);
+        background: var(--pri);
+        color: #fff;
+      }
+      @keyframes review-enter {
+        from {
+          opacity: 0;
+          transform: translateY(12px) scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      @keyframes review-exit {
+        to {
+          opacity: 0;
+          transform: translateY(10px) scale(0.98);
+        }
+      }
+      .hotel-review.review-enter {
+        animation: review-enter 0.35s ease-out both;
+      }
+      .hotel-review.review-exit {
+        animation: review-exit 0.25s ease-in both;
+      }
+      @media (max-width: 1100px) {
+        .rg,
+        .dgrid,
+        .sec2 {
+          grid-template-columns: 1fr;
+        }
+        .map {
+          order: -1;
+          position: relative;
+          height: 320px;
+        }
+        .dgrid aside {
+          position: static;
+        }
+        .lhero {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 900px) {
+        .shell {
+          display: block;
+        }
+        .sb {
+          display: none;
+        }
+        .tabbar {
+          display: flex;
+        }
+        .tb .logo {
+          display: flex;
+          font-size: 1.1rem;
+        }
+        .pt {
+          display: none;
+        }
+        .ct {
+          padding-bottom: 96px;
+        }
+        .toast {
+          bottom: calc(86px + env(safe-area-inset-bottom, 0px));
+        }
+        .hotel-review {
+          right: 16px;
+          bottom: calc(86px + env(safe-area-inset-bottom, 0px));
+        }
+      }
+      @media (max-width: 640px) {
+        .settings-hero {
+          min-height: 170px;
+          margin-bottom: 16px;
+          padding: 24px 18px;
+        }
+        .settings-hero::before { left: -70px; }
+        .settings-hero::after { right: -70px; }
+        .settings-grid { grid-template-columns: 1fr; gap: 14px; }
+        .settings-card { padding: 18px; }
+        #app[data-view="account"] .tb .me > span:first-child { display: none; }
+        .li {
+          grid-template-columns: 1fr;
+        }
+        .price {
+          flex-direction: row;
+          align-items: end;
+          text-align: left;
+        }
+        .gal {
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: none;
+          grid-auto-rows: 110px;
+        }
+        .gal .art:first-child {
+          grid-column: span 2;
+          grid-row: auto;
+        }
+        .two {
+          grid-template-columns: 1fr;
+        }
+        .fg .wide {
+          grid-column: auto;
+        }
+        .bk {
+          grid-template-columns: 72px 1fr;
+        }
+        .bk > :last-child {
+          grid-column: 1/-1;
+        }
+        .hero2 {
+          padding: 20px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+          scroll-behavior: auto !important;
+        }
+        .theme-transitioning,
+        .theme-transitioning *,
+        .theme-transitioning *::before,
+        .theme-transitioning *::after {
+          transition: none !important;
+        }
+      }
+      /* ===== Elevation: every card-like surface gets a shadow ===== */
+      .art,
+      .opt,
+      .fchip,
+      .btn.out,
+      .sk,
+      .map,
+      .hero2,
+      .md,
+      .toast,
+      .tabbar {
+        box-shadow: var(--sh-s);
+      }
+      .hero2,
+      .md {
+        box-shadow: var(--sh-h);
+      }
+      .tabbar {
+        box-shadow: var(--sh-up);
+      }
+      .tile .art {
+        box-shadow: none;
+      }
+      .opt:has(input:checked) {
+        box-shadow:
+          inset 0 0 0 1px var(--pri),
+          var(--sh-s);
+      }
+      .fchip[aria-pressed="true"] {
+        box-shadow: var(--sh-s);
+      }
+      button:not(:disabled) {
+        transition-duration: 0.18s;
+        transition-timing-function: ease-out;
+      }
+      button:not(:disabled):hover:not(:focus-visible) {
+        outline: 2px solid color-mix(in srgb, currentColor 24%, transparent);
+        outline-offset: 2px;
+        filter: brightness(1.06);
+      }
+      .btn:not(:disabled):hover:not(:focus-visible) {
+        transform: translateY(-2px) scale(1.02);
+      }
+      .fchip:not(:disabled):hover,
+      .hotel-review-actions button:not(:disabled):hover:not(:focus-visible) {
+        transform: translateY(-1px) scale(1.03);
+      }
+      .hotel-review-close:not(:disabled):hover:not(:focus-visible) {
+        transform: scale(1.1);
+      }
+    </style>
+  </head>
+  <body>
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <defs>
+        <symbol id="i-pin" viewBox="0 0 24 24">
+          <path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.800 7 12 7 12z" />
+          <circle cx="12" cy="9" r="2.500" />
+        </symbol>
+        <symbol id="i-check" viewBox="0 0 24 24">
+          <path d="M5 12.500l4.500 4.500L19 7.500" />
+        </symbol>
+        <symbol id="i-shield" viewBox="0 0 24 24">
+          <path d="M12 3l8 3v6c0 4.500-3.400 8-8 9-4.600-1-8-4.500-8-9V6z" />
+          <path d="M8.500 12l2.500 2.500 4.500-5" />
+        </symbol>
+        <symbol id="i-car" viewBox="0 0 24 24">
+          <path
+            d="M4 16v-4l2-5h12l2 5v4M4 16h16M4 16v3h3v-3M17 16v3h3v-3M4 12h16"
+          />
+        </symbol>
+        <symbol id="i-bed" viewBox="0 0 24 24">
+          <path d="M3 19V6M3 15h18v4M21 15v-2a3 3 0 0 0-3-3h-7v5" />
+        </symbol>
+        <symbol id="i-tag" viewBox="0 0 24 24">
+          <path d="M3 12V4h8l10 10-8 8z" />
+          <circle cx="7.500" cy="8.500" r="1.200" />
+        </symbol>
+        <symbol id="i-home" viewBox="0 0 24 24">
+          <path d="M3 11l9-7 9 7M5 10v10h14V10" />
+        </symbol>
+        <symbol id="i-cal" viewBox="0 0 24 24">
+          <path d="M4 6h16v14H4zM4 10h16M8 3v4M16 3v4" />
+        </symbol>
+        <symbol id="i-heart" viewBox="0 0 24 24">
+          <path
+            d="M12 20s-8-4.600-8-10a4.500 4.500 0 0 1 8-2.800A4.500 4.500 0 0 1 20 10c0 5.400-8 10-8 10z"
+          />
+        </symbol>
+        <symbol id="i-user" viewBox="0 0 24 24">
+          <path
+            d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 4-6 8-6s8 2 8 6"
+          />
+        </symbol>
+        <symbol id="i-help" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9" />
+          <path
+            d="M9.500 9.500a2.500 2.500 0 1 1 3.500 2.300c-.7.400-1 .9-1 1.700M12 17v.1"
+          />
+        </symbol>
+      </defs>
+    </svg>
+    <div class="lobby-scene" aria-hidden="true">
+      <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" focusable="false">
+        <defs>
+          <linearGradient id="lobby-wall" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="var(--lobby-wall-top)" />
+            <stop offset="1" stop-color="var(--lobby-wall-bottom)" />
+          </linearGradient>
+          <linearGradient id="lobby-floor" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="var(--lobby-floor-top)" />
+            <stop offset="1" stop-color="var(--lobby-floor-bottom)" />
+          </linearGradient>
+          <linearGradient id="lobby-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="var(--lobby-sky-top)" />
+            <stop offset="1" stop-color="var(--lobby-sky-bottom)" />
+          </linearGradient>
+          <radialGradient id="lobby-halo">
+            <stop offset="0" stop-color="var(--lobby-glow)" stop-opacity=".72" />
+            <stop offset="1" stop-color="var(--lobby-glow)" stop-opacity="0" />
+          </radialGradient>
+          <linearGradient id="lobby-window-light" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="var(--lobby-glow)" stop-opacity=".2" />
+            <stop offset="1" stop-color="var(--lobby-glow)" stop-opacity="0" />
+          </linearGradient>
+          <clipPath id="lobby-arch">
+            <path d="M740 470V250a110 110 0 0 1 220 0v220z" />
+          </clipPath>
+        </defs>
+        <rect class="wall" width="1600" height="700" />
+        <rect class="ceiling" width="1600" height="54" />
+        <rect class="trim" y="54" width="1600" height="6" />
+        <g class="wall-panel" stroke-width="2" opacity=".42">
+          <rect x="40" y="130" width="180" height="440" />
+          <rect x="250" y="130" width="180" height="440" />
+          <rect x="460" y="130" width="180" height="440" />
+          <rect x="1010" y="130" width="180" height="440" />
+          <rect x="1490" y="130" width="70" height="440" />
+        </g>
+        <rect class="trim" y="690" width="1600" height="14" />
+        <rect class="floor" y="704" width="1600" height="196" />
+        <g class="floor-lines" fill="none" stroke-width="2" opacity=".36">
+          <path d="M0 780H1600M0 860H1600M300 704L120 900M700 704L620 900M1100 704L1180 900M1500 704L1680 900" />
+        </g>
+        <g clip-path="url(#lobby-arch)">
+          <rect class="sky" x="740" y="140" width="220" height="330" />
+          <rect x="740" y="140" width="220" height="330" fill="url(#lobby-window-light)" />
+          <circle class="sun" cx="850" cy="400" r="34" />
+          <circle class="moon-cut" cx="866" cy="387" r="30" />
+          <g>
+            <circle class="star" cx="778" cy="220" r="2.5" />
+            <circle class="star" cx="815" cy="180" r="1.8" />
+            <circle class="star" cx="900" cy="235" r="2.2" />
+            <circle class="star" cx="930" cy="190" r="1.6" />
+            <circle class="star" cx="786" cy="300" r="1.7" />
+            <circle class="star" cx="917" cy="320" r="2" />
+          </g>
+          <path class="garden" d="M740 470V410q50-30 110-6t110-8v74z" />
+        </g>
+        <path d="M740 470V250a110 110 0 0 1 220 0v220z" fill="none" stroke="var(--lobby-trim)" stroke-width="8" />
+        <path d="M850 140V470M740 330H960" stroke="var(--lobby-trim)" stroke-width="4" opacity=".86" />
+        <g>
+          <rect class="trim" x="1250" y="250" width="220" height="440" rx="6" />
+          <rect class="shadow" x="1264" y="276" width="192" height="414" />
+          <rect class="lit" x="1264" y="276" width="192" height="414" opacity=".12" />
+          <rect class="door-left" x="1264" y="276" width="96" height="414" />
+          <rect class="door-right" x="1360" y="276" width="96" height="414" />
+          <path class="door-seam" d="M1360 276V690" stroke-width="3" />
+          <rect class="shadow" x="1306" y="256" width="108" height="14" rx="3" />
+          <path d="M1350 266l10-6 10 6" stroke="var(--lobby-trim)" stroke-width="3" fill="none" />
+          <circle cx="1490" cy="480" r="9" fill="var(--lobby-trim)" />
+          <circle cx="1490" cy="510" r="9" fill="var(--lobby-trim)" opacity=".58" />
+        </g>
+        <g>
+          <ellipse class="halo" cx="720" cy="420" rx="120" ry="150" />
+          <path d="M720 54V250" stroke="var(--lobby-trim)" stroke-width="3" />
+          <path class="trim" d="M680 300q0-50 40-50t40 50z" />
+          <ellipse class="halo" cx="1100" cy="420" rx="120" ry="150" />
+          <path d="M1100 54V250" stroke="var(--lobby-trim)" stroke-width="3" />
+          <path class="trim" d="M1060 300q0-50 40-50t40 50z" />
+          <ellipse class="halo" cx="535" cy="360" rx="100" ry="130" />
+          <path d="M535 54V200" stroke="var(--lobby-trim)" stroke-width="3" />
+          <path class="trim" d="M500 250q0-50 35-50t35 50z" />
+        </g>
+        <g>
+          <rect class="desk" x="640" y="570" width="500" height="120" rx="3" />
+          <rect x="640" y="570" width="500" height="120" fill="none" stroke="var(--lobby-desk-line)" stroke-width="3" />
+          <g fill="none" stroke="var(--lobby-trim)" stroke-width="2" opacity=".74">
+            <rect x="665" y="592" width="140" height="78" />
+            <rect x="820" y="592" width="140" height="78" />
+            <rect x="975" y="592" width="140" height="78" />
+          </g>
+          <rect class="trim" x="626" y="552" width="528" height="22" rx="4" />
+          <path class="lit" d="M900 552q0-30 24-30t24 30z" />
+          <rect class="lit" x="916" y="514" width="16" height="8" rx="3" />
+          <rect class="shadow" x="710" y="500" width="100" height="52" rx="4" />
+          <path d="M1040 552V490" stroke="var(--lobby-trim)" stroke-width="4" opacity=".58" />
+          <path class="lit" d="M1012 490q28-40 56 0z" opacity=".76" />
+        </g>
+        <g>
+          <path class="desk" d="M560 690l12-90h56l12 90z" />
+          <path class="plant" d="M600 600q-70-50-60-150 60 40 60 150z" />
+          <path class="plant-bright" d="M600 600q10-110 70-160 10 90-70 160z" />
+          <path class="plant" d="M600 600q-20-90 0-180 30 90 0 180z" />
+        </g>
+        <path d="M640 704h500l42 40H598z" fill="var(--lobby-glow)" opacity=".08" />
+      </svg>
+    </div>
+    <div class="parking-scene" aria-hidden="true">
+      <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" focusable="false">
+        <defs>
+          <linearGradient id="garage-wall" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#14222a" />
+            <stop offset="1" stop-color="#2a3f44" />
+          </linearGradient>
+          <linearGradient id="garage-floor" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#343b3f" />
+            <stop offset="1" stop-color="#1b1f22" />
+          </linearGradient>
+          <linearGradient id="garage-beam" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#eaf6f2" stop-opacity=".42" />
+            <stop offset="1" stop-color="#eaf6f2" stop-opacity="0" />
+          </linearGradient>
+        </defs>
+        <g>
+          <rect x="-60" width="1720" height="620" fill="url(#garage-wall)" />
+          <rect x="-60" width="1720" height="86" fill="#0c151a" />
+          <rect x="-60" y="86" width="1720" height="8" fill="#c9a35a" />
+          <g stroke="#2b3b42" stroke-width="10" opacity=".78">
+            <path d="M-60 34H1660M-60 60H1660" />
+          </g>
+          <g stroke="#3a4a50" stroke-width="2" opacity=".62">
+            <path d="M-60 330H1660M-60 470H1660" />
+          </g>
+          <rect x="-60" y="600" width="1720" height="300" fill="url(#garage-floor)" />
+          <rect x="-60" y="596" width="1720" height="6" class="garage-yellow" opacity=".82" />
+          <g class="garage-floor-line" fill="none" stroke-width="3" opacity=".46">
+            <path d="M180 600V900M370 600V900M560 600V900M750 600V900M940 600V900M1130 600V900M1320 600V900M1510 600V900" />
+            <path d="M-60 735H1660M-60 835H1660" />
+          </g>
+        </g>
+        <g opacity=".96">
+          <g transform="translate(180 94)">
+            <rect width="70" height="506" class="garage-pillar" />
+            <rect y="446" width="70" height="60" class="garage-yellow" />
+            <path d="M0 446l70 60M0 480l36 26M34 446l36 30" stroke="#111" stroke-width="10" />
+            <rect x="10" y="150" width="50" height="46" rx="5" fill="#c9a35a" />
+            <text x="35" y="184" text-anchor="middle" font-size="30" font-weight="700" fill="#14222a" font-family="Arial,sans-serif">A</text>
+          </g>
+          <g transform="translate(765 94)">
+            <rect width="70" height="506" class="garage-pillar" />
+            <rect y="446" width="70" height="60" class="garage-yellow" />
+            <path d="M0 446l70 60M0 480l36 26M34 446l36 30" stroke="#111" stroke-width="10" />
+            <rect x="10" y="150" width="50" height="46" rx="5" fill="#c9a35a" />
+            <text x="35" y="184" text-anchor="middle" font-size="30" font-weight="700" fill="#14222a" font-family="Arial,sans-serif">B</text>
+          </g>
+          <g transform="translate(1350 94)">
+            <rect width="70" height="506" class="garage-pillar" />
+            <rect y="446" width="70" height="60" class="garage-yellow" />
+            <path d="M0 446l70 60M0 480l36 26M34 446l36 30" stroke="#111" stroke-width="10" />
+            <rect x="10" y="150" width="50" height="46" rx="5" fill="#c9a35a" />
+            <text x="35" y="184" text-anchor="middle" font-size="30" font-weight="700" fill="#14222a" font-family="Arial,sans-serif">C</text>
+          </g>
+        </g>
+        <g>
+          <g class="garage-light-pool">
+            <polygon points="170,100 350,100 450,600 30,600" />
+            <polygon points="530,100 710,100 810,600 390,600" />
+            <polygon points="890,100 1070,100 1170,600 750,600" />
+            <polygon points="1250,100 1430,100 1530,600 1110,600" />
+          </g>
+          <g fill="#cfe3df">
+            <rect x="160" y="94" width="200" height="14" rx="4" />
+            <rect x="520" y="94" width="200" height="14" rx="4" />
+            <rect x="880" y="94" width="200" height="14" rx="4" />
+            <rect x="1240" y="94" width="200" height="14" rx="4" />
+          </g>
+          <g class="garage-light-pool">
+            <ellipse cx="260" cy="810" rx="170" ry="34" />
+            <ellipse cx="620" cy="810" rx="170" ry="34" />
+            <ellipse cx="980" cy="810" rx="170" ry="34" />
+            <ellipse cx="1340" cy="810" rx="170" ry="34" />
+          </g>
+        </g>
+        <g transform="translate(600 94)">
+          <path d="M-40 0V96M40 0V96" stroke="#8a969c" stroke-width="3" />
+          <rect x="-80" y="96" width="160" height="70" rx="10" fill="#2f6fd0" stroke="#fff" stroke-width="4" />
+          <text y="149" text-anchor="middle" font-size="46" font-weight="700" fill="#fff" font-family="Arial,sans-serif">P1</text>
+        </g>
+        <g>
+          <rect x="1010" y="94" width="12" height="40" fill="#8a969c" />
+          <rect x="990" y="130" width="70" height="30" rx="8" fill="#e8eded" />
+          <circle cx="1052" cy="145" r="9" fill="#14222a" />
+          <circle cx="1000" cy="138" r="4" fill="#ff4a40" />
+        </g>
+        <g>
+          <rect x="1470" y="330" width="130" height="270" fill="#0c151a" stroke="#c9a35a" stroke-width="6" />
+          <rect x="1480" y="340" width="110" height="260" fill="#ffe3a3" opacity=".34" />
+          <rect x="1490" y="270" width="90" height="42" rx="6" fill="#0c151a" stroke="#5fd0a0" stroke-width="3" />
+          <text x="1535" y="300" text-anchor="middle" font-size="24" font-weight="700" fill="#5fd0a0" font-family="Arial,sans-serif">EXIT</text>
+        </g>
+        <g fill="#d6dbd9" opacity=".38">
+          <path d="M300 858h90v-14l34 24-34 24v-14h-90z" />
+          <path d="M760 858h90v-14l34 24-34 24v-14h-90z" />
+          <path d="M1220 858h90v-14l34 24-34 24v-14h-90z" />
+        </g>
+        <g>
+          <circle cx="470" cy="290" r="52" fill="#0c151a" stroke="#4a5d63" stroke-width="6" />
+          <g class="garage-fan" fill="#8a969c">
+            <path d="M470 290q-8-40 0-44 8 4 0 44zM470 290q40-8 44 0-4 8-44 0zM470 290q8 40 0 44-8-4 0-44zM470 290q-40 8-44 0 4-8 44 0z" />
+          </g>
+          <circle cx="470" cy="290" r="7" fill="#c9a35a" />
+        </g>
+        <g>
+          <rect x="330" y="360" width="64" height="96" rx="6" fill="#b93128" />
+          <rect x="342" y="372" width="40" height="46" rx="3" fill="#e8eded" opacity=".9" />
+          <path d="M362 380v30M350 395h24" stroke="#b93128" stroke-width="6" />
+          <circle cx="362" cy="436" r="7" fill="#ffd0cc" />
+        </g>
+        <g>
+          <rect x="62" y="330" width="76" height="200" rx="10" fill="#e8eded" />
+          <rect x="72" y="344" width="56" height="70" rx="6" fill="#0c151a" />
+          <path d="M104 352l-18 34h14l-6 22 20-38h-14z" fill="#7dffc4" />
+          <rect x="72" y="428" width="56" height="8" rx="4" fill="#33474d" />
+          <rect x="72" y="428" width="38" height="8" rx="4" fill="#7dffc4" />
+          <path d="M100 470q-50 20-30 70" stroke="#14222a" stroke-width="7" fill="none" stroke-linecap="round" />
+          <rect x="52" y="526" width="96" height="16" rx="4" fill="#9aa6ab" />
+        </g>
+        <g>
+          <rect x="1500" y="740" width="36" height="130" rx="5" fill="#d9dee3" />
+          <rect x="1508" y="754" width="20" height="26" rx="3" fill="#e2685f" />
+          <circle class="garage-beacon" cx="1518" cy="732" r="9" fill="#f2a830" />
+          <rect x="1330" y="770" width="170" height="13" rx="3" fill="#e2685f" />
+          <g fill="#fff">
+            <rect x="1352" y="770" width="16" height="13" />
+            <rect x="1386" y="770" width="16" height="13" />
+            <rect x="1420" y="770" width="16" height="13" />
+          </g>
+        </g>
+      </svg>
+    </div>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <!-- ============ APP SHELL ============ -->
+    <div id="app" class="shell">
+      <aside class="sb" aria-label="Sidebar">
+        <a class="logo" href="#home">
+          <span class="mark" aria-hidden="true"><img src="../LOGO/nexora-mark.png" alt="" /></span>
+          <span class="brand-name">NEXORA</span>
+        </a>
+        <small>Explore</small>
+        <a href="#home" data-r="hotel" data-m="hotel"
+          ><svg class="i"><use href="#i-bed" /></svg>Hotels</a
+        >
+        <a href="#home" data-r="parking" data-m="parking"
+          ><svg class="i"><use href="#i-car" /></svg>Parking</a
+        >
+        <small>Your trips</small>
+        <a href="#bookings" data-r="bookings"
+          ><svg class="i"><use href="#i-cal" /></svg>My bookings</a
+        >
+        <a href="#saved" data-r="saved"
+          ><svg class="i"><use href="#i-heart" /></svg>Saved</a
+        >
+        <a href="#account" data-r="account"
+          ><svg class="i"><use href="#i-user" /></svg>Settings</a
+        >
+      </aside>
+      <div class="mn">
+        <header class="tb">
+          <a class="logo" href="#home"
+            ><span class="mark" aria-hidden="true"><img src="../LOGO/nexora-mark.png" alt="" /></span><span class="brand-name">NEXORA</span></a
+          ><span class="pt" id="pt"></span>
+          <div class="me">
+            <span id="who"></span
+            ><span class="av" id="av" aria-hidden="true"></span>
+          </div>
+        </header>
+        <main id="main" class="ct">
+          <div id="reservationAvailabilityNotice" class="reservation-paused" role="status" aria-live="polite" data-state="checking">
+            Checking reservation availability...
+          </div>
+          <section id="home" class="view" hidden>
+            <div class="hero2">
+              <h1 id="hh"></h1>
+              <p>Search with the total price shown up front.</p>
+              <form
+                class="card search"
+                id="sf"
+                aria-label="Search reservations"
+              >
+                <div class="tabs" role="tablist" aria-label="Reservation type">
+                  <button
+                    type="button"
+                    role="tab"
+                    data-m="hotel"
+                    aria-selected="true"
+                  >
+                    Hotels</button
+                  ><button
+                    type="button"
+                    role="tab"
+                    data-m="parking"
+                    aria-selected="false"
+                  >
+                    Parking
+                  </button>
+                </div>
+                <div class="fg">
+                  <div class="wide">
+                    <label for="loc">Destination</label
+                    ><input
+                      id="loc"
+                      list="places"
+                      value="Cainta, Rizal"
+                      autocomplete="off"
+                    /><datalist id="places">
+                      <option value="Cainta, Rizal"></option>
+                    </datalist>
+                  </div>
+                  <div data-for="hotel">
+                    <label for="ci">Check-in</label
+                    ><input type="date" id="ci" />
+                  </div>
+                  <div data-for="hotel">
+                    <label for="co">Check-out</label
+                    ><input type="date" id="co" />
+                  </div>
+                  <div data-for="hotel">
+                    <label for="gu">Guests</label
+                    ><select id="gu">
+                      <option>1 guest</option>
+                      <option selected>2 guests</option>
+                      <option>3 guests</option>
+                      <option>4 guests</option>
+                    </select>
+                  </div>
+                  <div data-for="parking" hidden>
+                    <label for="pd">Date</label><input type="date" id="pd" />
+                  </div>
+                  <div data-for="parking" hidden>
+                    <label for="pa">Arrive</label
+                    ><input type="time" id="pa" value="09:00" />
+                  </div>
+                  <div data-for="parking" hidden>
+                    <label for="pe">Exit</label
+                    ><input type="time" id="pe" value="17:00" />
+                  </div>
+                  <div data-for="parking" hidden>
+                    <label for="pv">Vehicle</label
+                    ><select id="pv">
+                      <option>Car</option>
+                      <option>SUV or van</option>
+                      <option>Electric vehicle</option>
+                    </select>
+                  </div>
+                  <div data-for="parking" hidden>
+                    <label for="plate">Vehicle plate</label
+                    ><input id="plate" autocomplete="off" placeholder="e.g. ABC 1234" />
+                  </div>
+                  <button class="btn pri" type="submit" disabled>Search</button>
+                </div>
+              </form>
+            </div>
+            <div>
+              <h2>Popular right now</h2>
+              <div class="grid3" id="pop"></div>
+            </div>
+            <div
+              id="hotelReview"
+              class="hotel-review"
+              role="status"
+              aria-live="polite"
+              hidden
+            ></div>
+          </section>
+
+          <section id="results" class="view" hidden>
+            <div class="rg">
+              <div>
+                <div class="head">
+                  <div>
+                    <h1 id="rTitle" style="font-size: 1.6rem"></h1>
+                    <p class="mut sm" id="rMeta"></p>
+                  </div>
+                  <div>
+                    <label for="sort">Sort by</label
+                    ><select id="sort">
+                      <option value="rec">Recommended</option>
+                      <option value="price">Lowest price</option>
+                      <option value="rating">Best rated</option>
+                    </select>
+                  </div>
+                </div>
+                <div
+                  class="chips"
+                  id="chips"
+                  role="group"
+                  aria-label="Filters"
+                ></div>
+                <div id="cards" aria-live="polite"></div>
+              </div>
+              <div class="map" id="mapHolder" role="group" aria-label="Hotel map centered on Cainta, Rizal">
+                <svg id="mapLocalFallback" class="map-local-fallback" viewBox="0 0 420 560" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                  <rect width="420" height="560" fill="#e8e4d7" />
+                  <path d="M-30 78 450 160M-40 222 455 110M-30 360 455 275M-20 500 450 405M55-20 130 580M205-20 250 580M350-20 300 580M-30 155 460 495M5 560 415 0" fill="none" stroke="#fff" stroke-width="18" />
+                  <path d="M-30 78 450 160M-40 222 455 110M-30 360 455 275M-20 500 450 405" fill="none" stroke="#d9b66e" stroke-width="7" />
+                  <path d="M95-20 170 580M270-20 330 580M-30 290 455 205M-30 430 455 345M-20 20 450 545" fill="none" stroke="#fff" stroke-width="8" />
+                  <path d="M20 45h68v52H20zM275 54h85v42h-85zM285 434h90v68h-90zM28 390h88v64H28zM170 35h68v44h-68z" fill="#cdddc7" stroke="#b9ccb2" stroke-width="2" />
+                  <g fill="#59604f" font-family="Arial, sans-serif" text-anchor="middle">
+                    <text x="210" y="252" font-size="24" font-weight="700" letter-spacing="3">CAINTA</text>
+                    <text x="210" y="276" font-size="13" letter-spacing="2">RIZAL · LUZON</text>
+                    <text x="92" y="184" font-size="11">ORTIGAS AVENUE EXT.</text>
+                    <text x="315" y="344" font-size="11">CAINTA JUNCTION</text>
+                    <text x="110" y="474" font-size="11">LOCAL STREETS</text>
+                  </g>
+                </svg>
+                <div class="map-tile-layer" aria-hidden="true">
+                  <img src="https://tile.openstreetmap.org/17/109632/60169.png" alt="" />
+                  <img src="https://tile.openstreetmap.org/17/109633/60169.png" alt="" />
+                  <img src="https://tile.openstreetmap.org/17/109634/60169.png" alt="" />
+                  <img src="https://tile.openstreetmap.org/17/109632/60170.png" alt="" />
+                  <img src="https://tile.openstreetmap.org/17/109633/60170.png" alt="" />
+                  <img src="https://tile.openstreetmap.org/17/109634/60170.png" alt="" />
+                  <img src="https://tile.openstreetmap.org/17/109632/60171.png" alt="" />
+                  <img src="https://tile.openstreetmap.org/17/109633/60171.png" alt="" />
+                  <img src="https://tile.openstreetmap.org/17/109634/60171.png" alt="" />
+                </div>
+                <span class="map-center-marker" aria-hidden="true"></span>
+                <div id="pins" class="map-pin-layer" aria-label="Hotel price markers"></div>
+                <div class="map-caption" aria-label="Map location and attribution">
+                  <span>Cainta, Rizal · Luzon, Philippines</span>
+                  <span class="map-attribution"><a href="https://www.openstreetmap.org/?mlat=14.5764&amp;mlon=121.1162#map=17/14.5764/121.1162" target="_blank" rel="noreferrer">© OpenStreetMap contributors</a> · Approximate sample pins</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="detail" class="view" hidden>
+            <div class="dgrid">
+              <div>
+                <p class="sm"><a href="#results">Back to results</a></p>
+                <h1 id="dTitle" style="font-size: 2rem; margin-top: 6px"></h1>
+                <p class="mut" id="dSub"></p>
+                <div class="gal" id="dGal"></div>
+                <div class="sec">
+                  <h2>Choose an option</h2>
+                  <div id="dOpts"></div>
+                </div>
+                <div class="sec">
+                  <h2>What's included</h2>
+                  <ul class="am" id="dAm"></ul>
+                </div>
+                <div class="sec">
+                  <h2>Policies and details</h2>
+                  <details open>
+                    <summary>Cancellation</summary>
+                    <p class="mut">
+                      Sample policy text. Free cancellation until the stated
+                      deadline; after that the booking is non-refundable.
+                    </p>
+                  </details>
+                  <details>
+                    <summary>How to get in</summary>
+                    <p class="mut">
+                      Sample instructions. Arrival details and the access method
+                      are sent with your confirmation.
+                    </p>
+                  </details>
+                  <details>
+                    <summary>Guest reviews</summary>
+                    <p class="mut">
+                      Placeholder for the rating summary, review filters and
+                      recent comments.
+                    </p>
+                  </details>
+                </div>
+              </div>
+              <aside
+                class="card side pad"
+                id="dSide"
+                aria-label="Price and reservation"
+              ></aside>
+            </div>
+          </section>
+
+          <section id="checkout" class="view" hidden>
+            <div id="stC"></div>
+            <div class="dgrid">
+              <form class="card pad stack" id="cf">
+                <h2>Your details</h2>
+                <div class="two">
+                  <div>
+                    <label for="fn">Full name</label
+                    ><input id="fn" required autocomplete="name" />
+                  </div>
+                  <div>
+                    <label for="ce">Email</label
+                    ><input
+                      id="ce"
+                      type="email"
+                      required
+                      autocomplete="email"
+                    />
+                  </div>
+                </div>
+                <div data-for="parking" hidden>
+                  <label for="plate">License plate</label
+                  ><input id="plate" placeholder="ABC 1234" />
+                </div>
+                <div data-for="hotel">
+                  <label
+                    style="
+                      display: flex;
+                      gap: 8px;
+                      font-weight: 400;
+                      color: var(--ink);
+                      font-size: 1rem;
+                    "
+                    ><input type="checkbox" id="addon" /> Add parking for this
+                    stay (+$18)</label
+                  >
+                </div>
+                <h2 style="margin-top: 8px">Payment</h2>
+                <div>
+                  <label for="paymentMethod">Payment method</label>
+                  <select id="paymentMethod" required>
+                    <option value="cash">Cash</option>
+                    <option value="bank_transfer">Bank transfer</option>
+                  </select>
+                </div>
+                <div class="note">
+                  No payment is collected now. Your reservation will be sent to
+                  the admin for confirmation and payment instructions.
+                </div>
+                <button class="btn pri w" type="submit" disabled>Submit reservation request</button>
+                <p class="sm mut">
+                  By confirming you accept the terms and cancellation policy
+                  (placeholder links).
+                </p>
+              </form>
+              <aside
+                class="card side pad"
+                id="cSide"
+                aria-label="Booking summary"
+              ></aside>
+            </div>
+          </section>
+
+          <section id="confirm" class="view" hidden>
+            <div id="stD"></div>
+            <div class="dgrid">
+              <div class="card pad">
+                <div class="done-ic">
+                  <svg class="i"><use href="#i-check" /></svg>
+                </div>
+                <h1 style="font-size: 1.9rem">Reservation request sent</h1>
+                <p class="mut">
+                  Reference <b id="ref"></b>. Your reservation is pending admin
+                  confirmation. No payment has been collected.
+                </p>
+                <p class="mut" style="margin-top: 8px">Selected payment method: <b id="confirmationPaymentMethod"></b></p>
+                <div id="confirmationQrPass" style="margin-top: 20px" aria-live="polite"></div>
+                <div class="sec" style="margin-top: 20px">
+                  <h3>What happens next</h3>
+                  <p class="mut">
+                    Arrival details, directions and how to change or cancel will
+                    appear here.
+                  </p>
+                </div>
+                <a class="btn pri" href="#bookings">View my bookings</a>
+              </div>
+              <aside
+                class="card side pad"
+                id="dSum"
+                aria-label="Booking summary"
+              ></aside>
+            </div>
+          </section>
+
+          <section id="bookings" class="view" hidden>
+            <h1 style="font-size: 2rem; margin-bottom: 16px">My bookings</h1>
+            <div id="bkList"></div>
+          </section>
+          <section id="saved" class="view" hidden>
+            <h1 style="font-size: 2rem; margin-bottom: 16px">Saved</h1>
+            <div class="grid3" id="svList"></div>
+          </section>
+          <section id="account" class="view" hidden>
+            <div class="settings-page">
+              <header class="settings-hero">
+                <div class="settings-hero-content">
+                  <p class="settings-eyebrow">NEXORA guest services</p>
+                  <h1>Where Comfort Meets Convenience</h1>
+                </div>
+              </header>
+              <div class="settings-grid">
+                <section class="card pad settings-card" aria-labelledby="accountSettingsTitle">
+                  <div>
+                    <h2 id="accountSettingsTitle">Your account</h2>
+                    <p class="settings-description">The guest details on your NEXORA profile.</p>
+                  </div>
+                <div>
+                  <label for="an">Name</label
+                  ><input id="an" value="Guest" readonly />
+                </div>
+                <div>
+                  <label for="ae">Email</label
+                  ><input id="ae" value="guest@example.com" readonly />
+                </div>
+                </section>
+                <section class="card pad settings-card" aria-labelledby="preferenceSettingsTitle">
+                  <div>
+                    <h2 id="preferenceSettingsTitle">Stay preferences</h2>
+                    <p class="settings-description">Set the look and currency for your experience.</p>
+                  </div>
+                <div class="theme-toggle" role="group" aria-label="Color theme">
+                  <button class="btn out" type="button" data-theme-choice="light">
+                    Light mode
+                  </button>
+                  <button class="btn out" type="button" data-theme-choice="dark">
+                    Dark mode
+                  </button>
+                </div>
+                <div>
+                  <label for="cu">Currency</label
+                  ><select id="cu">
+                    <option value="USD">USD ($)</option>
+                    <option value="EUR">EUR (€)</option>
+                    <option value="GBP">GBP (£)</option>
+                  </select>
+                </div>
+                  <div class="settings-actions">
+                    <button class="btn out" id="about" type="button">About NEXORA</button>
+                    <button class="btn out" id="logout" type="button">Log out</button>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </section>
+          <section id="help" class="view" hidden>
+            <h1 style="font-size: 2rem; margin-bottom: 16px">
+              Help and support
+            </h1>
+            <div class="card pad" style="max-width: 760px">
+              <details open>
+                <summary>How do I cancel a booking?</summary>
+                <p class="mut">
+                  Open My bookings and choose Manage. Sample answer for the
+                  prototype.
+                </p>
+              </details>
+              <details>
+                <summary>When am I charged?</summary>
+                <p class="mut">
+                  No payment is collected when you submit a reservation.
+                  An administrator will review your request and confirm the
+                  reservation and payment instructions.
+                </p>
+              </details>
+              <details>
+                <summary>How do I get into a car park?</summary>
+                <p class="mut">
+                  Sample answer. Most reservations use a QR pass or plate
+                  recognition.
+                </p>
+              </details>
+            </div>
+          </section>
+        </main>
+      </div>
+      <nav class="tabbar" aria-label="Mobile">
+        <a href="#home" data-r="home"
+          ><svg class="i"><use href="#i-home" /></svg>Home</a
+        ><a href="#bookings" data-r="bookings"
+          ><svg class="i"><use href="#i-cal" /></svg>Bookings</a
+        ><a href="#saved" data-r="saved"
+          ><svg class="i"><use href="#i-heart" /></svg>Saved</a
+        ><a href="#account" data-r="account"
+          ><svg class="i"><use href="#i-user" /></svg>Settings</a
+        ><a href="#help" data-r="help"
+          ><svg class="i"><use href="#i-help" /></svg>Help</a
+        >
+      </nav>
+    </div>
+
+    <div id="mo" class="mo" hidden>
+      <div class="md" role="dialog" aria-modal="true" id="md"></div>
+    </div>
+    <div id="toast" class="toast" role="status" hidden></div>
+
+    <script src="../CENTRAL%20CHANNEL/api-client.js"></script>
+    <script>
+      /* ===== 1. Mock data and API layer: replace api.* bodies with fetch() calls later ===== */
+      const D = {
+        hotel: [
+          {
+            id: "h1",
+            hue: 28,
+            n: "Harbor View Hotel",
+            a: "Waterfront, 0.4 km from center",
+            r: 8.9,
+            c: 1240,
+            t: 412,
+            cancel: "Free cancellation until 24 hours before check-in",
+            tags: ["Breakfast", "Wi-Fi", "Parking on site"],
+            x: 38,
+            y: 40,
+          },
+          {
+            id: "h2",
+            hue: 88,
+            n: "Central Plaza Suites",
+            a: "City center, 0.1 km from center",
+            r: 8.4,
+            c: 860,
+            t: 498,
+            cancel: "Free cancellation until 48 hours before check-in",
+            tags: ["Pool", "Wi-Fi"],
+            x: 61,
+            y: 52,
+          },
+          {
+            id: "h3",
+            hue: 48,
+            n: "Garden Court Inn",
+            a: "Quiet district, 1.8 km from center",
+            r: 7.9,
+            c: 530,
+            t: 276,
+            cancel: "Non-refundable rate",
+            tags: ["Free parking", "Wi-Fi"],
+            x: 36,
+            y: 64,
+          },
+        ],
+        parking: [
+          {
+            id: "p1",
+            hue: 95,
+            n: "Central Garage A",
+            a: "Covered garage, 250 m from venue",
+            r: 4.6,
+            c: 880,
+            t: 24,
+            cancel: "Free cancellation until start time",
+            tags: ["Covered", "QR entry", "In and out"],
+            x: 40,
+            y: 42,
+          },
+          {
+            id: "p2",
+            hue: 18,
+            n: "Riverside Lot",
+            a: "Open lot, 600 m from venue",
+            r: 4.2,
+            c: 410,
+            t: 14,
+            cancel: "Free cancellation until start time",
+            tags: ["Touchless", "EV charging"],
+            x: 68,
+            y: 62,
+          },
+          {
+            id: "p3",
+            hue: 65,
+            n: "Station Car Park",
+            a: "Covered garage, 900 m from venue",
+            r: 4.4,
+            c: 1020,
+            t: 11,
+            cancel: "Non-refundable rate",
+            tags: ["Covered", "Height limit 2.0 m"],
+            x: 24,
+            y: 68,
+          },
+        ],
+      };
+      const ALL = [...D.hotel, ...D.parking],
+        BK = [
+          {
+            ref: "TS-4F9K2A",
+            id: "h1",
+            s: "Confirmed",
+            c: "ok",
+            d: "Sample dates, 2 nights",
+          },
+          {
+            ref: "TS-7M2QX1",
+            id: "p1",
+            s: "Upcoming",
+            c: "wn",
+            d: "Sample date, 09:00 to 17:00",
+          },
+          {
+            ref: "TS-1B8LD5",
+            id: "h3",
+            s: "Completed",
+            c: "",
+            d: "Sample dates, 1 night",
+          },
+        ];
+      const O = {
+        hotel: [
+          ["Standard room, 1 king or 2 queen beds", 0],
+          ["Deluxe room with city view", 60],
+          ["Suite with lounge area", 140],
+        ],
+        parking: [
+          ["Self-park, scan QR at the gate", 0],
+          ["Valet service", 12],
+          ["Bay with EV charger", 8],
+        ],
+      };
+      const F = {
+        hotel: ["Free cancellation", "Parking", "Breakfast", "Pool"],
+        parking: ["Free cancellation", "Covered", "EV", "Touchless"],
+      };
+      const HOTEL_REVIEW_SAMPLES = {
+        h1: [
+          {
+            author: "Maya R.",
+            rating: 5,
+            text: "The room was spotless, and check-in was quick. Great location for walking downtown.",
+            helpful: 12,
+          },
+          {
+            author: "Jordan P.",
+            rating: 4.8,
+            text: "Comfortable stay with friendly staff. Breakfast was a nice bonus.",
+            helpful: 8,
+          },
+        ],
+        h2: [
+          {
+            author: "Sam T.",
+            rating: 4.7,
+            text: "Easy access to the city center and plenty of room to unwind.",
+            helpful: 9,
+          },
+          {
+            author: "Alex W.",
+            rating: 4.5,
+            text: "Helpful staff and a comfortable suite close to local restaurants.",
+            helpful: 6,
+          },
+        ],
+        h3: [
+          {
+            author: "Casey L.",
+            rating: 4.6,
+            text: "A quiet place to relax, with a lovely garden area and easy parking.",
+            helpful: 7,
+          },
+          {
+            author: "Taylor M.",
+            rating: 4.4,
+            text: "Good value in a peaceful neighborhood. The room was clean and welcoming.",
+            helpful: 5,
+          },
+        ],
+      };
+      let activeReviewHotelId = null;
+      let hotelReviewIndex = 0;
+      let hotelReviewHideTimer = null;
+      let hotelReviewResumeTimer = null;
+      let hotelReviewLoopTimer = null;
+      const wait = (ms, v) => new Promise((r) => setTimeout(() => r(v), ms));
+      const api = {
+        search: (mode, q) => wait(550, D[mode]),
+        book: async () => {
+          if (reservationAvailability !== true) {
+            throw new Error("Reservations are unavailable until the service is confirmed active.");
+          }
+          const isHotel = S.mode === "hotel";
+          const property = cur();
+          const startTime = isHotel ? "" : $("#pa").value;
+          const endTime = isHotel ? "" : $("#pe").value;
+          const durationHours = isHotel ? 0 : Math.max(1, Math.round((new Date(`1970-01-01T${endTime}`) - new Date(`1970-01-01T${startTime}`)) / 3600000));
+          const guestName = $("#fn").value.trim();
+          const guestEmail = $("#ce").value.trim();
+          S.name = guestName;
+          S.email = guestEmail;
+          const request = await window.ReservationAPI.createBooking(S.mode, {
+            name: guestName,
+            email: guestEmail,
+            phone: "",
+            property: property.n,
+            roomType: isHotel ? O.hotel[S.opt][0] : undefined,
+            checkIn: isHotel ? $("#ci").value : undefined,
+            checkOut: isHotel ? $("#co").value : undefined,
+            guests: isHotel ? Number.parseInt($("#gu").value, 10) : undefined,
+            vehicle: isHotel ? undefined : $("#pv").value,
+            plate: isHotel ? undefined : $("#plate").value.trim(),
+            parkingDate: isHotel ? undefined : $("#pd").value,
+            parkingTime: startTime,
+            durationHours: isHotel ? undefined : durationHours,
+            paymentMethod: $("#paymentMethod").value,
+            notes: O[S.mode][S.opt][0],
+          });
+          BK.unshift({ ref: request.id, id: property.id, bookingId: request.id, s: request.status, c: request.status === "Approved" ? "ok" : "wn", d: meta() });
+          return { ref: request.id };
+        },
+        bookings: () => window.ReservationAPI.bookings(),
+      };
+
+      /* ===== 2. State and helpers ===== */
+      const $ = (s, r = document) => r.querySelector(s),
+        $$ = (s, r = document) => [...r.querySelectorAll(s)];
+      let reservationAvailability = null;
+      function updateReservationAvailability(enabled) {
+        reservationAvailability = enabled;
+        const notice = $("#reservationAvailabilityNotice");
+        const available = enabled === true;
+        notice.hidden = available;
+        notice.dataset.state = available ? "available" : enabled === false ? "paused" : "checking";
+        notice.textContent = enabled === false
+          ? "Reservations are temporarily paused by an administrator. Booking and booking lookup are unavailable until service resumes."
+          : enabled === true
+            ? ""
+            : "Unable to verify reservation availability. Booking is disabled until the service can be checked.";
+        $("#sf button[type='submit']").disabled = !available;
+        $("#cf button[type='submit']").disabled = !available;
+      }
+      async function refreshReservationAvailability() {
+        try {
+          const status = await window.ReservationAPI.reservationStatus();
+          if (typeof status.enabled !== "boolean") {
+            throw new Error("The reservation availability response was invalid.");
+          }
+          updateReservationAvailability(status.enabled);
+        } catch (error) {
+          updateReservationAvailability(null);
+          console.error("Could not verify reservation availability.", error);
+        }
+      }
+      const mapTiles = $$(".map-tile-layer img");
+      const localMapFallback = $("#mapLocalFallback");
+      function updateMapFallback() {
+        mapTiles.forEach((tile) => {
+          tile.hidden = tile.complete && tile.naturalWidth === 0;
+        });
+        localMapFallback.hidden =
+          mapTiles.length > 0 &&
+          mapTiles.every((tile) => tile.complete && tile.naturalWidth > 0);
+      }
+      mapTiles.forEach((tile) => {
+        tile.addEventListener("load", updateMapFallback);
+        tile.addEventListener("error", updateMapFallback);
+      });
+      updateMapFallback();
+      const profileStorageKey = "test-site-profile";
+      function loadProfile() {
+        const params = new URLSearchParams(location.search);
+        let profile = { name: "Guest", email: "" };
+
+        try {
+          const saved = JSON.parse(localStorage.getItem(profileStorageKey));
+          if (saved && typeof saved.name === "string") {
+            profile = {
+              name: saved.name,
+              email: typeof saved.email === "string" ? saved.email : "",
+            };
+          }
+        } catch {}
+
+        const incomingName = params.get("username")?.trim();
+        const incomingEmail = params.get("email")?.trim();
+        if (incomingName) {
+          const isSameProfile =
+            profile.name.toLowerCase() === incomingName.toLowerCase();
+          profile = {
+            name: incomingName,
+            email: incomingEmail || (isSameProfile ? profile.email : ""),
+          };
+
+          try {
+            localStorage.setItem(profileStorageKey, JSON.stringify(profile));
+            const cleanUrl = new URL(location.href);
+            cleanUrl.searchParams.delete("username");
+            cleanUrl.searchParams.delete("email");
+            history.replaceState(null, "", cleanUrl.href);
+          } catch {}
+        }
+
+        return profile;
+      }
+      const profile = loadProfile();
+      const settingsStorageKey = "test-site-settings";
+      const currencyRates = { USD: 1, EUR: 0.92, GBP: 0.79 };
+      let themeTransitionTimer;
+      function loadSettings() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(settingsStorageKey));
+          return {
+            theme: saved?.theme === "dark" ? "dark" : "light",
+            currency: Object.prototype.hasOwnProperty.call(
+              currencyRates,
+              saved?.currency,
+            )
+              ? saved.currency
+              : "USD",
+          };
+        } catch {
+          return { theme: "light", currency: "USD" };
+        }
+      }
+      const preferences = loadSettings();
+      document.documentElement.dataset.theme = preferences.theme;
+      const S = {
+          name: profile.name,
+          email: profile.email,
+          theme: preferences.theme,
+          currency: preferences.currency,
+          mode: "hotel",
+          id: null,
+          opt: 0,
+          addon: false,
+          f: new Set(),
+          fav: new Set(["h1", "p1"]),
+          ref: "",
+          tk: 0,
+        },
+        ADD = 18;
+      const ic = (n) =>
+          `<svg class="i" aria-hidden="true"><use href="#i-${n}"/></svg>`,
+        usd = (n) =>
+          new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: S.currency,
+          }).format(n * currencyRates[S.currency]);
+      function saveSettings() {
+        try {
+          localStorage.setItem(
+            settingsStorageKey,
+            JSON.stringify({ theme: S.theme, currency: S.currency }),
+          );
+        } catch {}
+      }
+      function beginThemeTransition() {
+        const root = document.documentElement;
+        clearTimeout(themeTransitionTimer);
+        root.classList.add("theme-transitioning");
+        themeTransitionTimer = setTimeout(
+          () => root.classList.remove("theme-transitioning"),
+          500,
+        );
+      }
+      const cur = () =>
+        ALL.find(
+          (x) => x.id === S.id && (x.id[0] === "h") === (S.mode === "hotel"),
+        ) || D[S.mode][0];
+      const total = () => cur().t + O[S.mode][S.opt][1] + (S.addon ? ADD : 0);
+      const iso = (n) =>
+        new Date(Date.now() + n * 864e5).toISOString().slice(0, 10);
+      $("#ci").value = iso(14);
+      $("#co").value = iso(16);
+      $("#pd").value = iso(14);
+      function toast(t) {
+        const e = $("#toast");
+        e.textContent = t;
+        e.hidden = false;
+        clearTimeout(toast.t);
+        toast.t = setTimeout(() => (e.hidden = true), 2400);
+      }
+      function modal(html) {
+        $("#md").innerHTML = html;
+        $("#mo").hidden = false;
+        const b = $("#md button");
+        b && b.focus();
+      }
+      const unmodal = () => ($("#mo").hidden = true);
+      function art(x, i = 0) {
+        const h = x.hue + i * 14,
+          hotel = x.id[0] === "h";
+        const w = Array.from(
+          { length: 12 },
+          (_, k) =>
+            `<rect class="w" x="${62 + (k % 4) * 21}" y="${34 + Math.floor(k / 4) * 17}" width="12" height="9" rx="2"/>`,
+        ).join("");
+        return `<div class="art" style="--h:${h}"><svg viewBox="0 0 200 120" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><circle cx="165" cy="26" r="13" fill="#fff" opacity=".7"/>${hotel ? `<rect x="52" y="22" width="96" height="98" rx="5" fill="#fff" opacity=".92"/>${w}<rect x="90" y="92" width="20" height="28" rx="3" class="w"/>` : `<path d="M30 120V50l70-26 70 26v70z" fill="#fff" opacity=".92"/><rect x="48" y="62" width="104" height="58" rx="4" class="w"/><path d="M62 112v-14l8-10h30l8 10v14z" fill="#fff"/><circle cx="74" cy="114" r="5" fill="#2b2e2a"/><circle cx="98" cy="114" r="5" fill="#2b2e2a"/>`}</svg>${i === 0 ? `<button type="button" class="fav" data-fav="${x.id}" aria-pressed="${S.fav.has(x.id)}" aria-label="Save ${x.n}">${ic("heart")}</button>` : ""}</div>`;
+      }
+      function meta() {
+        const v = (i) => $("#" + i).value;
+        if (S.mode === "hotel") {
+          const n =
+            Math.round((new Date(v("co")) - new Date(v("ci"))) / 864e5) || 1;
+          return `${v("ci")} to ${v("co")}, ${n} night${n > 1 ? "s" : ""}, ${v("gu")}`;
+        }
+        return `${v("pd")}, ${v("pa")} to ${v("pe")}, ${v("pv")}${v("plate") ? `, plate ${v("plate")}` : ""}`;
+      }
+      function setMode(m) {
+        const changed = S.mode !== m;
+        S.mode = m;
+        document.documentElement.dataset.reservationMode = m;
+        $("#plate").required = m === "parking";
+        $$("[role=tab]").forEach((b) =>
+          b.setAttribute("aria-selected", b.dataset.m === m),
+        );
+        $$("[data-for]").forEach((e) => {
+          e.hidden = e.dataset.for !== m;
+          if (changed && !e.hidden) {
+            e.classList.remove("reservation-enter");
+            void e.offsetWidth;
+            e.classList.add("reservation-enter");
+          }
+        });
+        const heading = $("#hh");
+        heading.textContent =
+          m === "hotel"
+            ? "Where to next, traveler?"
+            : "Where do you need to park?";
+        if (changed) {
+          heading.classList.remove("reservation-enter");
+          void heading.offsetWidth;
+          heading.classList.add("reservation-enter");
+        }
+      }
+      function currentReviewHotel() {
+        if (S.mode !== "hotel") return null;
+        if (location.hash === "#detail") {
+          return D.hotel.find((hotel) => hotel.id === S.id) || null;
+        }
+        if (location.hash === "#home") {
+          return D.hotel.find((hotel) => hotel.id === S.id) || D.hotel[0];
+        }
+        return null;
+      }
+      function hideHotelReview() {
+        const panel = $("#hotelReview");
+        if (!panel) return;
+        clearTimeout(hotelReviewHideTimer);
+        hotelReviewHideTimer = null;
+        if (panel.hidden) return;
+        panel.classList.remove("review-enter");
+        panel.classList.add("review-exit");
+        setTimeout(() => {
+          if (panel.classList.contains("review-exit")) {
+            panel.hidden = true;
+            panel.classList.remove("review-exit");
+          }
+        }, 280);
+      }
+      function showHotelReview() {
+        const hotel = currentReviewHotel();
+        const panel = $("#hotelReview");
+        if (!hotel || !panel) {
+          hideHotelReview();
+          return;
+        }
+
+        const reviews = HOTEL_REVIEW_SAMPLES[hotel.id];
+        if (!reviews || reviews.length === 0) return;
+        const review = reviews[hotelReviewIndex % reviews.length];
+        hotelReviewIndex = (hotelReviewIndex + 1) % reviews.length;
+        panel.innerHTML = `
+          <article class="card hotel-review-card">
+            <div class="hotel-review-head">
+              <span class="mut sm">Sample guest review</span>
+              <button class="hotel-review-close" type="button" id="reviewDismiss" aria-label="Dismiss review">&times;</button>
+            </div>
+            <h3>${hotel.n}</h3>
+            <div class="review-rating">
+              <span class="hotel-review-stars" aria-hidden="true">${"★".repeat(Math.round(review.rating))}</span>
+              <span class="sm">${review.rating.toFixed(1)} / 5</span>
+            </div>
+            <p class="hotel-review-text">"${review.text}"</p>
+            <div class="hotel-review-actions">
+              <span class="mut sm">${review.author} · Sample stay</span>
+              <button type="button" id="reviewHelpful" data-count="${review.helpful}" aria-pressed="false">
+                <span class="helpful-label">Helpful</span>
+                <span class="helpful-count">${review.helpful}</span>
+              </button>
+            </div>
+          </article>`;
+        panel.hidden = false;
+        panel.classList.remove("review-exit", "review-enter");
+        void panel.offsetWidth;
+        panel.classList.add("review-enter");
+        clearTimeout(hotelReviewHideTimer);
+        hotelReviewHideTimer = setTimeout(hideHotelReview, 4800);
+      }
+      function syncHotelReview() {
+        const hotel = currentReviewHotel();
+        if (!hotel) {
+          activeReviewHotelId = null;
+          hotelReviewIndex = 0;
+          clearTimeout(hotelReviewResumeTimer);
+          hideHotelReview();
+          return;
+        }
+        if (activeReviewHotelId !== hotel.id) {
+          activeReviewHotelId = hotel.id;
+          hotelReviewIndex = 0;
+          clearTimeout(hotelReviewResumeTimer);
+          clearTimeout(hotelReviewHideTimer);
+          hotelReviewResumeTimer = setTimeout(showHotelReview, 650);
+        }
+        if (!hotelReviewLoopTimer) {
+          hotelReviewLoopTimer = setInterval(() => {
+            if (currentReviewHotel()) showHotelReview();
+          }, 8500);
+        }
+      }
+      const steps = (n) =>
+        `<ol class="stepper">${["Select", "Details and payment", "Confirmation"].map((s, i) => `<li class="${i + 1 < n ? "done" : i + 1 === n ? "on" : ""}"><span>${i + 1}</span>${s}</li>`).join("")}</ol>`;
+      function sum(cta) {
+        const x = cur(),
+          sub = x.t + O[S.mode][S.opt][1],
+          b = Math.round(sub / 1.15);
+        return `<h3>${cta ? "Your selection" : "Booking summary"}</h3><p style="margin-top:6px"><b>${x.n}</b></p><p class="mut sm">${meta()}</p><p class="mut sm">${O[S.mode][S.opt][0]}</p>
+  <dl class="rows"><div><dt>Base price</dt><dd>${usd(b)}</dd></div><div><dt>Taxes and fees</dt><dd>${usd(sub - b)}</dd></div>${S.addon ? `<div><dt>Parking add-on</dt><dd>${usd(ADD)}</dd></div>` : ""}</dl>
+  <div class="tot"><span>Total price</span><b>${usd(total())}</b></div><p class="ok">${ic("check")} ${x.cancel}</p>
+  ${cta ? '<a class="btn pri w" href="#checkout">Reserve</a>' : ""}<p class="sm mut" style="margin-top:10px">${ic("shield")} ${cta ? "You will not be charged yet" : "Prices include all mandatory fees"}</p>`;
+      }
+      const tile = (x) =>
+        `<article class="card tile lift" data-open="${x.id}">${art(x)}<div class="b"><h3>${x.n}</h3><p class="mut sm">${x.a}</p><p style="margin-top:6px"><b>${usd(x.t)}</b> <span class="mut sm">total, all fees included</span></p></div></article>`;
+
+      /* ===== 3. Views ===== */
+      function renderHome() {
+        setMode(S.mode);
+        $("#pop").innerHTML = [D.hotel[0], D.parking[0], D.hotel[1]]
+          .map(tile)
+          .join("");
+      }
+      async function renderResults(fresh = true) {
+        const m = S.mode,
+          t = ++S.tk;
+        $("#rTitle").textContent =
+          `Options near ${$("#loc").value || "your destination"}`;
+        $("#rMeta").textContent = meta();
+        $("#chips").innerHTML = F[m]
+          .map(
+            (f) =>
+              `<button type="button" class="fchip" data-f="${f}" aria-pressed="${S.f.has(f)}">${f}</button>`,
+          )
+          .join("");
+        if (fresh) {
+          $("#cards").innerHTML = '<div class="sk"></div>'.repeat(3);
+          $("#pins").innerHTML = "";
+        }
+        let l = (await api.search(m, { loc: $("#loc").value })).slice();
+        if (t !== S.tk) return;
+        l = l.filter((x) =>
+          [...S.f].every((f) =>
+            (x.tags.join(" ") + " " + x.cancel)
+              .toLowerCase()
+              .includes(f.toLowerCase()),
+          ),
+        );
+        const s = $("#sort").value;
+        if (s === "price") l.sort((a, b) => a.t - b.t);
+        if (s === "rating") l.sort((a, b) => b.r - a.r);
+        $("#rTitle").textContent =
+          `${l.length} ${m === "hotel" ? "stays" : "parking options"} near ${$("#loc").value || "your destination"}`;
+        $("#cards").innerHTML = l.length
+          ? l
+              .map(
+                (
+                  x,
+                ) => `<article class="card li lift">${art(x)}<div><h3>${x.n}</h3><p class="mut sm">${ic("pin")} ${x.a}</p><p style="margin:4px 0"><span class="score">${x.r}</span> <span class="mut sm">${x.c.toLocaleString()} reviews</span></p><p>${x.tags.map((t) => `<span class="chip">${t}</span>`).join("")}</p><p class="ok">${ic("check")} ${x.cancel}</p></div>
+   <div class="price"><div><b>${usd(x.t)}</b><small class="mut">Total, taxes and fees included</small></div><button class="btn pri" data-open="${x.id}">View</button></div></article>`,
+              )
+              .join("")
+          : '<div class="card empty"><h3>No matches</h3><p class="mut">Try removing a filter.</p></div>';
+        $("#pins").innerHTML =
+          l
+            .map(
+              (x) =>
+                `<button class="pin" style="left:${x.x}%;top:${x.y}%" data-open="${x.id}" title="${x.n}" aria-label="${x.n}, sample location in Cainta, ${usd(x.t)}">${usd(x.t)}</button>`,
+            )
+            .join("");
+      }
+      function renderDetail() {
+        const x = cur(),
+          m = S.mode;
+        $("#dTitle").textContent = x.n;
+        $("#dSub").innerHTML =
+          `${ic("pin")} ${x.a}, <span class="score">${x.r}</span> ${x.c.toLocaleString()} reviews`;
+        $("#dGal").innerHTML = [0, 1, 2, 3, 4].map((i) => art(x, i)).join("");
+        $("#dOpts").innerHTML = O[m]
+          .map(
+            (o, i) =>
+              `<label class="opt"><span><input type="radio" name="o" value="${i}" ${i === S.opt ? "checked" : ""}> ${o[0]}</span><b>${o[1] ? "+" + usd(o[1]) : "Included"}</b></label>`,
+          )
+          .join("");
+        $("#dAm").innerHTML = x.tags
+          .concat(
+            m === "hotel"
+              ? ["24-hour reception", "Air conditioning"]
+              : ["24-hour access", "CCTV"],
+          )
+          .map((t) => `<li>${ic("check")} ${t}</li>`)
+          .join("");
+        $("#dSide").innerHTML = sum(true);
+      }
+      function renderCheckout() {
+        setMode(S.mode);
+        $("#stC").innerHTML = steps(2);
+        $("#cSide").innerHTML = sum(false);
+        $("#fn").value = S.name;
+        $("#ce").value = S.email;
+        $("#addon").checked = S.addon;
+      }
+      function renderConfirm() {
+        setMode(S.mode);
+        $("#stD").innerHTML = steps(4);
+        $("#dSum").innerHTML = sum(false);
+        $("#ref").textContent = S.ref;
+        $("#confirmationPaymentMethod").textContent = $("#paymentMethod").selectedOptions[0].textContent;
+        const qrPanel = $("#confirmationQrPass");
+        qrPanel.textContent = "Preparing your reservation QR pass...";
+        window.ReservationAPI.qrPasses().then((passes) => {
+          const qrPass = passes.find((pass) =>
+            pass.hotelBookingId === S.ref || pass.parkingBookingId === S.ref,
+          );
+          if (!qrPass) {
+            qrPanel.textContent = "Your request was sent, but its QR pass is not available yet. Open My bookings to check again.";
+            return;
+          }
+          qrPanel.innerHTML = qrPassMarkup(qrPass);
+        }).catch((error) => {
+          qrPanel.textContent = `Your request was sent, but the QR pass could not be loaded: ${error.message}`;
+        });
+      }
+      function escapeHtml(value) {
+        return String(value ?? "").replace(/[&<>"']/g, (character) => ({
+          "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;",
+        })[character]);
+      }
+      function qrPassMarkup(qrPass) {
+        const statusLabel = qrPass.status === "Active"
+          ? "Confirmed reservation QR"
+          : qrPass.status === "Pending"
+            ? "Reservation QR — awaiting approval"
+            : `QR pass ${String(qrPass.status).toLowerCase()}`;
+        const reservationDetails = [];
+        if (qrPass.hotel) {
+          reservationDetails.push(qrPass.hotel.room
+            ? `Room ${qrPass.hotel.room}${qrPass.hotel.floor ? `, floor ${qrPass.hotel.floor}` : ""}`
+            : "Room and floor assigned after approval");
+        }
+        if (qrPass.parking) {
+          reservationDetails.push(qrPass.parking.slot
+            ? `Parking ${qrPass.parking.slot}${qrPass.parking.plate ? `, plate ${qrPass.parking.plate}` : ""}`
+            : `Parking slot assigned after approval${qrPass.parking.plate ? `, plate ${qrPass.parking.plate}` : ""}`);
+        }
+        const pendingNote = qrPass.status === "Pending"
+          ? '<p class="mut sm">This QR is saved for your request but is not valid for entry until an administrator approves it.</p>'
+          : "";
+        const download = ["Pending", "Active"].includes(qrPass.status)
+          ? `<a class="btn out s" href="${escapeHtml(qrPass.qrImage)}" download="NEXORA-${escapeHtml(qrPass.receiptCode)}.svg">Download QR pass</a>`
+          : "";
+        return `<section class="booking-qr-pass" aria-label="Reservation QR pass"><div><h4>${escapeHtml(statusLabel)}</h4><p class="mut sm">Receipt ${escapeHtml(qrPass.receiptCode)}</p><p class="mut sm">${reservationDetails.map(escapeHtml).join(" · ")}</p>${pendingNote}${download}</div><img src="${escapeHtml(qrPass.qrImage)}" alt="QR pass ${escapeHtml(qrPass.receiptCode)}"></section>`;
+      }
+      async function renderBookings() {
+        const [l, qrPasses] = await Promise.all([
+          api.bookings(),
+          window.ReservationAPI.qrPasses(),
+        ]);
+        $("#bkList").innerHTML = l
+          .map((b) => {
+            const isHotel = b.type === "Hotel";
+            const image = ALL.find((item) => item.n === b.property) || (isHotel ? D.hotel[0] : D.parking[0]);
+            const details = isHotel
+              ? `${b.checkIn} to ${b.checkOut}, ${b.guests} guest${b.guests === 1 ? "" : "s"}, ${b.roomType}, ${b.room || "room pending"},${b.floor ? ` floor ${b.floor},` : ""} payment: ${b.paymentMethod || "Cash"}`
+              : `${b.parkingDate}, ${b.parkingTime}, ${b.vehicle}, plate ${b.plate}, ${b.slot ? `slot ${b.slot}, ` : ""}payment: ${b.paymentMethod || "Cash"}`;
+            const statusClass = ["Approved", "Checked In", "Completed"].includes(b.status) ? "ok" : ["Pending", "Processing"].includes(b.status) ? "wn" : "";
+            const qrPass = qrPasses.find((pass) =>
+              pass.hotelBookingId === b.id || pass.parkingBookingId === b.id,
+            );
+            const passMarkup = qrPass
+              ? qrPassMarkup(qrPass)
+              : ["Pending", "Processing"].includes(b.status)
+                ? `<p class="qr-pending-note">Your QR pass is being prepared. Refresh your bookings if it does not appear yet.</p>`
+                : "";
+            return `<article class="card bk">${art(image, 1)}<div><h3>${image.n}</h3><p class="mut sm">${details}</p><p class="mut sm">Reference ${b.id}</p>${passMarkup}</div><div style="text-align:right"><span class="st ${statusClass}" ${statusClass ? "" : 'style="background:var(--sf2);color:var(--mut)"'}>${b.status}</span><br><button class="btn out s" style="margin-top:8px" data-manage="${b.id}" data-status="${b.status}">Manage</button></div></article>`;
+          })
+          .join("");
+      }
+      function renderSaved() {
+        const l = ALL.filter((x) => S.fav.has(x.id));
+        $("#svList").innerHTML = l.length
+          ? l.map(tile).join("")
+          : '<div class="card empty" style="grid-column:1/-1"><h3>Nothing saved yet</h3><p class="mut">Tap the heart on any listing to keep it here.</p></div>';
+      }
+      function renderAccount() {
+        $("#an").value = S.name;
+        $("#ae").value = S.email;
+        $("#cu").value = S.currency;
+        $$('[data-theme-choice]').forEach((button) =>
+          button.setAttribute(
+            "aria-pressed",
+            String(button.dataset.themeChoice === S.theme),
+          ),
+        );
+      }
+      const V = {
+        home: renderHome,
+        results: renderResults,
+        detail: renderDetail,
+        checkout: renderCheckout,
+        confirm: renderConfirm,
+        bookings: renderBookings,
+        saved: renderSaved,
+        account: renderAccount,
+      };
+      const T = {
+        home: "Home",
+        results: "Search results",
+        detail: "Details",
+        checkout: "Checkout",
+        confirm: "Confirmation",
+        bookings: "My bookings",
+        saved: "Saved",
+        account: "Settings",
+        help: "Help and support",
+      };
+
+      /* ===== 4. Router ===== */
+      function route() {
+        let id = (location.hash || "#home").slice(1);
+        if (!(id in T)) id = "home";
+        document.documentElement.dataset.reservationView = id;
+        document.documentElement.dataset.reservationMode = S.mode;
+        $("#app").hidden = false;
+        $("#app").dataset.view = id;
+        $$(".view").forEach((v) => (v.hidden = v.id !== id));
+        const k = ["home", "results", "detail", "checkout", "confirm"].includes(
+          id,
+        )
+          ? S.mode
+          : id;
+        $$("[data-r]").forEach((a) =>
+          a.toggleAttribute(
+            "aria-current",
+            a.dataset.r === k ||
+              (a.dataset.r === "home" && (k === "hotel" || k === "parking")),
+          ),
+        );
+        $("#pt").textContent = T[id];
+        $("#who").textContent = S.name;
+        $("#av").textContent = S.name[0];
+        (V[id] || (() => {}))();
+        syncHotelReview();
+        scrollTo(0, 0);
+      }
+      addEventListener("hashchange", route);
+
+      /* ===== 5. Events ===== */
+      document.addEventListener("click", (e) => {
+        const q = (s) => e.target.closest(s);
+        let b;
+        if ((b = q("[data-theme-choice]"))) {
+          beginThemeTransition();
+          S.theme = b.dataset.themeChoice;
+          document.documentElement.dataset.theme = S.theme;
+          $$('[data-theme-choice]').forEach((button) =>
+            button.setAttribute(
+              "aria-pressed",
+              String(button.dataset.themeChoice === S.theme),
+            ),
+          );
+          saveSettings();
+        }
+        if ((b = q("#about")))
+          modal(
+            '<h2>About NEXORA</h2><p class="mut">NEXORA brings stays and parking reservations together in one place, with clear pricing and attentive guest support.</p><button class="btn pri w" data-close>Close</button>',
+          );
+        if (q("#reviewDismiss")) {
+          hideHotelReview();
+          return;
+        }
+        if ((b = q("#reviewHelpful"))) {
+          const wasHelpful = b.getAttribute("aria-pressed") === "true";
+          const count = Number(b.dataset.count) + (wasHelpful ? -1 : 1);
+          b.dataset.count = String(count);
+          b.setAttribute("aria-pressed", String(!wasHelpful));
+          b.querySelector(".helpful-label").textContent = wasHelpful
+            ? "Helpful"
+            : "Marked helpful";
+          b.querySelector(".helpful-count").textContent = count;
+          return;
+        }
+        if ((b = q("[data-fav]"))) {
+          e.stopPropagation();
+          const id = b.dataset.fav;
+          S.fav.has(id) ? S.fav.delete(id) : S.fav.add(id);
+          b.setAttribute("aria-pressed", S.fav.has(id));
+          toast(S.fav.has(id) ? "Saved to your list" : "Removed from saved");
+          if (!$("#saved").hidden) renderSaved();
+          return;
+        }
+        if ((b = q("[data-open]"))) {
+          S.mode = b.dataset.open[0] === "h" ? "hotel" : "parking";
+          S.id = b.dataset.open;
+          S.opt = 0;
+          S.addon = false;
+          location.hash = "#detail";
+        }
+        if ((b = q("[data-m]"))) {
+          setMode(b.dataset.m);
+          if (location.hash === "#home") route();
+        }
+        if ((b = q("[data-f]"))) {
+          S.f.has(b.dataset.f) ? S.f.delete(b.dataset.f) : S.f.add(b.dataset.f);
+          renderResults(false);
+        }
+        if ((b = q("[data-manage]")))
+          modal(
+            `<h3>Manage booking ${b.dataset.manage}</h3><p class="mut" style="margin:8px 0 14px">Current status: ${b.dataset.status}</p>${["Pending", "Processing", "Approved"].includes(b.dataset.status) ? `<button class="btn out w" data-cancel="${b.dataset.manage}">Cancel this booking</button>` : ""}<button class="btn pri w" data-close>Close</button>`,
+          );
+        if ((b = q("[data-cancel]"))) {
+          if (reservationAvailability !== true) {
+            toast("Reservations are unavailable until the service is confirmed active.");
+            return;
+          }
+          const bookingId = b.dataset.cancel;
+          unmodal();
+          window.ReservationAPI.action(bookingId, "cancel")
+            .then(() => { toast("Reservation cancelled"); if (!$("#bookings").hidden) renderBookings(); })
+            .catch((error) => toast(error.message));
+        }
+        if (q("[data-close]") || e.target.id === "mo") unmodal();
+      });
+      addEventListener("keydown", (e) => {
+        if (e.key === "Escape") unmodal();
+      });
+      document.addEventListener("change", (e) => {
+        if (e.target.name === "o") {
+          S.opt = +e.target.value;
+          $("#dSide").innerHTML = sum(true);
+        }
+        if (e.target.id === "addon") {
+          S.addon = e.target.checked;
+          $("#cSide").innerHTML = sum(false);
+        }
+        if (e.target.id === "sort") renderResults(false);
+        if (e.target.id === "cu") {
+          S.currency = e.target.value;
+          saveSettings();
+          route();
+        }
+      });
+      $("#sf").onsubmit = (e) => {
+        e.preventDefault();
+        if (reservationAvailability !== true) {
+          toast("Reservations are unavailable until the service is confirmed active.");
+          return;
+        }
+        S.f.clear();
+        location.hash === "#results"
+          ? renderResults()
+          : (location.hash = "#results");
+      };
+      $("#cf").onsubmit = async (e) => {
+        e.preventDefault();
+        if (reservationAvailability !== true) {
+          toast("Reservations are unavailable until the service is confirmed active.");
+          return;
+        }
+        modal('<div class="spin"></div><p>Confirming your reservation...</p>');
+        try {
+          S.ref = (await api.book()).ref;
+          unmodal();
+          location.hash = "#confirm";
+        } catch (error) {
+          unmodal();
+          toast(error.message);
+        }
+      };
+      $("#logout").addEventListener("click", async () => {
+        const logoutButton = $("#logout");
+        logoutButton.disabled = true;
+        document.body.classList.add("logout-door-leaving");
+        await window.ReservationAPI.logout().catch(() => {});
+        sessionStorage.setItem("nexora-welcome", JSON.stringify({
+          mode: "logout",
+          username: profile.name || "Guest",
+          destination: "login"
+        }));
+        localStorage.removeItem("test-site-profile");
+        const doorDuration = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? 20
+          : 1050;
+        await new Promise((resolve) => window.setTimeout(resolve, doorDuration));
+        window.location.replace(new URL("../LOGIN PANEL/welcome.html", window.location.href).href);
+      });
+      refreshReservationAvailability();
+      window.setInterval(() => {
+        if (document.visibilityState === "visible") refreshReservationAvailability();
+      }, 5000);
+      route();
+    </script>
+  </body>
+</html>
