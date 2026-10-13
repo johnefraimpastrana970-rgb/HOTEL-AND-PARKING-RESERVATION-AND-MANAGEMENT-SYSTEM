@@ -3,34 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login / Sign Up</title>
+    <title>NEXORA | Sign in</title>
+    <link rel="icon" type="image/png" href="../LOGO/nexora-mark.png?v=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Fonts match the homepage; replace both together -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap">
 
-    <link rel="stylesheet" href="Style.css">
+    <link rel="stylesheet" href="Style.css?v=circular-logo-1">
+    <script src="theme.js" defer></script>
 </head>
 
 <body>
 
+    <button type="button" class="theme-btn" id="themeBtn" aria-pressed="false" aria-label="Switch to dark mode" title="Light or dark mode">
+        <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg>
+    </button>
+
+
     <div class="bg-scene" aria-hidden="true">
-        <div class="hotel-backdrop"></div>
-        <div class="hotel-building">
-            <div class="hotel-roof"></div>
-            <div class="hotel-tower"></div>
-        </div>
-        <div class="hotel-arc"></div>
+<svg viewBox="0 0 760 900" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--sky1)"/><stop offset="1" style="stop-color:var(--sky2)"/></linearGradient>
+<linearGradient id="flr" gradientUnits="userSpaceOnUse" x1="0" y1="700" x2="0" y2="900"><stop offset="0" style="stop-color:var(--flr1)"/><stop offset="1" style="stop-color:var(--flr2)"/></linearGradient>
+<linearGradient id="cone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--lamp);stop-opacity:var(--lg)"/><stop offset="1" style="stop-color:var(--lamp);stop-opacity:0"/></linearGradient>
+<pattern id="pan" width="64" height="10" patternUnits="userSpaceOnUse"><rect width="2" height="10" class="f-wl"/></pattern>
+<pattern id="slat" width="22" height="10" patternUnits="userSpaceOnUse"><rect width="2" height="10" class="f-slat"/></pattern>
+<pattern id="keys" width="26" height="48" patternUnits="userSpaceOnUse"><circle cx="13" cy="6" r="2.6" class="f-brass"/><path d="M13 8V18" class="s-brass" stroke-width=".8"/><rect x="7" y="18" width="12" height="18" rx="2.5" class="f-tag"/></pattern>
+<clipPath id="arch"><path d="M190 560V250a190 190 0 0 1 380 0V560z"/></clipPath></defs>
+<rect x="-2000" y="-2000" width="4760" height="2700" fill="url(#pan)"/>
+<rect x="-2000" y="700" width="4760" height="2200" fill="url(#flr)"/><rect x="-2000" y="696" width="4760" height="6" class="f-skirt"/>
+<g clip-path="url(#arch)"><g class="far"><rect x="150" y="40" width="460" height="540" fill="url(#sky)"/><circle class="sunset-orb" cx="380" cy="155" r="30"/><g class="f-sk" opacity=".55"><rect x="205" y="410" width="34" height="60"/><rect x="246" y="380" width="26" height="90"/><rect x="280" y="420" width="40" height="50"/><rect x="470" y="395" width="30" height="75"/><rect x="508" y="420" width="36" height="50"/><rect x="548" y="370" width="28" height="100"/></g>
+<rect x="150" y="470" width="460" height="100" class="f-street"/><rect x="150" y="466" width="460" height="6" class="f-curb"/><path d="M150 522H610" class="s-curb" stroke-width="2" stroke-dasharray="26 22" fill="none" opacity=".7"/>
+<rect x="232" y="380" width="4" height="90" class="f-frame"/><rect x="216" y="344" width="36" height="36" rx="7" class="f-cta"/><text x="234" y="371" text-anchor="middle" font-size="24" font-weight="600" font-family="Fraunces,Georgia,serif" class="f-on-cta">P</text>
+<ellipse cx="412" cy="520" rx="105" ry="6" fill="#000" opacity=".25"/>
+<g class="car"><g transform="translate(318 452) scale(.8)"><ellipse class="hl" cx="240" cy="54" rx="26" ry="8" fill="#fff4d6"/><ellipse class="tl" cx="6" cy="54" rx="10" ry="5" fill="#e0675c"/>
+<path class="f-car" d="M8 62C8 52 20 46 40 43L70 24C80 17 96 15 122 15H158C176 15 192 27 202 42C224 45 234 52 234 62V68H8Z"/>
+<path class="f-glass" d="M78 40L96 24H122V40ZM130 40V24H156C166 24 174 32 182 40Z"/><path d="M20 52H225" class="s-car2" stroke-width=".8" opacity=".6"/>
+<circle cx="58" cy="68" r="15" fill="#18181a"/><circle cx="186" cy="68" r="15" fill="#18181a"/><circle cx="58" cy="68" r="6" class="f-hub"/><circle cx="186" cy="68" r="6" class="f-hub"/></g></g>
+</g></g>
+<g class="mid"><path d="M190 560V250a190 190 0 0 1 380 0V560z" class="s-frame" fill="none" stroke-width="9"/><path d="M380 60V560M190 400H570" class="s-frame" stroke-width="4"/>
+<path clip-path="url(#arch)" d="M230 560L350 70H400L280 560z" fill="#fff" opacity=".07"/><rect x="176" y="560" width="408" height="12" rx="3" class="f-top"/>
+<rect x="40" y="380" width="128" height="180" rx="10" class="f-board"/><rect x="52" y="394" width="104" height="150" fill="url(#keys)"/>
+<g transform="translate(645 400)"><circle r="36" class="f-tag s-frame" stroke-width="3"/><circle r="29" fill="none" class="s-frame" stroke-width="5" stroke-dasharray="1.2 14.5"/><path d="M0 0V-14" class="s-frame" stroke-width="3" transform="rotate(40)"/><path class="min s-frame" d="M0 0V-23" stroke-width="2"/></g>
+<g class="pd" style="--ox:270px"><g class="sw" style="--ox:270px"><path d="M270 -60V110" class="s-frame" stroke-width="1.5" fill="none"/><path d="M244 140Q244 110 270 110Q296 110 296 140Z" class="f-shade"/><path class="cone" d="M246 140L160 410H380L294 140Z" fill="url(#cone)"/><ellipse class="f-lamp gl" cx="270" cy="142" rx="18" ry="6"/></g></g><g class="pd" style="--ox:380px"><g class="sw" style="--ox:380px"><path d="M380 -60V80" class="s-frame" stroke-width="1.5" fill="none"/><path d="M354 110Q354 80 380 80Q406 80 406 110Z" class="f-shade"/><path class="cone" d="M356 110L270 380H490L404 110Z" fill="url(#cone)"/><ellipse class="f-lamp gl" cx="380" cy="112" rx="18" ry="6"/></g></g><g class="pd" style="--ox:490px"><g class="sw" style="--ox:490px"><path d="M490 -60V110" class="s-frame" stroke-width="1.5" fill="none"/><path d="M464 140Q464 110 490 110Q516 110 516 140Z" class="f-shade"/><path class="cone" d="M466 140L380 410H600L514 140Z" fill="url(#cone)"/><ellipse class="f-lamp gl" cx="490" cy="142" rx="18" ry="6"/></g></g></g>
+<g class="near"><ellipse cx="380" cy="792" rx="340" ry="14" fill="#000" opacity=".2"/>
+<rect x="130" y="664" width="540" height="126" class="f-wood"/><rect x="130" y="664" width="540" height="126" fill="url(#slat)"/><rect x="100" y="650" width="600" height="16" rx="8" class="f-top"/>
+<rect x="330" y="700" width="100" height="24" rx="4" class="f-brass"/><text x="380" y="716" text-anchor="middle" font-size="11" letter-spacing="1.2" font-family="Inter,sans-serif" class="f-on-brass">Reception</text>
+<ellipse cx="190" cy="649" rx="16" ry="3" class="f-shade"/><path d="M190 649V604Q190 580 218 576" class="s-frame" stroke-width="3" fill="none"/><path d="M206 566H238L230 588H214Z" class="f-shade"/><ellipse class="f-lamp gl" cx="222" cy="592" rx="14" ry="4"/>
+<path d="M300 650L310 616H390L400 650Z" class="f-dev"/><path d="M314 646L321 622H379L386 646Z" class="f-screen"/>
+<path d="M562 650a20 16 0 0 1 40 0z" class="f-brass"/><circle cx="582" cy="631" r="3" class="f-brass"/><rect x="556" y="648" width="52" height="4" rx="2" class="f-brass"/>
+<path d="M628 650Q628 616 640 616Q652 616 652 650Z" class="f-vase"/><g class="f-leaf"><path d="M640 616Q614 586 606 554Q634 568 640 616Z"/><path d="M640 616Q666 584 672 548Q646 566 640 616Z"/><path d="M640 616Q634 580 642 540Q652 580 640 616Z"/></g></g></svg>
+<div class="glow"></div>
     </div>
+    <p class="caption">Hotels and parking, in one place.</p>
 
     <div class="container">
 
         <!-- Decorative top bar -->
         <div class="top-bar">
-            <div class="window-buttons">
-                <span class="red"></span>
-                <span class="yellow"></span>
-                <span class="green"></span>
-            </div>
-
             <div class="title">
-                Account Login
+                <span class="title-mark" aria-hidden="true"><img src="../LOGO/nexora-mark.png" alt=""></span>
+                NEXORA
             </div>
         </div>
 
@@ -40,7 +73,7 @@
             <div class="form-box login-box">
 
                 <h1>Welcome Back</h1>
-                <p class="subtitle">Login to your account</p>
+                <p class="subtitle">Sign in to manage your stays and parking.</p>
 
                 <form id="loginForm">
 
@@ -50,6 +83,9 @@
                             type="text"
                             id="loginUsername"
                             placeholder="Enter username"
+                            autocomplete="username"
+                            pattern="[A-Za-z0-9_@*]+"
+                            title="Use letters, numbers, _, *, and @ only."
                             required
                         >
                     </div>
@@ -80,8 +116,8 @@
             <!-- SIGN UP -->
             <div class="form-box signup-box">
 
-                <h1>Create Account</h1>
-                <p class="subtitle">Create your new account</p>
+                <h1>Create your account</h1>
+                <p class="subtitle">Start booking in a minute.</p>
 
                 <form id="signupForm">
 
@@ -91,6 +127,10 @@
                             type="text"
                             id="signupUsername"
                             placeholder="Choose username"
+                            autocomplete="username"
+                            pattern="[A-Za-z0-9_@*]+"
+                            maxlength="32"
+                            title="Use letters, numbers, _, *, and @ only."
                             required
                         >
                     </div>
@@ -111,6 +151,8 @@
                             type="password"
                             id="signupPassword"
                             placeholder="Create password"
+                            minlength="10"
+                            title="Use at least 10 characters."
                             required
                         >
                     </div>
@@ -121,6 +163,7 @@
                             type="password"
                             id="confirmPassword"
                             placeholder="Confirm password"
+                            minlength="10"
                             required
                         >
                     </div>
@@ -145,7 +188,8 @@
 
     <div id="message"></div>
 
-    <script src="script.js"></script>
+    <script src="../CENTRAL%20CHANNEL/api-client.js"></script>
+    <script src="script.js?v=direct-login-redirect-1"></script>
 
 </body>
 </html>
