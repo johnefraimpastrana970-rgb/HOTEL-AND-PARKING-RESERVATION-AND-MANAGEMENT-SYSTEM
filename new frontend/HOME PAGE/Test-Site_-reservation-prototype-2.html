@@ -1,0 +1,2201 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Test Site</title>
+    <script>
+      const isAuthenticated =
+        new URLSearchParams(window.location.search).get("authenticated") === "1";
+
+      if (!isAuthenticated) {
+        window.location.replace(
+          new URL("../LOGIN PANEL/index.html", window.location.href).href,
+        );
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Fonts: swap this link and --fd/--fb below to change typefaces -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap"
+    />
+    <style>
+      /* ===== Design tokens ===== */
+      :root {
+        --bg: #edeee7;
+        --sf: #faf6f3;
+        --sf2: #f1ebe0;
+        --ink: #2b2e2a;
+        --mut: #5f6159;
+        --ln: #d3d3c6;
+        --pri: #46564a;
+        --pri2: #5f7260;
+        --link: #3d4d41;
+        --cta: #ddbea8;
+        --cta-h: #d2ad92;
+        --on-cta: #2f2a25;
+        --ok: #2f6b42;
+        --on-ok: #fff;
+        --okbg: #e3ecd9;
+        --warn: #7a4f14;
+        --warnbg: #f3e6cf;
+        --err: #a33a2f;
+        --errbg: #f6e0db;
+        --sbm: #b9c4b3;
+        --sbt: #dfe6d8;
+        --g1: rgba(188, 189, 177, 0.55);
+        --g2: rgba(221, 190, 168, 0.4);
+        --water: rgba(188, 189, 177, 0.6);
+        --as: 30%;
+        --al1: 80%;
+        --al2: 66%;
+        --sh-s:
+          0 1px 2px rgba(58, 60, 48, 0.14), 0 2px 6px rgba(58, 60, 48, 0.08);
+        --sh: 0 1px 2px rgba(58, 60, 48, 0.1), 0 6px 18px rgba(58, 60, 48, 0.1);
+        --sh-h:
+          0 2px 4px rgba(58, 60, 48, 0.12), 0 16px 34px rgba(58, 60, 48, 0.18);
+        --sh-up: 0 -4px 16px rgba(58, 60, 48, 0.1);
+        --fd: "Fraunces", Georgia, "Times New Roman", serif;
+        --fb:
+          "Inter", "Segoe UI", system-ui, -apple-system, Roboto, Arial,
+          sans-serif;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #141214;
+          --sf: #1e1d21;
+          --sf2: #302f33;
+          --ink: #e4e7ec;
+          --mut: #9ea7b3;
+          --ln: #3b3e45;
+          --pri: #464c55;
+          --pri2: #636d79;
+          --link: #c2c7cf;
+          --cta: #c2c7cf;
+          --cta-h: #aeb5c0;
+          --on-cta: #141214;
+          --ok: #7fd1a0;
+          --on-ok: #0f2a1b;
+          --okbg: #1f3a2c;
+          --warn: #e8c27a;
+          --warnbg: #3a3322;
+          --err: #ff9b8f;
+          --errbg: #3d2422;
+          --sbm: #9ea7b3;
+          --sbt: #d3d8df;
+          --g1: rgba(127, 137, 149, 0.18);
+          --g2: rgba(70, 76, 85, 0.35);
+          --water: rgba(127, 137, 149, 0.22);
+          --as: 14%;
+          --al1: 42%;
+          --al2: 30%;
+          --sh-s: 0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.35);
+          --sh: 0 1px 2px rgba(0, 0, 0, 0.45), 0 8px 22px rgba(0, 0, 0, 0.4);
+          --sh-h: 0 2px 4px rgba(0, 0, 0, 0.5), 0 16px 34px rgba(0, 0, 0, 0.6);
+          --sh-up: 0 -4px 16px rgba(0, 0, 0, 0.4);
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #141214;
+        --sf: #1e1d21;
+        --sf2: #302f33;
+        --ink: #e4e7ec;
+        --mut: #9ea7b3;
+        --ln: #3b3e45;
+        --pri: #464c55;
+        --pri2: #636d79;
+        --link: #c2c7cf;
+        --cta: #c2c7cf;
+        --cta-h: #aeb5c0;
+        --on-cta: #141214;
+        --ok: #7fd1a0;
+        --on-ok: #0f2a1b;
+        --okbg: #1f3a2c;
+        --warn: #e8c27a;
+        --warnbg: #3a3322;
+        --err: #ff9b8f;
+        --errbg: #3d2422;
+        --sbm: #9ea7b3;
+        --sbt: #d3d8df;
+        --g1: rgba(127, 137, 149, 0.18);
+        --g2: rgba(70, 76, 85, 0.35);
+        --water: rgba(127, 137, 149, 0.22);
+        --as: 14%;
+        --al1: 42%;
+        --al2: 30%;
+        --sh-s: 0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.35);
+        --sh: 0 1px 2px rgba(0, 0, 0, 0.45), 0 8px 22px rgba(0, 0, 0, 0.4);
+        --sh-h: 0 2px 4px rgba(0, 0, 0, 0.5), 0 16px 34px rgba(0, 0, 0, 0.6);
+        --sh-up: 0 -4px 16px rgba(0, 0, 0, 0.4);
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font: 400 16px/1.55 var(--fb);
+      }
+      h1,
+      h2,
+      h3,
+      p,
+      dl,
+      dd {
+        margin: 0;
+      }
+      h1,
+      h2 {
+        font-family: var(--fd);
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        line-height: 1.15;
+      }
+      h2 {
+        font-size: 1.5rem;
+        margin-bottom: 14px;
+      }
+      h3 {
+        font-size: 1.05rem;
+      }
+      p + p {
+        margin-top: 6px;
+      }
+      a {
+        color: var(--link);
+      }
+      .mut {
+        color: var(--mut);
+      }
+      .sm {
+        font-size: 0.85rem;
+      }
+      .wrap {
+        max-width: 1200px;
+        margin: auto;
+        padding: 0 24px;
+      }
+      .i {
+        width: 18px;
+        height: 18px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        vertical-align: -4px;
+        flex: none;
+      }
+      :focus-visible {
+        outline: 3px solid #4d9bff;
+        outline-offset: 2px;
+      }
+      .skip {
+        position: absolute;
+        left: -999px;
+      }
+      .skip:focus {
+        left: 8px;
+        top: 8px;
+        background: #fff;
+        color: #000;
+        padding: 8px;
+        z-index: 99;
+      }
+      /* ===== Components ===== */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        border: 1px solid transparent;
+        border-radius: 12px;
+        padding: 12px 22px;
+        font: 600 1rem var(--fb);
+        cursor: pointer;
+        text-decoration: none;
+        transition:
+          background 0.15s,
+          transform 0.1s,
+          box-shadow 0.15s;
+      }
+      .btn:active {
+        transform: scale(0.98);
+      }
+      .btn.pri {
+        background: var(--cta);
+        color: var(--on-cta);
+      }
+      .btn.pri:hover {
+        background: var(--cta-h);
+        box-shadow: var(--sh);
+      }
+      .btn.out {
+        background: var(--sf);
+        border-color: var(--ln);
+        color: var(--ink);
+      }
+      .btn.out:hover {
+        border-color: var(--pri);
+      }
+      .btn.s {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+      }
+      .btn.w {
+        width: 100%;
+      }
+      .btn[disabled] {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      label {
+        display: block;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--mut);
+        margin-bottom: 5px;
+      }
+      input,
+      select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--ln);
+        border-radius: 10px;
+        background: var(--sf);
+        color: var(--ink);
+        font: inherit;
+        transition:
+          border-color 0.15s,
+          box-shadow 0.15s;
+      }
+      input:hover,
+      select:hover {
+        border-color: var(--mut);
+      }
+      input:focus,
+      select:focus {
+        border-color: var(--pri);
+        box-shadow: 0 0 0 3px rgba(118, 140, 120, 0.35);
+        outline: 0;
+      }
+      input[type="checkbox"],
+      input[type="radio"] {
+        width: auto;
+        accent-color: var(--pri);
+      }
+      .card {
+        background: var(--sf);
+        border: 1px solid var(--ln);
+        border-radius: 18px;
+        box-shadow: var(--sh);
+      }
+      .pad {
+        padding: 22px;
+      }
+      .lift {
+        transition:
+          transform 0.18s,
+          box-shadow 0.18s;
+      }
+      .lift:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--sh-h);
+      }
+      .chip {
+        display: inline-block;
+        background: var(--sf2);
+        border: 1px solid var(--ln);
+        border-radius: 999px;
+        padding: 1px 10px;
+        font-size: 0.78rem;
+        margin: 0 4px 4px 0;
+      }
+      .st {
+        display: inline-block;
+        border-radius: 999px;
+        padding: 2px 12px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+      .st.ok {
+        background: var(--okbg);
+        color: var(--ok);
+      }
+      .st.wn {
+        background: var(--warnbg);
+        color: var(--warn);
+      }
+      .st.er {
+        background: var(--errbg);
+        color: var(--err);
+      }
+      .score {
+        display: inline-block;
+        background: var(--pri);
+        color: #fff;
+        border-radius: 8px 8px 8px 0;
+        padding: 1px 8px;
+        font-weight: 700;
+        font-size: 0.85rem;
+      }
+      .ok {
+        color: var(--ok);
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+      .art {
+        position: relative;
+        overflow: hidden;
+        min-height: 130px;
+        border-radius: 14px;
+        background: linear-gradient(
+          165deg,
+          hsl(var(--h) var(--as) var(--al1)),
+          hsl(calc(var(--h) + 25) var(--as) var(--al2))
+        );
+      }
+      .art img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .fav {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: 0;
+        background: rgba(255, 255, 255, 0.92);
+        color: #2b2e2a;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        transition: transform 0.15s;
+      }
+      .fav:hover {
+        transform: scale(1.1);
+      }
+      .fav[aria-pressed="true"] {
+        color: #c0392b;
+      }
+      .fav[aria-pressed="true"] .i {
+        fill: currentColor;
+      }
+      .mark {
+        width: 26px;
+        height: 26px;
+        border-radius: 8px;
+        background: var(--cta);
+        display: inline-block;
+        position: relative;
+      }
+      .mark::after {
+        content: "";
+        position: absolute;
+        inset: 6px;
+        border: 2px solid var(--on-cta);
+        border-radius: 3px;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font: 600 1.3rem var(--fd);
+        text-decoration: none;
+        color: inherit;
+      }
+      .view {
+        animation: in 0.25s ease-out;
+      }
+      @keyframes in {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+      }
+      @keyframes fade {
+        from {
+          opacity: 0;
+        }
+      }
+      @keyframes pop {
+        from {
+          opacity: 0;
+          transform: scale(0.96);
+        }
+      }
+      @keyframes sh {
+        to {
+          background-position: -200% 0;
+        }
+      }
+      @keyframes sp {
+        to {
+          transform: rotate(1turn);
+        }
+      }
+      @keyframes app-enter {
+        from {
+          opacity: 0;
+          transform: translateY(16px) scale(0.99);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      #app {
+        animation: app-enter 0.7s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+      }
+      /* ===== App shell ===== */
+      .shell {
+        display: grid;
+        grid-template-columns: 248px minmax(0, 1fr);
+        min-height: 100vh;
+      }
+      .sb {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        background: var(--pri);
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        padding: 20px 14px;
+        gap: 2px;
+        overflow-y: auto;
+      }
+      .sb .logo {
+        padding: 2px 10px 20px;
+        color: #fff;
+      }
+      .sb small {
+        color: var(--sbm);
+        font-size: 0.78rem;
+        padding: 14px 12px 4px;
+      }
+      .sb a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        color: var(--sbt);
+        text-decoration: none;
+        font-weight: 500;
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
+      .sb a:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+      }
+      .sb a[aria-current] {
+        background: rgba(255, 255, 255, 0.16);
+        color: #fff;
+        box-shadow: inset 3px 0 0 var(--cta);
+      }
+      .sbh {
+        margin-top: auto;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 14px;
+        padding: 14px;
+        font-size: 0.9rem;
+      }
+      .sbh .btn {
+        margin-top: 10px;
+      }
+      .tb {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 12px clamp(16px, 3vw, 40px);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: color-mix(in srgb, var(--bg) 88%, transparent);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--ln);
+      }
+      .tb .logo {
+        display: none;
+      }
+      .pt {
+        font-weight: 600;
+      }
+      .me {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.9rem;
+      }
+      .av {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: var(--pri);
+        color: #fff;
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+      }
+      .ct {
+        max-width: 1320px;
+        margin: auto;
+        padding: 24px clamp(16px, 3vw, 40px) 64px;
+      }
+      .tabbar {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 40;
+        background: var(--sf);
+        border-top: 1px solid var(--ln);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      .tabbar a {
+        flex: 1;
+        display: grid;
+        justify-items: center;
+        gap: 2px;
+        padding: 8px 0;
+        font-size: 0.72rem;
+        color: var(--mut);
+        text-decoration: none;
+      }
+      .tabbar a[aria-current] {
+        color: var(--link);
+        font-weight: 600;
+      }
+      /* ===== Home / search ===== */
+      .hero2 {
+        background: linear-gradient(135deg, var(--pri), var(--pri2));
+        color: #fff;
+        border-radius: 22px;
+        padding: 30px;
+        margin-bottom: 28px;
+      }
+      .hero2 h1 {
+        font-size: clamp(1.7rem, 3vw, 2.4rem);
+        margin-bottom: 6px;
+      }
+      .hero2 > p {
+        color: rgba(255, 255, 255, 0.88);
+        margin-bottom: 18px;
+      }
+      .search {
+        padding: 16px;
+        color: var(--ink);
+      }
+      .tabs {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 14px;
+      }
+      [role="tab"] {
+        border: 1px solid var(--ln);
+        background: var(--sf);
+        color: var(--ink);
+        border-radius: 999px;
+        padding: 8px 18px;
+        font: 600 0.95rem var(--fb);
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+      [role="tab"][aria-selected="true"] {
+        background: var(--pri);
+        border-color: var(--pri);
+        color: #fff;
+      }
+      .fg {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+        align-items: end;
+      }
+      .fg .wide {
+        grid-column: span 2;
+      }
+      .sec2 {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 340px;
+        gap: 24px;
+        align-items: start;
+      }
+      .grid3 {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 18px;
+      }
+      .tile {
+        overflow: hidden;
+        cursor: pointer;
+        position: relative;
+      }
+      .tile .art {
+        border-radius: 0;
+        height: 150px;
+      }
+      .tile .b {
+        padding: 14px;
+      }
+      .bk {
+        display: grid;
+        grid-template-columns: 96px 1fr auto;
+        gap: 14px;
+        align-items: center;
+        padding: 12px;
+        margin-bottom: 12px;
+      }
+      .bk .art {
+        min-height: 80px;
+        height: 80px;
+      }
+      /* ===== Results ===== */
+      .rg {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 420px;
+        gap: 24px;
+        align-items: start;
+      }
+      .head {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+      }
+      .head select {
+        width: auto;
+      }
+      .chips {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+      }
+      .fchip {
+        border: 1px solid var(--ln);
+        background: var(--sf);
+        color: var(--ink);
+        border-radius: 999px;
+        padding: 6px 14px;
+        font: 500 0.9rem var(--fb);
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .fchip:hover {
+        border-color: var(--pri);
+      }
+      .fchip[aria-pressed="true"] {
+        background: var(--pri);
+        border-color: var(--pri);
+        color: #fff;
+      }
+      .li {
+        position: relative;
+        display: grid;
+        grid-template-columns: 210px 1fr auto;
+        gap: 18px;
+        padding: 12px;
+        margin-bottom: 16px;
+      }
+      .li .art {
+        min-height: 160px;
+      }
+      .li h3 {
+        margin-bottom: 2px;
+      }
+      .price {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-end;
+        text-align: right;
+        gap: 8px;
+      }
+      .price b {
+        font-size: 1.65rem;
+        display: block;
+        line-height: 1.1;
+        font-variant-numeric: tabular-nums;
+      }
+      .price small {
+        display: block;
+        max-width: 14ch;
+      }
+      .sk {
+        height: 184px;
+        border-radius: 18px;
+        margin-bottom: 16px;
+        background: linear-gradient(90deg, var(--sf), var(--ln), var(--sf));
+        background-size: 200% 100%;
+        animation: sh 1.1s linear infinite;
+      }
+      .map {
+        position: sticky;
+        top: 76px;
+        height: 560px;
+        border-radius: 18px;
+        border: 1px solid var(--ln);
+        overflow: hidden;
+        background:
+          radial-gradient(160px 110px at 78% 20%, var(--water), transparent),
+          var(--sf2)
+            repeating-linear-gradient(
+              0deg,
+              transparent 0 47px,
+              var(--ln) 47px 48px
+            ),
+          repeating-linear-gradient(
+            90deg,
+            transparent 0 47px,
+            var(--ln) 47px 48px
+          );
+      }
+      .map > span {
+        position: absolute;
+        left: 12px;
+        bottom: 10px;
+        font-size: 0.78rem;
+        color: var(--mut);
+        background: var(--sf);
+        padding: 2px 8px;
+        border-radius: 6px;
+      }
+      .pin {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        background: var(--sf);
+        color: var(--ink);
+        border: 2px solid var(--pri);
+        border-radius: 999px;
+        padding: 3px 10px;
+        font: 700 0.85rem var(--fb);
+        cursor: pointer;
+        transition: all 0.15s;
+        box-shadow: var(--sh);
+      }
+      .pin:hover {
+        background: var(--pri);
+        color: #fff;
+        transform: translate(-50%, -50%) scale(1.08);
+      }
+      .empty {
+        text-align: center;
+        padding: 40px 20px;
+      }
+      /* ===== Detail, checkout ===== */
+      .dgrid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 360px;
+        gap: 28px;
+        align-items: start;
+      }
+      .dgrid aside {
+        position: sticky;
+        top: 76px;
+      }
+      .gal {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        grid-template-rows: 150px 150px;
+        gap: 8px;
+        margin: 14px 0 26px;
+      }
+      .gal .art {
+        min-height: 0;
+      }
+      .gal .art:first-child {
+        grid-row: span 2;
+      }
+      .sec {
+        margin-bottom: 26px;
+      }
+      .opt {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--ink);
+        padding: 14px;
+        border: 1px solid var(--ln);
+        border-radius: 12px;
+        margin-bottom: 8px;
+        cursor: pointer;
+        background: var(--sf);
+        transition: border-color 0.15s;
+      }
+      .opt:hover {
+        border-color: var(--mut);
+      }
+      .opt:has(input:checked) {
+        border-color: var(--pri);
+        box-shadow: inset 0 0 0 1px var(--pri);
+        background: var(--sf2);
+      }
+      .am {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+        gap: 8px;
+      }
+      .am .i {
+        color: var(--ok);
+      }
+      details {
+        border-bottom: 1px solid var(--ln);
+        padding: 12px 0;
+      }
+      summary {
+        cursor: pointer;
+        font-weight: 600;
+      }
+      details p {
+        margin-top: 8px;
+      }
+      .rows {
+        margin: 12px 0;
+        padding: 12px 0;
+        border-top: 1px solid var(--ln);
+        border-bottom: 1px solid var(--ln);
+      }
+      .rows div {
+        display: flex;
+        justify-content: space-between;
+        margin: 4px 0;
+      }
+      .tot {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin: 10px 0;
+      }
+      .tot b {
+        font-size: 1.8rem;
+        font-variant-numeric: tabular-nums;
+      }
+      .side .btn {
+        margin-top: 12px;
+      }
+      .stepper {
+        display: flex;
+        gap: 8px;
+        list-style: none;
+        padding: 0;
+        margin: 0 0 20px;
+        flex-wrap: wrap;
+      }
+      .stepper li {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--mut);
+        font-weight: 600;
+      }
+      .stepper span {
+        display: grid;
+        place-items: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: 2px solid var(--ln);
+      }
+      .stepper .on {
+        color: var(--ink);
+      }
+      .stepper .on span {
+        background: var(--pri);
+        border-color: var(--pri);
+        color: #fff;
+      }
+      .stepper .done span {
+        background: var(--ok);
+        border-color: var(--ok);
+        color: var(--on-ok);
+      }
+      .stepper li + li::before {
+        content: "";
+        width: 28px;
+        height: 2px;
+        background: var(--ln);
+      }
+      .two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      form.stack > * + * {
+        margin-top: 14px;
+      }
+      .note {
+        background: var(--warnbg);
+        color: var(--warn);
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 0.9rem;
+      }
+      .qr {
+        width: 120px;
+        height: 120px;
+        border-radius: 8px;
+        background: repeating-conic-gradient(var(--ink) 0 25%, var(--sf) 0 50%)
+          0 0/24px 24px;
+        border: 6px solid var(--sf);
+        outline: 1px solid var(--ln);
+      }
+      .done-ic {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: var(--ok);
+        color: var(--on-ok);
+        display: grid;
+        place-items: center;
+        margin-bottom: 12px;
+      }
+      .done-ic .i {
+        width: 30px;
+        height: 30px;
+      }
+      /* ===== Overlays ===== */
+      .mo {
+        position: fixed;
+        inset: 0;
+        background: rgba(8, 28, 34, 0.55);
+        display: grid;
+        place-items: center;
+        z-index: 60;
+        animation: fade 0.18s;
+      }
+      .md {
+        background: var(--sf);
+        border-radius: 20px;
+        padding: 24px;
+        width: min(420px, calc(100vw - 32px));
+        animation: pop 0.2s;
+        text-align: center;
+      }
+      .md .btn {
+        margin-top: 10px;
+      }
+      .spin {
+        width: 36px;
+        height: 36px;
+        border: 4px solid var(--ln);
+        border-top-color: var(--pri);
+        border-radius: 50%;
+        margin: 0 auto 12px;
+        animation: sp 0.8s linear infinite;
+      }
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+        transform: translateX(-50%);
+        background: var(--ink);
+        color: var(--bg);
+        padding: 10px 18px;
+        border-radius: 999px;
+        z-index: 70;
+        animation: pop 0.2s;
+      }
+      .chatbtn {
+        position: fixed;
+        right: 20px;
+        bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+        z-index: 30;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+      }
+      .chat {
+        position: fixed;
+        right: 20px;
+        bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+        width: min(350px, calc(100vw - 40px));
+        z-index: 30;
+        overflow: hidden;
+        animation: pop 0.2s;
+      }
+      .chat header {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        padding: 12px 14px;
+        background: var(--pri);
+        color: #fff;
+      }
+      .chat header button {
+        margin-left: auto;
+        background: none;
+        border: 0;
+        color: #fff;
+        font-size: 1.4rem;
+        cursor: pointer;
+      }
+      .msgs {
+        padding: 14px;
+        min-height: 170px;
+      }
+      .msgs p {
+        padding: 8px 12px;
+        border-radius: 14px;
+        max-width: 85%;
+        font-size: 0.92rem;
+      }
+      .bot {
+        background: var(--sf2);
+      }
+      .mine {
+        background: var(--pri);
+        color: #fff;
+        margin-left: auto;
+      }
+      .chat form {
+        display: flex;
+        gap: 8px;
+        padding: 10px;
+        border-top: 1px solid var(--ln);
+      }
+      @media (max-width: 1100px) {
+        .rg,
+        .dgrid,
+        .sec2 {
+          grid-template-columns: 1fr;
+        }
+        .map {
+          order: -1;
+          position: static;
+          height: 230px;
+        }
+        .dgrid aside {
+          position: static;
+        }
+        .lhero {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 900px) {
+        .shell {
+          display: block;
+        }
+        .sb {
+          display: none;
+        }
+        .tabbar {
+          display: flex;
+        }
+        .tb .logo {
+          display: flex;
+          font-size: 1.1rem;
+        }
+        .pt {
+          display: none;
+        }
+        .ct {
+          padding-bottom: 96px;
+        }
+        .chatbtn {
+          bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+        }
+        .chat {
+          bottom: calc(132px + env(safe-area-inset-bottom, 0px));
+        }
+        .toast {
+          bottom: calc(86px + env(safe-area-inset-bottom, 0px));
+        }
+      }
+      @media (max-width: 640px) {
+        .li {
+          grid-template-columns: 1fr;
+        }
+        .price {
+          flex-direction: row;
+          align-items: end;
+          text-align: left;
+        }
+        .gal {
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: none;
+          grid-auto-rows: 110px;
+        }
+        .gal .art:first-child {
+          grid-column: span 2;
+          grid-row: auto;
+        }
+        .two {
+          grid-template-columns: 1fr;
+        }
+        .fg .wide {
+          grid-column: auto;
+        }
+        .bk {
+          grid-template-columns: 72px 1fr;
+        }
+        .bk > :last-child {
+          grid-column: 1/-1;
+        }
+        .hero2 {
+          padding: 20px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+          scroll-behavior: auto !important;
+        }
+      }
+      /* ===== Elevation: every card-like surface gets a shadow ===== */
+      .art,
+      .opt,
+      .fchip,
+      .btn.out,
+      .sbh,
+      .sk,
+      .map,
+      .hero2,
+      .md,
+      .toast,
+      .tabbar {
+        box-shadow: var(--sh-s);
+      }
+      .hero2,
+      .md {
+        box-shadow: var(--sh-h);
+      }
+      .tabbar {
+        box-shadow: var(--sh-up);
+      }
+      .sbh {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+      }
+      .tile .art {
+        box-shadow: none;
+      }
+      .opt:has(input:checked) {
+        box-shadow:
+          inset 0 0 0 1px var(--pri),
+          var(--sh-s);
+      }
+      .fchip[aria-pressed="true"] {
+        box-shadow: var(--sh-s);
+      }
+    </style>
+  </head>
+  <body>
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <defs>
+        <symbol id="i-pin" viewBox="0 0 24 24">
+          <path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.800 7 12 7 12z" />
+          <circle cx="12" cy="9" r="2.500" />
+        </symbol>
+        <symbol id="i-check" viewBox="0 0 24 24">
+          <path d="M5 12.500l4.500 4.500L19 7.500" />
+        </symbol>
+        <symbol id="i-shield" viewBox="0 0 24 24">
+          <path d="M12 3l8 3v6c0 4.500-3.400 8-8 9-4.600-1-8-4.500-8-9V6z" />
+          <path d="M8.500 12l2.500 2.500 4.500-5" />
+        </symbol>
+        <symbol id="i-car" viewBox="0 0 24 24">
+          <path
+            d="M4 16v-4l2-5h12l2 5v4M4 16h16M4 16v3h3v-3M17 16v3h3v-3M4 12h16"
+          />
+        </symbol>
+        <symbol id="i-bed" viewBox="0 0 24 24">
+          <path d="M3 19V6M3 15h18v4M21 15v-2a3 3 0 0 0-3-3h-7v5" />
+        </symbol>
+        <symbol id="i-tag" viewBox="0 0 24 24">
+          <path d="M3 12V4h8l10 10-8 8z" />
+          <circle cx="7.500" cy="8.500" r="1.200" />
+        </symbol>
+        <symbol id="i-chat" viewBox="0 0 24 24">
+          <path d="M4 5h16v11H9l-5 4z" />
+        </symbol>
+        <symbol id="i-home" viewBox="0 0 24 24">
+          <path d="M3 11l9-7 9 7M5 10v10h14V10" />
+        </symbol>
+        <symbol id="i-cal" viewBox="0 0 24 24">
+          <path d="M4 6h16v14H4zM4 10h16M8 3v4M16 3v4" />
+        </symbol>
+        <symbol id="i-heart" viewBox="0 0 24 24">
+          <path
+            d="M12 20s-8-4.600-8-10a4.500 4.500 0 0 1 8-2.800A4.500 4.500 0 0 1 20 10c0 5.400-8 10-8 10z"
+          />
+        </symbol>
+        <symbol id="i-user" viewBox="0 0 24 24">
+          <path
+            d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 4-6 8-6s8 2 8 6"
+          />
+        </symbol>
+        <symbol id="i-help" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9" />
+          <path
+            d="M9.500 9.500a2.500 2.500 0 1 1 3.500 2.300c-.7.400-1 .9-1 1.700M12 17v.1"
+          />
+        </symbol>
+      </defs>
+    </svg>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <!-- ============ APP SHELL ============ -->
+    <div id="app" class="shell">
+      <aside class="sb" aria-label="Sidebar">
+        <a class="logo" href="#home"
+          ><span class="mark" aria-hidden="true"></span>Test Site</a
+        >
+        <small>Explore</small>
+        <a href="#home" data-r="hotel" data-m="hotel"
+          ><svg class="i"><use href="#i-bed" /></svg>Hotels</a
+        >
+        <a href="#home" data-r="parking" data-m="parking"
+          ><svg class="i"><use href="#i-car" /></svg>Parking</a
+        >
+        <small>Your trips</small>
+        <a href="#bookings" data-r="bookings"
+          ><svg class="i"><use href="#i-cal" /></svg>My bookings</a
+        >
+        <a href="#saved" data-r="saved"
+          ><svg class="i"><use href="#i-heart" /></svg>Saved</a
+        >
+        <a href="#account" data-r="account"
+          ><svg class="i"><use href="#i-user" /></svg>Account</a
+        >
+        <div class="sbh">
+          <b>Need a hand?</b>
+          <p>Ask the assistant to compare options, or read the FAQ.</p>
+          <button class="btn pri s w" data-chat>Ask assistant</button>
+          <p style="margin-top: 10px">
+            <a href="#help" style="color: #fff">Help and support</a>
+          </p>
+        </div>
+      </aside>
+      <div class="mn">
+        <header class="tb">
+          <a class="logo" href="#home"
+            ><span class="mark" aria-hidden="true"></span>Test Site</a
+          ><span class="pt" id="pt"></span>
+          <div class="me">
+            <span id="who"></span
+            ><span class="av" id="av" aria-hidden="true"></span>
+          </div>
+        </header>
+        <main id="main" class="ct">
+          <section id="home" class="view" hidden>
+            <div class="hero2">
+              <h1 id="hh"></h1>
+              <p>Search with the total price shown up front.</p>
+              <form
+                class="card search"
+                id="sf"
+                aria-label="Search reservations"
+              >
+                <div class="tabs" role="tablist" aria-label="Reservation type">
+                  <button
+                    type="button"
+                    role="tab"
+                    data-m="hotel"
+                    aria-selected="true"
+                  >
+                    Hotels</button
+                  ><button
+                    type="button"
+                    role="tab"
+                    data-m="parking"
+                    aria-selected="false"
+                  >
+                    Parking
+                  </button>
+                </div>
+                <div class="fg">
+                  <div class="wide">
+                    <label for="loc">Destination</label
+                    ><input
+                      id="loc"
+                      list="places"
+                      value="Sample City"
+                      autocomplete="off"
+                    /><datalist id="places">
+                      <option value="Sample City"></option>
+                      <option value="Sample Airport"></option>
+                      <option value="Sample Arena"></option>
+                    </datalist>
+                  </div>
+                  <div data-for="hotel">
+                    <label for="ci">Check-in</label
+                    ><input type="date" id="ci" />
+                  </div>
+                  <div data-for="hotel">
+                    <label for="co">Check-out</label
+                    ><input type="date" id="co" />
+                  </div>
+                  <div data-for="hotel">
+                    <label for="gu">Guests</label
+                    ><select id="gu">
+                      <option>1 guest</option>
+                      <option selected>2 guests</option>
+                      <option>3 guests</option>
+                      <option>4 guests</option>
+                    </select>
+                  </div>
+                  <div data-for="parking" hidden>
+                    <label for="pd">Date</label><input type="date" id="pd" />
+                  </div>
+                  <div data-for="parking" hidden>
+                    <label for="pa">Arrive</label
+                    ><input type="time" id="pa" value="09:00" />
+                  </div>
+                  <div data-for="parking" hidden>
+                    <label for="pe">Exit</label
+                    ><input type="time" id="pe" value="17:00" />
+                  </div>
+                  <div data-for="parking" hidden>
+                    <label for="pv">Vehicle</label
+                    ><select id="pv">
+                      <option>Car</option>
+                      <option>SUV or van</option>
+                      <option>Electric vehicle</option>
+                    </select>
+                  </div>
+                  <button class="btn pri" type="submit">Search</button>
+                </div>
+              </form>
+            </div>
+            <div class="sec2">
+              <div>
+                <h2>Popular right now</h2>
+                <div class="grid3" id="pop"></div>
+              </div>
+              <div>
+                <h2>Upcoming</h2>
+                <div class="card pad">
+                  <span class="st ok">Confirmed</span>
+                  <h3 style="margin-top: 8px">Harbor View Hotel</h3>
+                  <p class="mut sm">Sample dates, 2 nights, 2 guests</p>
+                  <p class="mut sm">Reference TS-4F9K2A</p>
+                  <a class="btn out s" style="margin-top: 12px" href="#bookings"
+                    >View bookings</a
+                  >
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="results" class="view" hidden>
+            <div class="rg">
+              <div>
+                <div class="head">
+                  <div>
+                    <h1 id="rTitle" style="font-size: 1.6rem"></h1>
+                    <p class="mut sm" id="rMeta"></p>
+                  </div>
+                  <div>
+                    <label for="sort">Sort by</label
+                    ><select id="sort">
+                      <option value="rec">Recommended</option>
+                      <option value="price">Lowest price</option>
+                      <option value="rating">Best rated</option>
+                    </select>
+                  </div>
+                </div>
+                <div
+                  class="chips"
+                  id="chips"
+                  role="group"
+                  aria-label="Filters"
+                ></div>
+                <div id="cards" aria-live="polite"></div>
+              </div>
+              <div
+                class="map"
+                id="pins"
+                role="img"
+                aria-label="Map placeholder with priced pins"
+              ></div>
+            </div>
+          </section>
+
+          <section id="detail" class="view" hidden>
+            <div class="dgrid">
+              <div>
+                <p class="sm"><a href="#results">Back to results</a></p>
+                <h1 id="dTitle" style="font-size: 2rem; margin-top: 6px"></h1>
+                <p class="mut" id="dSub"></p>
+                <div class="gal" id="dGal"></div>
+                <div class="sec">
+                  <h2>Choose an option</h2>
+                  <div id="dOpts"></div>
+                </div>
+                <div class="sec">
+                  <h2>What's included</h2>
+                  <ul class="am" id="dAm"></ul>
+                </div>
+                <div class="sec">
+                  <h2>Policies and details</h2>
+                  <details open>
+                    <summary>Cancellation</summary>
+                    <p class="mut">
+                      Sample policy text. Free cancellation until the stated
+                      deadline; after that the booking is non-refundable.
+                    </p>
+                  </details>
+                  <details>
+                    <summary>How to get in</summary>
+                    <p class="mut">
+                      Sample instructions. Arrival details and the access method
+                      are sent with your confirmation.
+                    </p>
+                  </details>
+                  <details>
+                    <summary>Guest reviews</summary>
+                    <p class="mut">
+                      Placeholder for the rating summary, review filters and
+                      recent comments.
+                    </p>
+                  </details>
+                </div>
+              </div>
+              <aside
+                class="card side pad"
+                id="dSide"
+                aria-label="Price and reservation"
+              ></aside>
+            </div>
+          </section>
+
+          <section id="checkout" class="view" hidden>
+            <div id="stC"></div>
+            <div class="dgrid">
+              <form class="card pad stack" id="cf">
+                <h2>Your details</h2>
+                <div class="two">
+                  <div>
+                    <label for="fn">Full name</label
+                    ><input id="fn" required autocomplete="name" />
+                  </div>
+                  <div>
+                    <label for="ce">Email</label
+                    ><input
+                      id="ce"
+                      type="email"
+                      required
+                      autocomplete="email"
+                    />
+                  </div>
+                </div>
+                <div data-for="parking" hidden>
+                  <label for="plate">License plate</label
+                  ><input id="plate" placeholder="ABC 1234" />
+                </div>
+                <div data-for="hotel">
+                  <label
+                    style="
+                      display: flex;
+                      gap: 8px;
+                      font-weight: 400;
+                      color: var(--ink);
+                      font-size: 1rem;
+                    "
+                    ><input type="checkbox" id="addon" /> Add parking for this
+                    stay (+$18)</label
+                  >
+                </div>
+                <h2 style="margin-top: 8px">Payment</h2>
+                <div class="note">
+                  Demo only. Nothing is charged and no card data is collected.
+                </div>
+                <div>
+                  <label for="cn">Card number</label
+                  ><input
+                    id="cn"
+                    inputmode="numeric"
+                    placeholder="0000 0000 0000 0000"
+                    autocomplete="off"
+                  />
+                </div>
+                <div class="two">
+                  <div>
+                    <label for="ex">Expiry</label
+                    ><input id="ex" placeholder="MM/YY" />
+                  </div>
+                  <div>
+                    <label for="cv">Security code</label
+                    ><input id="cv" placeholder="123" />
+                  </div>
+                </div>
+                <button class="btn pri w" type="submit">Confirm and pay</button>
+                <p class="sm mut">
+                  By confirming you accept the terms and cancellation policy
+                  (placeholder links).
+                </p>
+              </form>
+              <aside
+                class="card side pad"
+                id="cSide"
+                aria-label="Booking summary"
+              ></aside>
+            </div>
+          </section>
+
+          <section id="confirm" class="view" hidden>
+            <div id="stD"></div>
+            <div class="dgrid">
+              <div class="card pad">
+                <div class="done-ic">
+                  <svg class="i"><use href="#i-check" /></svg>
+                </div>
+                <h1 style="font-size: 1.9rem">Your reservation is confirmed</h1>
+                <p class="mut">
+                  Reference <b id="ref"></b>. A confirmation email would be sent
+                  to you (mock).
+                </p>
+                <div
+                  class="sec"
+                  style="margin-top: 20px"
+                  data-for="parking"
+                  hidden
+                >
+                  <h3>Your parking pass</h3>
+                  <div
+                    class="qr"
+                    role="img"
+                    aria-label="QR code placeholder"
+                  ></div>
+                  <p class="sm mut">
+                    Scan at the gate on arrival (placeholder).
+                  </p>
+                </div>
+                <div class="sec" style="margin-top: 20px">
+                  <h3>What happens next</h3>
+                  <p class="mut">
+                    Arrival details, directions and how to change or cancel will
+                    appear here.
+                  </p>
+                </div>
+                <a class="btn pri" href="#bookings">View my bookings</a>
+              </div>
+              <aside
+                class="card side pad"
+                id="dSum"
+                aria-label="Booking summary"
+              ></aside>
+            </div>
+          </section>
+
+          <section id="bookings" class="view" hidden>
+            <h1 style="font-size: 2rem; margin-bottom: 16px">My bookings</h1>
+            <div id="bkList"></div>
+          </section>
+          <section id="saved" class="view" hidden>
+            <h1 style="font-size: 2rem; margin-bottom: 16px">Saved</h1>
+            <div class="grid3" id="svList"></div>
+          </section>
+          <section id="account" class="view" hidden>
+            <h1 style="font-size: 2rem; margin-bottom: 16px">Account</h1>
+            <div class="grid3">
+              <div class="card pad stack">
+                <h3>Profile</h3>
+                <div>
+                  <label for="an">Name</label
+                  ><input id="an" value="Guest" readonly />
+                </div>
+                <div>
+                  <label for="ae">Email</label
+                  ><input id="ae" value="guest@example.com" readonly />
+                </div>
+                <p class="sm mut">Editing arrives with the backend.</p>
+              </div>
+              <div class="card pad stack">
+                <h3>Preferences</h3>
+                <div>
+                  <label for="th">Appearance</label
+                  ><select id="th">
+                    <option value="auto">Match my device</option>
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="cu">Currency</label
+                  ><select id="cu">
+                    <option>USD</option>
+                    <option>EUR</option>
+                    <option>GBP</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section id="help" class="view" hidden>
+            <h1 style="font-size: 2rem; margin-bottom: 16px">
+              Help and support
+            </h1>
+            <div class="card pad" style="max-width: 760px">
+              <details open>
+                <summary>How do I cancel a booking?</summary>
+                <p class="mut">
+                  Open My bookings and choose Manage. Sample answer for the
+                  prototype.
+                </p>
+              </details>
+              <details>
+                <summary>When am I charged?</summary>
+                <p class="mut">
+                  Sample answer. Payment timing will depend on the rate you
+                  choose.
+                </p>
+              </details>
+              <details>
+                <summary>How do I get into a car park?</summary>
+                <p class="mut">
+                  Sample answer. Most reservations use a QR pass or plate
+                  recognition.
+                </p>
+              </details>
+              <button class="btn pri" style="margin-top: 16px" data-chat>
+                Ask the assistant
+              </button>
+            </div>
+          </section>
+        </main>
+      </div>
+      <nav class="tabbar" aria-label="Mobile">
+        <a href="#home" data-r="home"
+          ><svg class="i"><use href="#i-home" /></svg>Home</a
+        ><a href="#bookings" data-r="bookings"
+          ><svg class="i"><use href="#i-cal" /></svg>Bookings</a
+        ><a href="#saved" data-r="saved"
+          ><svg class="i"><use href="#i-heart" /></svg>Saved</a
+        ><a href="#account" data-r="account"
+          ><svg class="i"><use href="#i-user" /></svg>Account</a
+        ><a href="#help" data-r="help"
+          ><svg class="i"><use href="#i-help" /></svg>Help</a
+        >
+      </nav>
+    </div>
+
+    <button
+      class="btn pri chatbtn"
+      data-chat
+      aria-controls="chat"
+      aria-expanded="false"
+    >
+      <svg class="i"><use href="#i-chat" /></svg>Ask assistant
+    </button>
+    <aside
+      id="chat"
+      class="card chat"
+      hidden
+      aria-label="AI assistant placeholder"
+    >
+      <header>
+        <b>Assistant</b
+        ><span class="chip" style="color: var(--ink); margin: 0"
+          >Coming soon</span
+        ><button type="button" data-chat aria-label="Close assistant">
+          &times;
+        </button>
+      </header>
+      <div class="msgs">
+        <p class="bot">Hi, I can help you find and compare options.</p>
+        <p class="mine">Which parking is closest to the venue?</p>
+        <p class="bot">Sample exchange. The AI chatbot connects here later.</p>
+      </div>
+      <form onsubmit="return false;">
+        <input
+          disabled
+          aria-label="Message"
+          placeholder="Chat not connected yet"
+        /><button class="btn pri s" disabled>Send</button>
+      </form>
+    </aside>
+    <div id="mo" class="mo" hidden>
+      <div class="md" role="dialog" aria-modal="true" id="md"></div>
+    </div>
+    <div id="toast" class="toast" role="status" hidden></div>
+
+    <script>
+      /* ===== 1. Mock data and API layer: replace api.* bodies with fetch() calls later ===== */
+      const D = {
+        hotel: [
+          {
+            id: "h1",
+            hue: 28,
+            n: "Harbor View Hotel",
+            a: "Waterfront, 0.4 km from center",
+            r: 8.9,
+            c: 1240,
+            t: 412,
+            cancel: "Free cancellation until 24 hours before check-in",
+            tags: ["Breakfast", "Wi-Fi", "Parking on site"],
+            x: 34,
+            y: 38,
+          },
+          {
+            id: "h2",
+            hue: 88,
+            n: "Central Plaza Suites",
+            a: "City center, 0.1 km from center",
+            r: 8.4,
+            c: 860,
+            t: 498,
+            cancel: "Free cancellation until 48 hours before check-in",
+            tags: ["Pool", "Wi-Fi"],
+            x: 62,
+            y: 56,
+          },
+          {
+            id: "h3",
+            hue: 48,
+            n: "Garden Court Inn",
+            a: "Quiet district, 1.8 km from center",
+            r: 7.9,
+            c: 530,
+            t: 276,
+            cancel: "Non-refundable rate",
+            tags: ["Free parking", "Wi-Fi"],
+            x: 22,
+            y: 74,
+          },
+        ],
+        parking: [
+          {
+            id: "p1",
+            hue: 95,
+            n: "Central Garage A",
+            a: "Covered garage, 250 m from venue",
+            r: 4.6,
+            c: 880,
+            t: 24,
+            cancel: "Free cancellation until start time",
+            tags: ["Covered", "QR entry", "In and out"],
+            x: 40,
+            y: 42,
+          },
+          {
+            id: "p2",
+            hue: 18,
+            n: "Riverside Lot",
+            a: "Open lot, 600 m from venue",
+            r: 4.2,
+            c: 410,
+            t: 14,
+            cancel: "Free cancellation until start time",
+            tags: ["Touchless", "EV charging"],
+            x: 68,
+            y: 62,
+          },
+          {
+            id: "p3",
+            hue: 65,
+            n: "Station Car Park",
+            a: "Covered garage, 900 m from venue",
+            r: 4.4,
+            c: 1020,
+            t: 11,
+            cancel: "Non-refundable rate",
+            tags: ["Covered", "Height limit 2.0 m"],
+            x: 24,
+            y: 68,
+          },
+        ],
+      };
+      const ALL = [...D.hotel, ...D.parking],
+        BK = [
+          {
+            ref: "TS-4F9K2A",
+            id: "h1",
+            s: "Confirmed",
+            c: "ok",
+            d: "Sample dates, 2 nights",
+          },
+          {
+            ref: "TS-7M2QX1",
+            id: "p1",
+            s: "Upcoming",
+            c: "wn",
+            d: "Sample date, 09:00 to 17:00",
+          },
+          {
+            ref: "TS-1B8LD5",
+            id: "h3",
+            s: "Completed",
+            c: "",
+            d: "Sample dates, 1 night",
+          },
+        ];
+      const O = {
+        hotel: [
+          ["Standard room, 1 king or 2 queen beds", 0],
+          ["Deluxe room with city view", 60],
+          ["Suite with lounge area", 140],
+        ],
+        parking: [
+          ["Self-park, scan QR at the gate", 0],
+          ["Valet service", 12],
+          ["Bay with EV charger", 8],
+        ],
+      };
+      const F = {
+        hotel: ["Free cancellation", "Parking", "Breakfast", "Pool"],
+        parking: ["Free cancellation", "Covered", "EV", "Touchless"],
+      };
+      const wait = (ms, v) => new Promise((r) => setTimeout(() => r(v), ms));
+      const api = {
+        search: (mode, q) => wait(550, D[mode]),
+        book: async () =>
+          wait(1100, {
+            ref: "TS-" + Math.random().toString(36).slice(2, 8).toUpperCase(),
+          }),
+        bookings: async () => BK,
+      };
+
+      /* ===== 2. State and helpers ===== */
+      const $ = (s, r = document) => r.querySelector(s),
+        $$ = (s, r = document) => [...r.querySelectorAll(s)];
+      const S = {
+          name: "Guest",
+          mode: "hotel",
+          id: null,
+          opt: 0,
+          addon: false,
+          f: new Set(),
+          fav: new Set(["h1", "p1"]),
+          ref: "",
+          tk: 0,
+        },
+        ADD = 18;
+      const ic = (n) =>
+          `<svg class="i" aria-hidden="true"><use href="#i-${n}"/></svg>`,
+        usd = (n) => "$" + n.toLocaleString("en-US");
+      const cur = () =>
+        ALL.find(
+          (x) => x.id === S.id && (x.id[0] === "h") === (S.mode === "hotel"),
+        ) || D[S.mode][0];
+      const total = () => cur().t + O[S.mode][S.opt][1] + (S.addon ? ADD : 0);
+      const iso = (n) =>
+        new Date(Date.now() + n * 864e5).toISOString().slice(0, 10);
+      $("#ci").value = iso(14);
+      $("#co").value = iso(16);
+      $("#pd").value = iso(14);
+      function toast(t) {
+        const e = $("#toast");
+        e.textContent = t;
+        e.hidden = false;
+        clearTimeout(toast.t);
+        toast.t = setTimeout(() => (e.hidden = true), 2400);
+      }
+      function modal(html) {
+        $("#md").innerHTML = html;
+        $("#mo").hidden = false;
+        const b = $("#md button");
+        b && b.focus();
+      }
+      const unmodal = () => ($("#mo").hidden = true);
+      function art(x, i = 0) {
+        const photos = {
+          h1: "hotel-room",
+          h2: "hotel-lobby",
+          h3: "hotel-room",
+          p1: "parking-covered",
+          p2: "parking-open-lot",
+          p3: "parking-garage",
+        };
+        return `<div class="art" style="--h:${x.hue}"><img src="../LOGIN%20PANEL/images/site/${photos[x.id] || (x.id[0] === "h" ? "hotel-room" : "parking-covered")}.jpg" alt="" loading="lazy" decoding="async">${i === 0 ? `<button type="button" class="fav" data-fav="${x.id}" aria-pressed="${S.fav.has(x.id)}" aria-label="Save ${x.n}">${ic("heart")}</button>` : ""}</div>`;
+      }
+      function meta() {
+        const v = (i) => $("#" + i).value;
+        if (S.mode === "hotel") {
+          const n =
+            Math.round((new Date(v("co")) - new Date(v("ci"))) / 864e5) || 1;
+          return `${v("ci")} to ${v("co")}, ${n} night${n > 1 ? "s" : ""}, ${v("gu")}`;
+        }
+        return `${v("pd")}, ${v("pa")} to ${v("pe")}, ${v("pv")}`;
+      }
+      function setMode(m) {
+        S.mode = m;
+        $$("[role=tab]").forEach((b) =>
+          b.setAttribute("aria-selected", b.dataset.m === m),
+        );
+        $$("[data-for]").forEach((e) => (e.hidden = e.dataset.for !== m));
+        $("#hh").textContent =
+          m === "hotel"
+            ? "Where to next, traveler?"
+            : "Where do you need to park?";
+      }
+      const steps = (n) =>
+        `<ol class="stepper">${["Select", "Details and payment", "Confirmation"].map((s, i) => `<li class="${i + 1 < n ? "done" : i + 1 === n ? "on" : ""}"><span>${i + 1}</span>${s}</li>`).join("")}</ol>`;
+      function sum(cta) {
+        const x = cur(),
+          sub = x.t + O[S.mode][S.opt][1],
+          b = Math.round(sub / 1.15);
+        return `<h3>${cta ? "Your selection" : "Booking summary"}</h3><p style="margin-top:6px"><b>${x.n}</b></p><p class="mut sm">${meta()}</p><p class="mut sm">${O[S.mode][S.opt][0]}</p>
+  <dl class="rows"><div><dt>Base price</dt><dd>${usd(b)}</dd></div><div><dt>Taxes and fees</dt><dd>${usd(sub - b)}</dd></div>${S.addon ? `<div><dt>Parking add-on</dt><dd>${usd(ADD)}</dd></div>` : ""}</dl>
+  <div class="tot"><span>Total price</span><b>${usd(total())}</b></div><p class="ok">${ic("check")} ${x.cancel}</p>
+  ${cta ? '<a class="btn pri w" href="#checkout">Reserve</a>' : ""}<p class="sm mut" style="margin-top:10px">${ic("shield")} ${cta ? "You will not be charged yet" : "Prices include all mandatory fees"}</p>`;
+      }
+      const tile = (x) =>
+        `<article class="card tile lift" data-open="${x.id}">${art(x)}<div class="b"><h3>${x.n}</h3><p class="mut sm">${x.a}</p><p style="margin-top:6px"><b>${usd(x.t)}</b> <span class="mut sm">total, all fees included</span></p></div></article>`;
+
+      /* ===== 3. Views ===== */
+      function renderHome() {
+        setMode(S.mode);
+        $("#pop").innerHTML = [D.hotel[0], D.parking[0], D.hotel[1]]
+          .map(tile)
+          .join("");
+      }
+      async function renderResults(fresh = true) {
+        const m = S.mode,
+          t = ++S.tk;
+        $("#rTitle").textContent =
+          `Options near ${$("#loc").value || "your destination"}`;
+        $("#rMeta").textContent = meta();
+        $("#chips").innerHTML = F[m]
+          .map(
+            (f) =>
+              `<button type="button" class="fchip" data-f="${f}" aria-pressed="${S.f.has(f)}">${f}</button>`,
+          )
+          .join("");
+        if (fresh) {
+          $("#cards").innerHTML = '<div class="sk"></div>'.repeat(3);
+          $("#pins").innerHTML = "";
+        }
+        let l = (await api.search(m, { loc: $("#loc").value })).slice();
+        if (t !== S.tk) return;
+        l = l.filter((x) =>
+          [...S.f].every((f) =>
+            (x.tags.join(" ") + " " + x.cancel)
+              .toLowerCase()
+              .includes(f.toLowerCase()),
+          ),
+        );
+        const s = $("#sort").value;
+        if (s === "price") l.sort((a, b) => a.t - b.t);
+        if (s === "rating") l.sort((a, b) => b.r - a.r);
+        $("#rTitle").textContent =
+          `${l.length} ${m === "hotel" ? "stays" : "parking options"} near ${$("#loc").value || "your destination"}`;
+        $("#cards").innerHTML = l.length
+          ? l
+              .map(
+                (
+                  x,
+                ) => `<article class="card li lift">${art(x)}<div><h3>${x.n}</h3><p class="mut sm">${ic("pin")} ${x.a}</p><p style="margin:4px 0"><span class="score">${x.r}</span> <span class="mut sm">${x.c.toLocaleString()} reviews</span></p><p>${x.tags.map((t) => `<span class="chip">${t}</span>`).join("")}</p><p class="ok">${ic("check")} ${x.cancel}</p></div>
+   <div class="price"><div><b>${usd(x.t)}</b><small class="mut">Total, taxes and fees included</small></div><button class="btn pri" data-open="${x.id}">View</button></div></article>`,
+              )
+              .join("")
+          : '<div class="card empty"><h3>No matches</h3><p class="mut">Try removing a filter.</p></div>';
+        $("#pins").innerHTML =
+          l
+            .map(
+              (x) =>
+                `<button class="pin" style="left:${x.x}%;top:${x.y}%" data-open="${x.id}" aria-label="${x.n}, ${usd(x.t)}">${usd(x.t)}</button>`,
+            )
+            .join("") + "<span>Map placeholder</span>";
+      }
+      function renderDetail() {
+        const x = cur(),
+          m = S.mode;
+        $("#dTitle").textContent = x.n;
+        $("#dSub").innerHTML =
+          `${ic("pin")} ${x.a}, <span class="score">${x.r}</span> ${x.c.toLocaleString()} reviews`;
+        $("#dGal").innerHTML = [0, 1, 2, 3, 4].map((i) => art(x, i)).join("");
+        $("#dOpts").innerHTML = O[m]
+          .map(
+            (o, i) =>
+              `<label class="opt"><span><input type="radio" name="o" value="${i}" ${i === S.opt ? "checked" : ""}> ${o[0]}</span><b>${o[1] ? "+" + usd(o[1]) : "Included"}</b></label>`,
+          )
+          .join("");
+        $("#dAm").innerHTML = x.tags
+          .concat(
+            m === "hotel"
+              ? ["24-hour reception", "Air conditioning"]
+              : ["24-hour access", "CCTV"],
+          )
+          .map((t) => `<li>${ic("check")} ${t}</li>`)
+          .join("");
+        $("#dSide").innerHTML = sum(true);
+      }
+      function renderCheckout() {
+        setMode(S.mode);
+        $("#stC").innerHTML = steps(2);
+        $("#cSide").innerHTML = sum(false);
+        $("#addon").checked = S.addon;
+      }
+      function renderConfirm() {
+        setMode(S.mode);
+        $("#stD").innerHTML = steps(4);
+        $("#dSum").innerHTML = sum(false);
+        $("#ref").textContent = S.ref;
+      }
+      async function renderBookings() {
+        const l = await api.bookings();
+        $("#bkList").innerHTML = l
+          .map((b) => {
+            const x = ALL.find((y) => y.id === b.id);
+            return `<article class="card bk">${art(x, 1)}<div><h3>${x.n}</h3><p class="mut sm">${b.d}</p><p class="mut sm">Reference ${b.ref}</p></div><div style="text-align:right"><span class="st ${b.c || ""}" ${b.c ? "" : 'style="background:var(--sf2);color:var(--mut)"'}>${b.s}</span><br><button class="btn out s" style="margin-top:8px" data-manage="${b.ref}">Manage</button></div></article>`;
+          })
+          .join("");
+      }
+      function renderSaved() {
+        const l = ALL.filter((x) => S.fav.has(x.id));
+        $("#svList").innerHTML = l.length
+          ? l.map(tile).join("")
+          : '<div class="card empty" style="grid-column:1/-1"><h3>Nothing saved yet</h3><p class="mut">Tap the heart on any listing to keep it here.</p></div>';
+      }
+      const V = {
+        home: renderHome,
+        results: renderResults,
+        detail: renderDetail,
+        checkout: renderCheckout,
+        confirm: renderConfirm,
+        bookings: renderBookings,
+        saved: renderSaved,
+      };
+      const T = {
+        home: "Home",
+        results: "Search results",
+        detail: "Details",
+        checkout: "Checkout",
+        confirm: "Confirmation",
+        bookings: "My bookings",
+        saved: "Saved",
+        account: "Account",
+        help: "Help and support",
+      };
+
+      /* ===== 4. Router ===== */
+      function route() {
+        let id = (location.hash || "#home").slice(1);
+        if (!(id in T)) id = "home";
+        $("#app").hidden = false;
+        $$(".view").forEach((v) => (v.hidden = v.id !== id));
+        const k = ["home", "results", "detail", "checkout", "confirm"].includes(
+          id,
+        )
+          ? S.mode
+          : id;
+        $$("[data-r]").forEach((a) =>
+          a.toggleAttribute(
+            "aria-current",
+            a.dataset.r === k ||
+              (a.dataset.r === "home" && (k === "hotel" || k === "parking")),
+          ),
+        );
+        $("#pt").textContent = T[id];
+        $("#who").textContent = S.name;
+        $("#av").textContent = S.name[0];
+        (V[id] || (() => {}))();
+        scrollTo(0, 0);
+      }
+      addEventListener("hashchange", route);
+
+      /* ===== 5. Events ===== */
+      document.addEventListener("click", (e) => {
+        const q = (s) => e.target.closest(s);
+        let b;
+        if ((b = q("[data-fav]"))) {
+          e.stopPropagation();
+          const id = b.dataset.fav;
+          S.fav.has(id) ? S.fav.delete(id) : S.fav.add(id);
+          b.setAttribute("aria-pressed", S.fav.has(id));
+          toast(S.fav.has(id) ? "Saved to your list" : "Removed from saved");
+          if (!$("#saved").hidden) renderSaved();
+          return;
+        }
+        if ((b = q("[data-open]"))) {
+          S.mode = b.dataset.open[0] === "h" ? "hotel" : "parking";
+          S.id = b.dataset.open;
+          S.opt = 0;
+          S.addon = false;
+          location.hash = "#detail";
+        }
+        if ((b = q("[data-m]"))) setMode(b.dataset.m);
+        if ((b = q("[data-f]"))) {
+          S.f.has(b.dataset.f) ? S.f.delete(b.dataset.f) : S.f.add(b.dataset.f);
+          renderResults(false);
+        }
+        if ((b = q("[data-manage]")))
+          modal(
+            `<h3>Manage booking ${b.dataset.manage}</h3><p class="mut" style="margin:8px 0 14px">Changes and cancellations are simulated in this prototype.</p><button class="btn out w" data-cancel>Cancel this booking</button><button class="btn pri w" data-close>Keep booking</button>`,
+          );
+        if (q("[data-cancel]")) {
+          unmodal();
+          toast("Cancellation simulated");
+        }
+        if (q("[data-close]") || e.target.id === "mo") unmodal();
+        if (q("[data-chat]")) {
+          const c = $("#chat");
+          c.hidden = !c.hidden;
+          $(".chatbtn").setAttribute("aria-expanded", !c.hidden);
+        }
+      });
+      addEventListener("keydown", (e) => {
+        if (e.key === "Escape") unmodal();
+      });
+      document.addEventListener("change", (e) => {
+        if (e.target.name === "o") {
+          S.opt = +e.target.value;
+          $("#dSide").innerHTML = sum(true);
+        }
+        if (e.target.id === "addon") {
+          S.addon = e.target.checked;
+          $("#cSide").innerHTML = sum(false);
+        }
+        if (e.target.id === "sort") renderResults(false);
+        if (e.target.id === "th") {
+          e.target.value === "auto"
+            ? document.documentElement.removeAttribute("data-theme")
+            : (document.documentElement.dataset.theme = e.target.value);
+        }
+      });
+      $("#sf").onsubmit = (e) => {
+        e.preventDefault();
+        S.f.clear();
+        location.hash === "#results"
+          ? renderResults()
+          : (location.hash = "#results");
+      };
+      $("#cf").onsubmit = async (e) => {
+        e.preventDefault();
+        modal('<div class="spin"></div><p>Confirming your reservation...</p>');
+        S.ref = (await api.book()).ref;
+        unmodal();
+        location.hash = "#confirm";
+      };
+      route();
+    </script>
+  </body>
+</html>
