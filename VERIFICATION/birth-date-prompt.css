@@ -1,0 +1,25 @@
+/* NEXORA date-of-birth prompt. Builds on the .nxc dialog in LEGAL/consent-modal.css. */
+.nxc.nxb { width: min(480px, 100%); height: auto; max-height: 100%; }
+.nxb-form { display: grid; gap: 10px; padding: 18px 28px 24px; }
+.nxb-label { color: var(--nxc-ink); font-size: .9rem; font-weight: 600; }
+.nxc .nxb-form input[type="date"] {
+  width: 100%;
+  min-height: 48px;
+  margin: 0;
+  padding: 0 14px;
+  border: 1px solid var(--nxc-ln);
+  border-radius: min(var(--nxc-r), 12px);
+  background: var(--nxc-sf);
+  color: var(--nxc-ink);
+  font: 500 1rem var(--fb, "Inter", sans-serif);
+  color-scheme: light dark;
+}
+.nxc .nxb-form input[type="date"]:focus-visible { outline: 3px solid var(--nxc-pri); outline-offset: 1px; }
+.nxb-help { margin: 0; color: var(--nxc-mut); font-size: .84rem; line-height: 1.5; }
+.nxb-form .nxc-actions { margin-top: 6px; }
+
+@media (max-width: 600px) {
+  .nxc.nxb { height: auto; max-height: 100dvh; align-self: end; }
+  .nxc-overlay:has(.nxb) { place-items: end stretch; }
+  .nxb-form { padding: 16px 18px calc(env(safe-area-inset-bottom, 0px) + 16px); }
+}
