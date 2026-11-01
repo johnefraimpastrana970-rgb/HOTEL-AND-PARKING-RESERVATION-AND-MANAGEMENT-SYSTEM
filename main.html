@@ -2279,6 +2279,13 @@
       .settings-hero { background: var(--pri); color: #f8f5ef; border: 0; }
       .settings-hero::before, .settings-hero::after { display: none; }
       /* returning-user shortcuts */
+      .scroll-hint { display: flex; flex-direction: column; align-items: center; gap: 6px; width: fit-content; margin: clamp(28px, 4vw, 44px) auto 0; padding: 8px 14px; border: 0; background: none; color: var(--mut); font: 600 0.72rem var(--fb); letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; transition: color 0.2s; }
+      .scroll-hint:hover, .scroll-hint:focus-visible { color: var(--ink); }
+      .scroll-hint:focus-visible { outline: 2px solid var(--cta); outline-offset: 2px; }
+      .scroll-hint svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; animation: hint-bob 1.8s ease-in-out infinite; }
+      @keyframes hint-bob { 0%, 100% { transform: translateY(-2px); opacity: 0.55; } 50% { transform: translateY(4px); opacity: 1; } }
+      @media (prefers-reduced-motion: reduce) { .scroll-hint svg { animation: none; } }
+      .scroll-hint + .jump { margin-top: clamp(12px, 2vw, 24px); }
       .jump { display: grid; grid-template-columns: repeat(2, 1fr); margin-top: clamp(48px, 6vw, 88px); border-top: 1px solid var(--ln); border-bottom: 1px solid var(--ln); }
       .jump a { display: grid; gap: 2px; padding: 18px 24px 18px 0; color: var(--ink); text-decoration: none; transition: background 0.2s, padding 0.3s var(--ease); }
       .jump a + a { padding-left: 24px; border-left: 1px solid var(--ln); }
@@ -3396,6 +3403,7 @@
                 </div>
               </form>
             </div>
+            <button type="button" class="scroll-hint" id="scrollHint" data-rv aria-label="Scroll down to browse the listings, no search needed"><span>or scroll to browse</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
             <nav class="jump" aria-label="Quick links" data-rv>
               <a href="#bookings"><b>My bookings</b><span>Reservation references and QR passes</span></a>
               <a href="#saved"><b>Saved</b><span id="jumpSaved">Your shortlist</span></a>
@@ -6411,6 +6419,11 @@
           toast(error.message);
         }
       };
+      $("#scrollHint")?.addEventListener("click", () => {
+        const t = $("#home .sec-pop"); if (!t) return;
+        const top = t.getBoundingClientRect().top + scrollY - 96;
+        scrollTo({ top, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+      });
       $("#logout").addEventListener("click", async () => {
         const logoutButton = $("#logout");
         logoutButton.disabled = true;
